@@ -1,6 +1,6 @@
 # Gemma 3
 
-![https://ai.google.dev/static/gemma/images/gemma3.png](https://ai.google.dev/static/gemma/images/gemma3.png)
+<img src="https://github.com/jalonsogo/model-cards/blob/04897016e65199efa2ca12c637f734d22121dbd3/logos/google-gemma3.png" width="250" />
 
 Gemma is a versatile AI model family designed for tasks like question answering, summarization, and reasoning. With open weights and responsible commercial use, it supports image-text input, a 128K token context, and over 140 languages.
 
