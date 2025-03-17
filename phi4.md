@@ -1,6 +1,6 @@
 # Phi-4 Model Card
 
-![https://uhf.microsoft.com/images/microsoft/RE1Mu3b.png](https://uhf.microsoft.com/images/microsoft/RE1Mu3b.png)
+<img src="https://github.com/jalonsogo/model-cards/blob/4c39899ef2d3eff3bfe28253b557283c8933c811/logos/microsoft.svg" width="250" />
 
 Phi-4 is a **14-billion parameter** language model developed by Microsoft Research. It is part of the Phi model family, emphasizing **data quality and reasoning capabilities** over pure scale.
 
