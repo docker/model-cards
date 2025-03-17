@@ -6,7 +6,7 @@ Welcome to this repository! Here, you'll find descriptions and details about var
 
 ## 🚀 Models Overview
 
-### 🏆 DeepSeek R1
+### 🐋 DeepSeek R1
 ![DeepSeek R1 Logo](https://github.com/deepseek-ai/DeepSeek-V2/blob/main/figures/logo.svg?raw=true)
 
 📌 **Description:**  
@@ -36,7 +36,7 @@ Llama 3 2-Instruct is a fine-tuned variant of the Llama 3 model, designed to pro
 
 ---
 
-### 🧠 Phi-3 Mini
+### ⚡️ Phi-3 Mini
 ![Phi-3 Mini Logo](https://uhf.microsoft.com/images/microsoft/RE1Mu3b.png)
 
 📌 **Description:**  
@@ -46,7 +46,7 @@ Phi-3 Mini is a compact yet capable AI model, providing a balance between comput
 
 ---
 
-### ⚡ Phi-4
+### ⚡️ Phi-4
 ![Phi-4 Logo](https://uhf.microsoft.com/images/microsoft/RE1Mu3b.png)
 
 📌 **Description:**  
