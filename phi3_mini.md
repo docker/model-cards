@@ -1,6 +1,6 @@
 #Phi-3 Mini
 
-![https://uhf.microsoft.com/images/microsoft/RE1Mu3b.png](https://uhf.microsoft.com/images/microsoft/RE1Mu3b.png)
+<img src="https://github.com/jalonsogo/model-cards/blob/4c39899ef2d3eff3bfe28253b557283c8933c811/logos/microsoft.svg" width="120" />
 
 Phi-3 is a family of lightweight, state-of-the-art open models developed by Microsoft, available in 3B (Mini) and 14B (Medium) parameter sizes.
 
