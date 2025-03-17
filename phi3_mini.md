@@ -1,4 +1,4 @@
-#Phi-3 Mini
+# Phi-3 Mini
 
 <img src="https://github.com/jalonsogo/model-cards/blob/4c39899ef2d3eff3bfe28253b557283c8933c811/logos/microsoft.svg" width="120" />
 
