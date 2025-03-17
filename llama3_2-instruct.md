@@ -1,6 +1,6 @@
 # Llama 3.2 Instruct
 
-![meta](https://github.com/user-attachments/assets/5fc304e6-44de-40b8-af95-64f85d8ac3c0)
+<img src="https://github.com/user-attachments/assets/5fc304e6-44de-40b8-af95-64f85d8ac3c0" width="250" />
 
 Llama 3.2 introduced lightweight 1B and 3B models at bfloat16 (BF16) precision, later adding quantized versions. These quantized models are significantly faster, with a much lower memory footprint and reduced power consumption, while maintaining nearly the same accuracy as their BF16 counterparts. 
 
@@ -20,7 +20,7 @@ Llama 3.2 introduced lightweight 1B and 3B models at bfloat16 (BF16) precision, 
 
 | Model Variant               | Parameters | Quantization   | Context Window | VRAM    | Size   | Download |
 |---------------------------- |----------- |--------------- |--------------- |-------- |------- |--------- |
-| `llama3.2-1b-instruct:fp16`  | 1B         | fp16           | 16K tokens     |  7.5GB¹ | -      | Link     |
+| `llama3.2-1b-instruct:fp16` | 1B         | fp16           | 16K tokens     |  7.5GB¹ | -      | Link     |
 | `llama3.2-1b-instruct:q8_0` | 1B         | q8             | 16K tokens     |  3.5GB¹ | -      | Link     |
 ¹: VRAM estimated based on model characteristics.
 
