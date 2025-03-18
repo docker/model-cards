@@ -44,7 +44,8 @@ docker model pull gemma3
 
 To run the model:
 ```
-docker model run gemma3```
+docker model run gemma3
+```
 
 ## Benchmark Performance
 
