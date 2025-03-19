@@ -17,7 +17,7 @@ DeepSeek R1 is a powerful AI model designed for high-performance reasoning and d
 ---
 
 ### 🔥 Gemma 3
-![Gemma 3 Logo](https://ai.google.dev/static/gemma/images/gemma3.png)
+<img src="https://github.com/jalonsogo/model-cards/blob/04897016e65199efa2ca12c637f734d22121dbd3/logos/google-gemma3.png" width="250" />
 
 📌 **Description:**  
 Gemma 3 is an efficient and lightweight model optimized for resource-constrained environments while maintaining high accuracy in text generation and comprehension. ([ai.google.dev](https://ai.google.dev/gemma?utm_source=chatgpt.com))
