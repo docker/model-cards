@@ -27,7 +27,7 @@ Gemma 3 is an efficient and lightweight model optimized for resource-constrained
 ---
 
 ### 🦙 Llama 3 2-Instruct
-![Llama 3 Logo](https://custom.typingmind.com/tools/model-icons/llama/llama.png)
+<img src="https://github.com/jalonsogo/model-cards/blob/8ffa0b88c7131abf7cec16447838b1c322d4a2a0/logos/meta.svg" width="250" />
 
 📌 **Description:**  
 Llama 3 2-Instruct is a fine-tuned variant of the Llama 3 model, designed to provide precise and context-aware instructions. It is ideal for chatbot applications, task automation, and content summarization. ([github.com](https://github.com/meta-llama/llama3?utm_source=chatgpt.com))
