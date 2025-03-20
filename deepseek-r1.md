@@ -15,6 +15,7 @@ DeepSeek introduces its first-generation reasoning models, DeepSeek-R1-Zero and 
 | **Input Modalities**  | Text          |
 | **Output Modalities** | Text          |
 | **License**           | MIT           |
+
 i: Estimated
 
 ## Available Model Variants
