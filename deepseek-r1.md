@@ -1,6 +1,6 @@
 # Deepseek-R1
 
-<img src="https://raw.githubusercontent.com/jalonsogo/model-cards/refs/heads/main/logos/deepseek.svg?token=GHSAT0AAAAAAC45KBOV2MAGO2RCY5THPJOAZ6YHBKQ" width=350 />
+<img src="https://github.com/deepseek-ai/DeepSeek-V2/blob/main/figures/logo.svg?raw=true" width=350 />
 
 DeepSeek introduces its first-generation reasoning models, DeepSeek-R1-Zero and DeepSeek-R1, leveraging reinforcement learning to enhance reasoning performance, with DeepSeek-R1 achieving state-of-the-art results and open-sourcing multiple distilled models.
 
