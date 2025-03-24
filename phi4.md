@@ -9,7 +9,7 @@ Phi-4 is a **14-billion parameter** language model developed by Microsoft Resear
 | Attribute             | Details       |
 |---------------------- |--------------|
 | **Provider**          | Microsoft     |
-| **Architecture**      | Llama|
+| **Architecture**      | phi3          |
 | **Cutoff Date**       | June 2024 |
 | **Languages**         | English (primary), German, Spanish, French, Portuguese, Italian, Hindi, Japanese |
 | **Input Modalities**  | Text          |
