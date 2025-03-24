@@ -9,7 +9,7 @@ Gemma is a versatile AI model family designed for tasks like question answering,
 | Attribute             | Details         |
 |---------------------- |---------------- |
 | **Provider**          | Google DeepMind |
-| **Architecture**      | Llama           |
+| **Architecture**      | Gemma3          |
 | **Cutoff Date**       | -               |
 | **Languages**         | 140 languages   |
 | **Input Modalities**  | Text, Image     |
