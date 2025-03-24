@@ -9,7 +9,7 @@ Phi-3 is a family of lightweight, state-of-the-art open models developed by Micr
 | Attribute             | Details       |
 |---------------------- |-------------- |
 | **Provider**          | Microsoft     |
-| **Architecture**      | Llama         |
+| **Architecture**      | phi3          |
 | **Cutoff Date**       | October 2023  |
 | **Languages**         | English       |
 | **Input Modalities**  | Text          |
