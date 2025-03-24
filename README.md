@@ -53,3 +53,14 @@ Phi-3 Mini is a compact yet capable AI model, providing a balance between comput
 Phi-4 represents the latest advancement in the Phi series, pushing the boundaries of AI capabilities with improved accuracy, faster inference, and enhanced contextual understanding.
 
 📂 **Model File:** [`phi4.md`](./phi4.md)
+
+
+### 💨 Mistral 7b Instruct v0.02
+📌 **Description:**  
+A fast and powerful 7B parameter model excelling in reasoning, code, and math. 
+📂 **Model File:** [`mistral 7B Instruct v0.2.md`](./mistral 7B Instruct v0.2.md)
+
+### 🤗 SmolLM 2
+📌 **Description:**  
+SmolLM2-360M is a compact language model with 360 million parameters, designed to run efficiently on-device while performing a wide range of language tasks 
+📂 **Model File:** [`smolllm2.md`](./smolllm2.md)
