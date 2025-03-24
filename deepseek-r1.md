@@ -9,7 +9,7 @@ DeepSeek introduces its first-generation reasoning models, DeepSeek-R1-Zero and 
 | Attribute             | Details       |
 |---------------------- |-------------- |
 | **Provider**          | Deepseek      |
-| **Architecture**      | Deepseek        |
+| **Architecture**      | qwen2         |
 | **Cutoff Date**       | May 2024ⁱ     |
 | **Languages**         | English, Chinese |
 | **Input Modalities**  | Text          |
