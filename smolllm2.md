@@ -24,6 +24,7 @@ SmolLM2-360M is a compact language model with 360 million parameters, designed t
 | Model Variant     | Parameters | Quantization   | Context Window | VRAM    | Size   | Download |
 |------------------ |----------- |--------------- |--------------- |-------- |------- |--------- |
 | `SmolLM2`         | 360M       | Q4_K_M         | 8K tokens      | 204 MB¹ | -      | Link     |
+
 ¹: VRAM estimation.
 
 ## Intended Uses
