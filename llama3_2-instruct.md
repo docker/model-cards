@@ -38,12 +38,12 @@ Llama 3.2 instruct models are designed for:
 
 You can pull the model using:
 ```
-docker model pull llama3.2-1b-instruct
+docker model pull ai/llama3.2
 ```
 
 To run the model:
 ```
-docker model run llama3.2-1b-instruct
+docker model run ai/llama3.2
 ```
 
 ## Benchmark Performance

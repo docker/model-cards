@@ -39,12 +39,12 @@ Gemma 3 4B model can be used for:
 
 You can pull the model using:
 ```
-docker model pull gemma3
+docker model pull ai/gemma3
 ```
 
 To run the model:
 ```
-docker model run gemma3
+docker model run ai/gemma3
 ```
 
 ## Benchmark Performance

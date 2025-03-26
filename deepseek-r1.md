@@ -53,12 +53,12 @@ zero-shot setting for optimal results.
 
 You can pull the model using:
 ```
-docker model pull deepseek-r1
+docker model pull ai/deepseek-r1-distill-llama
 ```
 
 To run the model:
 ```
-docker model run deepseek-r1
+docker model run ai/deepseek-r1-distill-llama
 ```
 
 

@@ -51,13 +51,13 @@ Also, this model is fine-tuned to follow instructions, allowing it to perform ta
 You can pull the model using:
 
 ```
-docker model pull mistralai/mistral-7b
+docker model pull ai/mistral
 ```
 
 Run this model using:
 
 ```
-docker model run mistralai/mistral-7b
+docker model run ai/mistral
 ```
 
 ## Benchmark Performance

@@ -39,12 +39,12 @@ SmolLM2 is designed for:
 
 You can pull the model using:
 ```
-docker model pull smollm2
+docker model pull ai/smollm2
 ```
 
 To run the model:
 ```
-docker model run smollm2
+docker model run ai/smollm2
 ```
 
 ## Benchmark Performance

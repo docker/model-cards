@@ -42,12 +42,12 @@ Phi-4 is designed for:
 
 You can pull the model using:
 ```
-docker model pull phi4
+docker model pull ai/phi4
 ```
 
 To run the model:
 ```
-docker model run phi4
+docker model run ai/phi4
 ```
 
 ## Benchmark Performance
