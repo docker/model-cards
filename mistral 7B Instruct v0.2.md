@@ -20,10 +20,11 @@ Mistral 7B is a powerful 7.3B parameter language model that outperforms Llama 2 
 
 ## Available Model Variants
 
-| Model Variant                | Parameters | Quantization | Context Window | VRAM      | Size   | Download |
-|----------------------------- |----------- |------------- |----------------|-----------|--------|----------|
-| `mistral:7B-Instruct-v0.2`   | 7B         | Q4           | 32K            | ~3.9GB¹   | -      | [Link](https://hub.docker.com/layers/ai/mistral/7B-Instruct-v0.2/images/sha256-0f4a054f45ccd7ceed379c8612afb20accd4c406ebcf3ddf5f1873acbb3011bc) |
-| `7B-Instruct-v0.2-cuda-12.6` | 7B         | Q4           | 32K            | ~3.9GB¹   | -      | [Link](https://hub.docker.com/layers/ai/mistral/7B-Instruct-v0.2-cuda-12.6/images/sha256-0f4a054f45ccd7ceed379c8612afb20accd4c406ebcf3ddf5f1873acbb3011bc) |
+| Model Variant          | Parameters | Quantization | Context Window | VRAM    | Size   | Download |
+|------------------------|----------- |----------- |----------------|---------|--------|----------|
+| `ai/mistral:latest`    | 7B         | Q4_K_M         | 32K            | ~3.9GB¹ | -      | Link |
+| `ai/mistral:7B-F16`    | 7B         | F16         | 32K            | -       | -      | Link |
+| `ai/mistral:7B-Q4_K_M` | 7B         | Q4_K_M           | 32K            | ~3.9GB¹ | -      | Link |
 ¹: VRAM estimates based on model characteristics and quantization.
 
 ## Intended Uses

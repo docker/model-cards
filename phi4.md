@@ -18,10 +18,11 @@ Phi-4 is a **14-billion parameter** language model developed by Microsoft Resear
 
 ## Available Model Variants
 
-| Model Variant     | Parameters | Quantization   | Context Window | VRAM     | Size   | Download |
-|------------------ |----------- |--------------- |--------------- |--------- |------- |--------- |
-| `Phi4:14B-FP16`   | 14B        | fp16           | 16K tokens     |  21.5GB¹ | 29.3GB | Link     |
-| `Phi4:14B-Q4`     | 14B        | q4             | 16K tokens     |  8.2GB¹  | 9.05GB | Link     |
+| Model Variant        | Parameters | Quantization | Context Window | VRAM     | Size   | Download |
+|----------------------|----------- |--------------|--------------- |--------- |------- |--------- |
+| `ai/phi4:latest`     | 14B        | Q4_K_M           | 16K tokens     |  8.2GB¹  | 9.05GB | Link     |
+| `ai/phi4:14B-F16`    | 14B        | F16          | 16K tokens     |  21.5GB¹ | 29.3GB | Link     |
+| `ai/phi4:14B-Q4_K_M` | 14B        | Q4_K_M           | 16K tokens     |  8.2GB¹  | 9.05GB | Link     |
 ¹: VRAM estimates based on model characteristics.
 
 ## Intended Uses

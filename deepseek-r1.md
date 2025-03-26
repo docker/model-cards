@@ -20,10 +20,11 @@ i: Estimated
 
 ## Available Model Variants
 
-| Model Variant  | Parameters | Quantization   | Context Window | VRAM     | Size | Download |
-|--------------- |----------- |--------------- |--------------- |--------- |----- |--------- |
-| `deepseek-r1-distill-llama/8B-FP16`        | 8B        | fp16         | 128K tokens     | 12GB¹    | - | Link |
-| `deepseek-r1-distill-llama/8B-Q4_K_M`      | 8B        | q4           | 128K tokens     | 4.5GB¹   | -| Link |
+| Model Variant                            | Parameters | Quantization | Context Window | VRAM     | Size | Download |
+|------------------------------------------|----------- |--------------|--------------- |--------- |----- |--------- |
+| `ai/deepseek-r1-distill-llama:latest`    | 8B        | Q4_K_M       | 128K tokens     | 4.5GB¹   | -| Link |
+| `ai/deepseek-r1-distill-llama:8B-FP16`   | 8B        | F16          | 128K tokens     | 12GB¹    | - | Link |
+| `ai/deepseek-r1-distill-llama:8B-Q4_K_M` | 8B        | Q4_K_M       | 128K tokens     | 4.5GB¹   | -| Link |
 
 ¹: VRAM estimates based on model characteristics.
 

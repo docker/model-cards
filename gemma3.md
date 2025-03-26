@@ -18,10 +18,11 @@ Gemma is a versatile AI model family designed for tasks like question answering,
 
 ## Available Model Variants
 
-| Model Variant       | Parameters | Quantization   | Context Window | VRAM    | Size   | Download |
-|-------------------- |----------- |--------------- |--------------- |-------- |------- |--------- |
-| `gemma3:4b-fp16`    | 4B         | fp16           | 128K tokens    |  6.4GB¹ | -      | Link     |
-| `gemma3:4b-q4_k_m`  | 4B         | Q4 K M         | 128K tokens    |  3.4GB¹ | -      | Link     |
+| Model Variant         | Parameters | Quantization | Context Window | VRAM    | Size   | Download |
+|-----------------------|----------- |--------------|--------------- |-------- |------- |--------- |
+| `ai/gemma3:latest`    | 4B         | Q4_K_M       | 128K tokens    |  3.4GB¹ | -      | Link     |
+| `ai/gemma3:4B-F16`    | 4B         | F16          | 128K tokens    |  6.4GB¹ | -      | Link     |
+| `ai/gemma3:4B-Q4_K_M` | 4B         | Q4_K_M       | 128K tokens    |  3.4GB¹ | -      | Link     |
 ¹: VRAM extracted from Gemma documentation ([link](https://ai.google.dev/gemma/docs/core#128k-context))
 
 ## Intended Uses
