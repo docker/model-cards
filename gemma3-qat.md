@@ -1,10 +1,12 @@
-# Gemma 3 QAT (Quantazation Aware Trained)
+# Gemma 3 QAT (Quantization Aware Trained) - Instruct
 
 ![logo](https://github.com/docker/model-cards/raw/refs/heads/main/logos/gemma-280x184-overview@2x.svg)
 
 Quantization Aware Trained (QAT) Gemma 3 checkpoints. The model preserves similar quality as half precision while using 3x less memory.
 
 > Thanks to QAT, the model is able to preserve similar quality as bfloat16 while significantly reducing the memory requirements to load the model.
+
+These are instruction tuned variants of the Gemma3 QAT models.  
 
 Gemma is a versatile AI model family designed for tasks like question answering, summarization, and reasoning. With open weights and responsible commercial use, it supports image-text input, a 128K token context, and over 140 languages.
 
@@ -23,12 +25,15 @@ Gemma is a versatile AI model family designed for tasks like question answering,
 
 ## Available Model Variants
 
-| Model Variant                                   | Parameters | Quantization   | Context Window | VRAM    | Size   | 
-|-------------------------------------------------|----------- |----------------|--------------- |-------- |------- |
-| `ai/gemma3:4B-F16`                              | 4B         | F16            | 128K tokens    |  6.4GB¹ | 7.7GB  | 
-| `ai/gemma3:latest`<br><br>`ai/gemma3:4B-Q4_K_M` | 4B         | IQ2_XXS/Q4_K_M | 128K tokens    |  3.4GB¹ | 2.5GB  | 
+| Model Variant                                           | Parameters | Quantization   | Context Window | VRAM      | Size   | 
+|-------------------------------------------------------- |----------- |----------------|--------------- |---------- |------- |
+| `ai/gemma3-qat:1B-Q4_K_M`                               | 1B         | IQ2_XXS/Q4_K_M | 128K tokens    |  0.892GB¹ | 0.95GB |
+| `ai/gemma3-qat:latest`<br><br>`ai/gemma3-qat:4B-Q4_K_M` | 4B         | IQ2_XXS/Q4_K_M | 128K tokens    |  3.4GB¹   | 2.93GB |
+| `ai/gemma3-qat:12B-Q4_K_M`                              | 12B        | IQ2_XXS/Q4_K_M | 128K tokens    |  8.7GB¹   | 7.52GB |
+| `ai/gemma3-qat:27B-Q4_K_M`                              | 27B        | IQ2_XXS/Q4_K_M | 128K tokens    |  21GB¹    | 16GB   |
 
-¹: VRAM extracted from Gemma documentation ([link](https://ai.google.dev/gemma/docs/core#128k-context)). These QAT models should use much less memory
+¹: VRAM extracted from Gemma documentation ([link](https://ai.google.dev/gemma/docs/core#128k-context)).  
+These are rough estimations. QAT models should use much less memory compared to the standard Gemma3 models
 
 > `:latest` → `4B-Q4_K_M`
 
@@ -47,12 +52,12 @@ Gemma 3 4B model can be used for:
 
 You can pull the model using:
 ```
-docker model pull ai/gemma3
+docker model pull ai/gemma3-qat
 ```
 
 To run the model:
 ```
-docker model run ai/gemma3
+docker model run ai/gemma3-qat
 ```
 
 ## Benchmark Performance
