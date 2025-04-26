@@ -155,7 +155,8 @@ A compact language model, designed to run efficiently on-device while performing
 📂 **Model File:** [`ai/smolllm2.md`](ai/smollm2.md)
 
 **URLs:**
-- https://huggingface.co/HuggingFaceTB/SmolLM2-1.7B-Instruct
+- https://huggingface.co/HuggingFaceTB/SmolLM2-360M-Instruct
+- https://huggingface.co/HuggingFaceTB/SmolLM2-135M-Instruct
 
 ---
 
