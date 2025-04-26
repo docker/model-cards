@@ -6,13 +6,7 @@ set -euo pipefail
 echo "🔍 Finding all model readme files in ai/ folder..."
 echo ""
 
-# Check if the force flag is provided
-FORCE=""
-if [ "${1:-}" = "--force" ]; then
-  FORCE="--force"
-  echo "⚠️ Force mode enabled - will overwrite existing tables without prompting"
-  echo ""
-fi
+# No force flag needed anymore
 
 # Count total models for progress tracking
 TOTAL_MODELS=$(ls -1 ai/*.md | wc -l)
@@ -32,11 +26,7 @@ for file in ai/*.md; do
   echo "==============================================="
   
   # Run the build-model-table script for this model
-  if [ -n "$FORCE" ]; then
-    ./tools/build-model-table.sh --force "ai/$model_name"
-  else
-    ./tools/build-model-table.sh "ai/$model_name"
-  fi
+  ./tools/build-model-table.sh "ai/$model_name"
   
   echo ""
   echo "✅ Completed ai/$model_name"

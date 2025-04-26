@@ -1,16 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Initialize variables
-FORCE=false
-
 # Parse arguments
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --force)
-      FORCE=true
-      shift
-      ;;
     *)
       if [ -z "${MODEL_REF:-}" ]; then
         MODEL_REF="$1"
@@ -20,7 +13,7 @@ while [[ $# -gt 0 ]]; do
         VRAM="$1"
       else
         echo "❌ Unexpected argument: $1"
-        echo "Usage: $0 [--force] <model-reference> [context-window] [vram]"
+        echo "Usage: $0 <model-reference> [context-window] [vram]"
         exit 1
       fi
       shift
@@ -30,9 +23,8 @@ done
 
 # Check if the required arguments are provided
 if [ -z "${MODEL_REF:-}" ]; then
-  echo "Usage: $0 [--force] <model-reference> [context-window] [vram]"
+  echo "Usage: $0 <model-reference> [context-window] [vram]"
   echo "Example: $0 ai/smollm2:360M-Q4_0 8K 220"
-  echo "         $0 --force ai/smollm2:360M-Q4_0 8K 220"
   exit 1
 fi
 
@@ -124,18 +116,7 @@ echo "$NEW_ROW"
 # Check if the model variant already exists in the file
 # Use a more precise pattern to avoid partial matches
 if grep -q "\`$MODEL_VARIANT\`" "$README_FILE"; then
-  
-  if [ "$FORCE" = false ]; then
-    # Ask for confirmation to continue
-    read -p "Do you want to update it anyway? (y/n): " -n 1 -r
-    echo
-    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-      echo "Operation cancelled."
-      exit 0
-    fi
-  else
-    echo "Force flag is set. Updating existing entry."
-  fi
+  echo "Model variant $MODEL_VARIANT already exists. Updating entry."
   
   # Remove the existing line with this model variant
   TMP_FILE=$(mktemp)
