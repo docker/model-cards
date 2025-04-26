@@ -24,15 +24,31 @@ fi
 echo "📦 Listing tags for repository: $REPO"
 TAGS=$(crane ls "$REPO")
 
-# Default values for context window and VRAM
-DEFAULT_CONTEXT_WINDOW="8K"
-DEFAULT_VRAM="220"
-
 # Create an array to store all rows
 declare -a TABLE_ROWS
 
+# Find which tag corresponds to latest
+LATEST_TAG=""
+LATEST_QUANT=""
+LATEST_PARAMS=""
+
+for TAG in $TAGS; do
+  if [ "$TAG" = "latest" ]; then
+    # Get info for the latest tag
+    LATEST_INFO=$(./tools/inspect-model.sh "${REPO}:latest")
+    LATEST_PARAMS=$(echo "$LATEST_INFO" | grep "Parameters" | sed -E 's/.*: (.+)$/\1/' | tr -d ' ')
+    LATEST_QUANT=$(echo "$LATEST_INFO" | grep "Quantization" | sed -E 's/.*: (.+)$/\1/' | tr -d ' ')
+    break
+  fi
+done
+
 # Process each tag
 for TAG in $TAGS; do
+  # Skip the latest tag - we'll handle it specially
+  if [ "$TAG" = "latest" ]; then
+    continue
+  fi
+  
   MODEL_REF="${REPO}:${TAG}"
   echo "🔍 Processing tag: $TAG"
   
@@ -40,7 +56,6 @@ for TAG in $TAGS; do
   MODEL_INFO=$(./tools/inspect-model.sh "$MODEL_REF")
   
   # Extract information from the output
-  MODEL_VARIANT=$(echo "$MODEL_INFO" | grep "Image" | sed -E 's/.*: (.+)$/\1/' | tr -d ' ')
   PARAMETERS=$(echo "$MODEL_INFO" | grep "Parameters" | sed -E 's/.*: (.+)$/\1/' | tr -d ' ')
   QUANTIZATION=$(echo "$MODEL_INFO" | grep "Quantization" | sed -E 's/.*: (.+)$/\1/' | tr -d ' ')
   
@@ -56,7 +71,13 @@ for TAG in $TAGS; do
   fi
   
   # Format the parameters to match the table format
-  if [[ "$PARAMETERS" == *"M"* ]]; then
+  if [[ "$TAG" == *"360M"* ]]; then
+    # For 360M models, use "360M" for consistency
+    FORMATTED_PARAMS="360M"
+  elif [[ "$TAG" == *"135M"* ]]; then
+    # For 135M models, use "135M" for consistency
+    FORMATTED_PARAMS="135M"
+  elif [[ "$PARAMETERS" == *"M"* ]]; then
     FORMATTED_PARAMS="$PARAMETERS"
   elif [[ "$PARAMETERS" == *"B"* ]]; then
     FORMATTED_PARAMS="$PARAMETERS"
@@ -64,8 +85,19 @@ for TAG in $TAGS; do
     FORMATTED_PARAMS="$PARAMETERS"
   fi
   
+  # Check if this tag matches the latest tag
+  if [ -n "$LATEST_QUANT" ] && [ "$QUANTIZATION" = "$LATEST_QUANT" ] && [ "$PARAMETERS" = "$LATEST_PARAMS" ]; then
+    # This is the tag that matches latest - create a special row
+    MODEL_VARIANT="\`${REPO}:latest\`<br><br>\`${REPO}:${TAG}\`"
+    # Save this tag for the latest mapping note
+    LATEST_TAG="$TAG"
+  else
+    # Regular tag
+    MODEL_VARIANT="\`${REPO}:${TAG}\`"
+  fi
+  
   # Create the table row
-  ROW="| \`$MODEL_VARIANT\` | $FORMATTED_PARAMS | $QUANTIZATION | ${DEFAULT_CONTEXT_WINDOW} tokens | ${DEFAULT_VRAM} MB¹ | $FORMATTED_SIZE |"
+  ROW="| $MODEL_VARIANT | $FORMATTED_PARAMS | $QUANTIZATION | - | - | $FORMATTED_SIZE |"
   
   # Add the row to our array
   TABLE_ROWS+=("$ROW")
@@ -98,9 +130,11 @@ done
 echo "" >> "$TMP_FILE"
 echo "¹: VRAM estimation." >> "$TMP_FILE"
 
-# Add the latest tag mapping note
-echo "" >> "$TMP_FILE"
-echo "> \`:latest\` → \`360M-Q4_K_M\`" >> "$TMP_FILE"
+# Add the latest tag mapping note if we found a match
+if [ -n "$LATEST_TAG" ]; then
+  echo "" >> "$TMP_FILE"
+  echo "> \`:latest\` → \`${LATEST_TAG}\`" >> "$TMP_FILE"
+fi
 
 # Find the next section after "Available model variants"
 NEXT_SECTION_LINE=$(tail -n +$((TABLE_SECTION_LINE + 1)) "$README_FILE" | grep -n "^##" | head -1 | cut -d: -f1)

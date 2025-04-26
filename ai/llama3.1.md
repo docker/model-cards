@@ -31,12 +31,12 @@
 
 ## Available model variants
 
-| Model variant                                        | Parameters | Quantization   | Context window | VRAM      | Size   | 
-|----------------------------------------------------- |----------- |--------------- |--------------- |---------- |------- |
-| `ai/llama3.1:latest`<br><br>`ai/llama3.1:8B-Q4_K_M`  | 8B         | Q4_K_M         | 128K           | 4.8GB¹    | 5GB    |
-| `ai/llama3.1:8B-F16`                                 | 8B         | F16            | 128K           | 19.2GB¹   | 16GB   | 
+| Model Variant | Parameters | Quantization | Context window | VRAM | Size |
+|---------------|------------|--------------|----------------|------|-------|
+| `ai/llama3.1:8B-F16` | 8.03B | F16 | - | - | 16.07 GB |
+| `ai/llama3.1:latest`<br><br>`ai/llama3.1:8B-Q4_K_M` | 8.03B | IQ2_XXS/Q4_K_M | - | - | 4.92 GB |
 
-¹: VRAM estimates based on model characteristics.
+¹: VRAM estimation.
 
 > `:latest` → `8B-Q4_K_M`
 

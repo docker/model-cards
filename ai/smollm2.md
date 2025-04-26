@@ -27,10 +27,15 @@ SmolLM2 is designed for:
 
 
 ## Available model variants
-| Model Variant                                 | Parameters | Quantization   | Context window | VRAM    | Size    | 
-|---------------------------------------------- |----------- |--------------- |--------------- |-------- |-------- |
-| `ai/smollm2:360M-F16`     | 360M       | F16            | 8K tokens      | 860 MB¹ | 3.4GB   | 
-| `ai/smollm2:latest`<br><br>`ai/smollm2:360M-Q4_K_M`                      | 360M       | IQ2_XXS/Q4_K_M | 8K tokens      | 220 MB¹ | 270.6MB |
+
+| Model Variant | Parameters | Quantization | Context window | VRAM | Size |
+|---------------|------------|--------------|----------------|------|-------|
+| `ai/smollm2:135M-F16` | 135M | F16 | - | - | 270.90 MB |
+| `ai/smollm2:135M-Q4_0` | 135M | Q4_0 | - | - | 91.74 MB |
+| `ai/smollm2:135M-Q4_K_M` | 135M | IQ2_XXS/Q4_K_M | - | - | 105.47 MB |
+| `ai/smollm2:360M-F16` | 360M | F16 | - | - | 725.57 MB |
+| `ai/smollm2:360M-Q4_0` | 360M | Q4_0 | - | - | 229.13 MB |
+| `ai/smollm2:latest`<br><br>`ai/smollm2:360M-Q4_K_M` | 360M | IQ2_XXS/Q4_K_M | - | - | 270.60 MB |
 
 ¹: VRAM estimation.
 

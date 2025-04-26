@@ -36,15 +36,14 @@ Gemma 3 4B model can be used for:
 
 ## Available model variants
 
-| Model variant                                           | Parameters | Quantization   | Context window | VRAM      | Size   | 
-|-------------------------------------------------------- |----------- |----------------|--------------- |---------- |------- |
-| `ai/gemma3-qat:1B-Q4_K_M`                               | 1B         | IQ2_XXS/Q4_K_M | 32K tokens     |  0.892GB¹ | 0.95GB |
-| `ai/gemma3-qat:latest`<br><br>`ai/gemma3-qat:4B-Q4_K_M` | 4B         | IQ2_XXS/Q4_K_M | 128K tokens    |  3.4GB¹   | 2.93GB |
-| `ai/gemma3-qat:12B-Q4_K_M`                              | 12B        | IQ2_XXS/Q4_K_M | 128K tokens    |  8.7GB¹   | 7.52GB |
-| `ai/gemma3-qat:27B-Q4_K_M`                              | 27B        | IQ2_XXS/Q4_K_M | 128K tokens    |  21GB¹    | 16GB   |
+| Model Variant | Parameters | Quantization | Context window | VRAM | Size |
+|---------------|------------|--------------|----------------|------|-------|
+| `ai/gemma3-qat:12B-Q4_K_M` | 11.77B | Q4_0 | - | - | 8.07 GB |
+| `ai/gemma3-qat:1B-Q4_K_M` | 999.89M | Q4_0 | - | - | 1.00 GB |
+| `ai/gemma3-qat:27B-Q4_K_M` | 27.01B | Q4_0 | - | - | 17.23 GB |
+| `ai/gemma3-qat:latest`<br><br>`ai/gemma3-qat:4B-Q4_K_M` | 3.88B | Q4_0 | - | - | 3.16 GB |
 
-¹: VRAM extracted from Gemma documentation ([link](https://ai.google.dev/gemma/docs/core#128k-context)).  
-These are rough estimations. QAT models should use much less memory compared to the standard Gemma3 models
+¹: VRAM estimation.
 
 > `:latest` → `4B-Q4_K_M`
 

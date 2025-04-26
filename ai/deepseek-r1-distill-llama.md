@@ -33,15 +33,15 @@ i: Estimated
 
 ## Available model variants
 
-| Model Variant                                                                      | Parameters | Quantization   | Context Window  | VRAM     | Size  |
-|------------------------------------------------------------------------------------|----------- |----------------|---------------- |--------- |-------|
-| `ai/deepseek-r1-distill-llama:70B-Q4_K_M`                                          | 70B        | IQ2_XXS/Q4_K_M | 128K tokens     | 42GB¹    | 42GB  |
-| `ai/deepseek-r1-distill-llama:8B-F16`                                              | 8B         | F16            | 128K tokens     | 19.2GB¹  | 16GB  |
-| `ai/deepseek-r1-distill-llama:latest`<br><br>`ai/deepseek-r1-distill-llama:8B-Q4_K_M`                                           | 8B         | IQ2_XXS/Q4_K_M | 128K tokens     | 4.5GB¹   | 5GB   |
+| Model Variant | Parameters | Quantization | Context window | VRAM | Size |
+|---------------|------------|--------------|----------------|------|-------|
+| `ai/deepseek-r1-distill-llama:70B-Q4_K_M` | 70.55B | IQ2_XXS/Q4_K_M | - | - | 42.52 GB |
+| `ai/deepseek-r1-distill-llama:8B-F16` | 8.03B | F16 | - | - | 16.07 GB |
+| `ai/deepseek-r1-distill-llama:latest`<br><br>`ai/deepseek-r1-distill-llama:8B-Q4_K_M` | 8.03B | IQ2_XXS/Q4_K_M | - | - | 4.92 GB |
 
-¹: VRAM estimated based on model characteristics.
+¹: VRAM estimation.
 
-> `:latest` → `70B-Q4_K_M`
+> `:latest` → `8B-Q4_K_M`
 
 ## Use this AI model with Docker Model Runner
 

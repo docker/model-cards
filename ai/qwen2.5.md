@@ -30,18 +30,19 @@ Qwen2.5-7B-Instruct is designed to assist in various natural language processing
 
 ## Available model variants
 
-| Model Variant                                    | Parameters | Quantization     | Context window | VRAM     | Size   |
-|--------------------------------------------------|------------|------------------|----------------|----------|--------|
-| `ai/qwen2.5:0.5B-F16`                            | 0.5B       | F16              | 32K tokens     | ~1.2GB¹  | 0.99GB |
-| `ai/qwen2.5:1.5B-F16`                            | 1.5B       | F16              | 32K tokens     | ~3.5GB¹  | 3.09GB |
-| `ai/qwen2.5:3B-F16`                              | 3.09B      | F16              | 32K tokens     | ~7GB¹    | 6.18GB |
-| `ai/qwen2.5:3B-Q4_K_M`                           | 3.09B      | IQ2_XXS/Q4_K_M   | 32K tokens     | ~2.2GB¹  | 1.93GB |
-| `ai/qwen2.5:7B-F16`                              | 7.62B      | F16              | 32K tokens     | ~16GB¹   | 15.24GB|
-| `ai/qwen2.5:7B-Q4_K_M`<br><br>`ai/qwen2.5:latest`| 7.62B      | IQ2_XXS/Q4_K_M   | 32K tokens     | ~4.7GB¹  | 4.68GB |
+| Model Variant | Parameters | Quantization | Context window | VRAM | Size |
+|---------------|------------|--------------|----------------|------|-------|
+| `ai/qwen2.5:0.5B-F16` | 494.03M | F16 | - | - | 994.17 MB |
+| `ai/qwen2.5:1.5B-F16` | 1.54B | F16 | - | - | 3.09 GB |
+| `ai/qwen2.5:3B-F16` | 3.09B | F16 | - | - | 6.18 GB |
+| `ai/qwen2.5:3B-Q4_K_M` | 3.09B | IQ2_XXS/Q4_K_M | - | - | 1.93 GB |
+| `ai/qwen2.5:7B-F16` | 7.62B | F16 | - | - | 15.24 GB |
+| `ai/qwen2.5:7B-Q4_0` | 7.62B | Q4_0 | - | - | 4.43 GB |
+| `ai/qwen2.5:latest`<br><br>`ai/qwen2.5:7B-Q4_K_M` | 7.62B | IQ2_XXS/Q4_K_M | - | - | 4.68 GB |
 
-¹: VRAM estimates based on model characteristics.
+¹: VRAM estimation.
 
-> `:latest`→ `7B-Q4_K_M`
+> `:latest` → `7B-Q4_K_M`
 
 ## Use this AI model with Docker Model Runner
 

@@ -27,14 +27,15 @@ Phi-4 is designed for:
 
 ## Available model variants
 
-| Model Variant                                | Parameters | Quantization   | Context window | VRAM     | Size   |
-|----------------------------------------------|----------- |----------------|--------------- |--------- |------- |
-| `ai/phi4:14B-F16`                            | 14B        | F16            | 16K tokens     |  33.6GB¹ | 29.3GB |
-| `ai/phi4:latest`<br><br>`ai/phi4:14B-Q4_K_M` | 14B        | IQ2_XXS/Q4_K_M | 16K tokens     |  8.4GB¹  | 9.GB   |
+| Model Variant | Parameters | Quantization | Context window | VRAM | Size |
+|---------------|------------|--------------|----------------|------|-------|
+| `ai/phi4:14B-F16` | 14.66B | F16 | - | - | 29.32 GB |
+| `ai/phi4:14B-Q4_0` | 14.66B | Q4_0 | - | - | 8.38 GB |
+| `ai/phi4:latest`<br><br>`ai/phi4:14B-Q4_K_M` | 14.66B | IQ2_XXS/Q4_K_M | - | - | 9.05 GB |
 
-¹: VRAM estimates based on model characteristics.
+¹: VRAM estimation.
 
-> `:latest` →  `14B-Q4_K_M` 
+> `:latest` → `14B-Q4_K_M`
 
 ## Use this AI model with Docker Model Runner
 
