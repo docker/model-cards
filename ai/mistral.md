@@ -35,7 +35,7 @@ i: Estimated
 
 ## Available model variants
 
-| Model Variant | Parameters | Quantization | Context window | VRAM | Size |
+| Model variant | Parameters | Quantization | Context window | VRAM | Size |
 |---------------|------------|--------------|----------------|------|-------|
 | `ai/mistral:7B-F16` | 7.25B | F16 | - | - | 14.50 GB |
 | `ai/mistral:7B-Q4_0` | 7.25B | Q4_0 | - | - | 4.11 GB |

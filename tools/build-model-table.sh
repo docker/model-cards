@@ -118,7 +118,7 @@ sed -n "1,${TABLE_SECTION_LINE}p" "$README_FILE" > "$TMP_FILE"
 echo "" >> "$TMP_FILE"  # Add a newline after the section header
 
 # Add the table header and separator
-echo "| Model Variant | Parameters | Quantization | Context window | VRAM | Size |" >> "$TMP_FILE"
+echo "| Model variant | Parameters | Quantization | Context window | VRAM | Size |" >> "$TMP_FILE"
 echo "|---------------|------------|--------------|----------------|------|-------|" >> "$TMP_FILE"
 
 # Add all the rows

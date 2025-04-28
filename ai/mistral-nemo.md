@@ -28,7 +28,7 @@ Mistral-Nemo-Instruct-2407 is designed for instruction-following tasks and multi
 
 ## Available model variants
 
-| Model Variant | Parameters | Quantization | Context window | VRAM | Size |
+| Model variant | Parameters | Quantization | Context window | VRAM | Size |
 |---------------|------------|--------------|----------------|------|-------|
 | `ai/mistral-nemo:latest`<br><br>`ai/mistral-nemo:12B-Q4_K_M` | 12.25B | IQ2_XXS/Q4_K_M | - | - | 7.48 GB |
 

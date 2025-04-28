@@ -33,7 +33,7 @@ i: Estimated
 
 ## Available model variants
 
-| Model Variant | Parameters | Quantization | Context window | VRAM | Size |
+| Model variant | Parameters | Quantization | Context window | VRAM | Size |
 |---------------|------------|--------------|----------------|------|-------|
 | `ai/deepseek-r1-distill-llama:70B-Q4_K_M` | 70.55B | IQ2_XXS/Q4_K_M | - | - | 42.52 GB |
 | `ai/deepseek-r1-distill-llama:8B-F16` | 8.03B | F16 | - | - | 16.07 GB |

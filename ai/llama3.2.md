@@ -29,11 +29,13 @@ Llama 3.2 instruct models are designed for:
 
 ## Available model variants
 
-| Model Variant | Parameters | Quantization | Context window | VRAM | Size |
+| Model variant | Parameters | Quantization | Context window | VRAM | Size |
 |---------------|------------|--------------|----------------|------|-------|
 | `ai/llama3.2:1B-F16` | 1.24B | F16 | - | - | 2.48 GB |
+| `ai/llama3.2:1B-Q4_0` | 1.24B | Q4_0 | - | - | 770.94 MB |
 | `ai/llama3.2:1B-Q8_0` | 1.24B | Q8_0 | - | - | 1.32 GB |
 | `ai/llama3.2:3B-F16` | 3.21B | F16 | - | - | 6.43 GB |
+| `ai/llama3.2:3B-Q4_0` | 3.21B | Q4_0 | - | - | 1.92 GB |
 | `ai/llama3.2:latest`<br><br>`ai/llama3.2:3B-Q4_K_M` | 3.21B | IQ2_XXS/Q4_K_M | - | - | 2.02 GB |
 
 ¹: VRAM estimation.

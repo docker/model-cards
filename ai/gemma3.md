@@ -30,7 +30,7 @@ Gemma 3 4B model can be used for:
 
 ## Available model variants
 
-| Model Variant | Parameters | Quantization | Context window | VRAM | Size |
+| Model variant | Parameters | Quantization | Context window | VRAM | Size |
 |---------------|------------|--------------|----------------|------|-------|
 | `ai/gemma3:1B-F16` | 999.89M | F16 | - | - | 2.01 GB |
 | `ai/gemma3:1B-Q4_K_M` | 999.89M | IQ2_XXS/Q4_K_M | - | - | 806.06 MB |
