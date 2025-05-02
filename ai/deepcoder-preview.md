@@ -32,7 +32,7 @@ DeepCoder-14B is purpose-built for advanced code reasoning, programming task sol
 
 ## Available model variants
 
-| Model variant | Parameters | Quantization | Context window | VRAM | Size |
+| Model variant | Parameters | Quantization | Context window | VRAM¹ | Size |
 |---------------|------------|--------------|----------------|------|-------|
 | `ai/deepcoder-preview:latest`<br><br>`ai/deepcoder-preview:14B-Q4_K_M` | 14B | IQ2_XXS/Q4_K_M | 131.1K tokens | 7.8 GB | 8.37 GiB |
 | `ai/deepcoder-preview:14B-F16` | 14B | F16 | 131.1K tokens | 31.3 GB | 27.51 GiB |

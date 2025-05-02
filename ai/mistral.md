@@ -35,7 +35,7 @@ i: Estimated
 
 ## Available model variants
 
-| Model variant | Parameters | Quantization | Context window | VRAM | Size |
+| Model variant | Parameters | Quantization | Context window | VRAM¹ | Size |
 |---------------|------------|--------------|----------------|------|-------|
 | `ai/mistral:latest`<br><br>`ai/mistral:7B-Q4_K_M` | 7B | IQ2_XXS/Q4_K_M | 32.8K tokens | 3.9 GB | 4.07 GiB |
 | `ai/mistral:7B-F16` | 7B | F16 | 32.8K tokens | 15.6 GB | 13.50 GiB |

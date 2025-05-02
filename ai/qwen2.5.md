@@ -30,7 +30,7 @@ Qwen2.5-7B-Instruct is designed to assist in various natural language processing
 
 ## Available model variants
 
-| Model variant | Parameters | Quantization | Context window | VRAM | Size |
+| Model variant | Parameters | Quantization | Context window | VRAM¹ | Size |
 |---------------|------------|--------------|----------------|------|-------|
 | `ai/qwen2.5:latest`<br><br>`ai/qwen2.5:7B-Q4_K_M` | 7B | IQ2_XXS/Q4_K_M | 32.8K tokens | 4.2 GB | 4.36 GiB |
 | `ai/qwen2.5:0.5B-F16` | 0.5B | F16 | 32.8K tokens | 4.3 GB | 942.43 MiB |

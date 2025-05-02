@@ -27,7 +27,7 @@ mxbai-embed-large-v1 is designed for generating sentence embeddings suitable for
 
 ## Available model variants
 
-| Model variant | Parameters | Quantization | Context window | VRAM | Size |
+| Model variant | Parameters | Quantization | Context window | VRAM¹ | Size |
 |---------------|------------|--------------|----------------|------|-------|
 | `ai/mxbai-embed-large:latest`<br><br>`ai/mxbai-embed-large:335M-F16` | 334.09 M | F16 | 512 tokens | 0.8 GB | 638.85 MiB |
 

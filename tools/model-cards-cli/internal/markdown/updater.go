@@ -39,7 +39,7 @@ func (u *Updater) UpdateModelTable(filePath string, variants []domain.ModelVaria
 	var latestTag string
 	var tableBuilder strings.Builder
 	tableBuilder.WriteString("\n")
-	tableBuilder.WriteString("| Model variant | Parameters | Quantization | Context window | VRAM | Size |\n")
+	tableBuilder.WriteString("| Model variant | Parameters | Quantization | Context window | VRAM¹ | Size |\n")
 	tableBuilder.WriteString("|---------------|------------|--------------|----------------|------|-------|\n")
 
 	// First, find and add the latest variant if it exists

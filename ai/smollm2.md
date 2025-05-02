@@ -28,7 +28,7 @@ SmolLM2 is designed for:
 
 ## Available model variants
 
-| Model variant | Parameters | Quantization | Context window | VRAM | Size |
+| Model variant | Parameters | Quantization | Context window | VRAM¹ | Size |
 |---------------|------------|--------------|----------------|------|-------|
 | `ai/smollm2:latest`<br><br>`ai/smollm2:360M-Q4_K_M` | 360M | IQ2_XXS/Q4_K_M | 8.2K tokens | 1.3 GB | 256.35 MiB |
 | `ai/smollm2:135M-F16` | 135M | F16 | 8.2K tokens | 0.9 GB | 256.63 MiB |
