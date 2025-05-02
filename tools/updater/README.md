@@ -25,8 +25,11 @@ You can use the provided Makefile to build and run the application:
 # Build the Go application
 make build
 
-# Run the application
+# Run the application to update all model files
 make run
+
+# Run the application to update a single model file
+make run-single MODEL=<model-file.md>
 
 # Clean up the binary
 make clean
@@ -35,10 +38,20 @@ make clean
 Or you can run the binary directly if it's already built:
 
 ```bash
-./bin/build-tables
+# Update all model files
+./bin/updater
+
+# Update a specific model file
+./bin/updater --model-file=<model-file.md>
 ```
 
-This will scan all markdown files in the `ai/` directory and update their "Available model variants" tables.
+By default, the tool will scan all markdown files in the `ai/` directory and update their "Available model variants" tables. If you specify a model file with the `--model-file` flag or the `MODEL` parameter, it will only update that specific file.
+
+### Command-line Options
+
+- `--model-dir`: Directory containing model markdown files (default: "../../ai")
+- `--model-file`: Specific model markdown file to update (without path)
+- `--log-level`: Log level (debug, info, warn, error) (default: "info")
 
 ## Implementation Details
 

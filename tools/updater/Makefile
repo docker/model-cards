@@ -32,8 +32,16 @@ lint:
 	@go vet ./...
 
 run:
-	@echo "Running ${BINARY_NAME}..."
+	@echo "Running ${BINARY_NAME} for all models..."
 	@${GOBIN}/${BINARY_NAME}
+
+run-single:
+	@if [ -z "$(MODEL)" ]; then \
+		echo "Error: MODEL parameter is required. Usage: make run-single MODEL=<model-file.md>"; \
+		exit 1; \
+	fi
+	@echo "Running ${BINARY_NAME} for single model: $(MODEL)..."
+	@${GOBIN}/${BINARY_NAME} --model-file=$(MODEL)
 
 help:
 	@echo "Available targets:"
@@ -41,5 +49,6 @@ help:
 	@echo "  build            - Build the binary"
 	@echo "  clean            - Clean build artifacts"
 	@echo "  lint             - Run linters"
-	@echo "  run              - Run the binary"
+	@echo "  run              - Run the binary to update all model files"
+	@echo "  run-single       - Run the binary to update a single model file (Usage: make run-single MODEL=<model-file.md>)"
 	@echo "  help             - Show this help message"
