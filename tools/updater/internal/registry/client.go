@@ -54,8 +54,8 @@ func (c *Client) ListTags(repoName string) ([]string, error) {
 
 	logger.Infof("Listing tags for repository: %s", repo.String())
 
-	// List tags
-	tags, err := remote.List(repo)
+	// List tags with authentication
+	tags, err := remote.List(repo, remote.WithAuthFromKeychain(authn.DefaultKeychain))
 	if err != nil {
 		return nil, fmt.Errorf("failed to list tags: %v", err)
 	}
@@ -154,7 +154,7 @@ func (c *Client) GetModelVariant(ctx context.Context, repoName, tag string) (dom
 	}
 
 	// Get the image descriptor
-	desc, err := remote.Get(ref)
+	desc, err := remote.Get(ref, remote.WithAuthFromKeychain(authn.DefaultKeychain))
 	if err != nil {
 		return variant, fmt.Errorf("failed to get image descriptor: %v", err)
 	}

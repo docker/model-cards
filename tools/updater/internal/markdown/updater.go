@@ -32,67 +32,80 @@ func (u *Updater) UpdateModelTable(filePath string, variants []domain.ModelVaria
 		return fmt.Errorf("could not find the 'Available model variants' section")
 	}
 
-	// Find the next section after "Available model variants"
-	nextSectionRegex := regexp.MustCompile(`(?m)^##\s+[^#]`)
-	nextSectionMatch := nextSectionRegex.FindIndex(content[sectionMatch[1]:])
-
-	var endOfTableSection int
-	if nextSectionMatch != nil {
-		endOfTableSection = sectionMatch[1] + nextSectionMatch[0]
-	} else {
-		endOfTableSection = len(content)
-	}
-
-	// Extract the content before and after the table section
+	// Extract the content before the table section
 	beforeTable := content[:sectionMatch[1]]
-	afterTable := content[endOfTableSection:]
 
 	// Generate the new table
+	var latestTag string
 	var tableBuilder strings.Builder
-	tableBuilder.WriteString("\n\n")
+	tableBuilder.WriteString("\n")
 	tableBuilder.WriteString("| Model variant | Parameters | Quantization | Context window | VRAM | Size |\n")
 	tableBuilder.WriteString("|---------------|------------|--------------|----------------|------|-------|\n")
 
-	// Add all the rows
-	var latestTag string
+	// First, find and add the latest variant if it exists
 	for _, variant := range variants {
-		// Format the model variant
-		var modelVariant string
 		if variant.IsLatest {
-			modelVariant = fmt.Sprintf("`%s:latest`<br><br>`%s:%s`", variant.RepoName, variant.RepoName, variant.Tag)
+			modelVariant := fmt.Sprintf("`%s:latest`<br><br>`%s:%s`", variant.RepoName, variant.RepoName, variant.Tag)
 			latestTag = variant.Tag
-		} else {
-			modelVariant = fmt.Sprintf("`%s:%s`", variant.RepoName, variant.Tag)
+			formattedParams := domain.FormatParameters(variant.Parameters)
+			contextWindow := "-"
+			if variant.ContextLength > 0 {
+				contextWindow = fmt.Sprintf("%d tokens", variant.ContextLength)
+			}
+			row := fmt.Sprintf("| %s | %s | %s | %s | - | %s |\n",
+				modelVariant,
+				formattedParams,
+				variant.Quantization,
+				contextWindow,
+				variant.Size)
+			tableBuilder.WriteString(row)
+			break
 		}
+	}
 
-		// Format the parameters
-		formattedParams := domain.FormatParameters(variant.Parameters)
-
-		// Format the context window
-		contextWindow := "-"
-		if variant.ContextLength > 0 {
-			contextWindow = fmt.Sprintf("%d tokens", variant.ContextLength)
+	// Then add the rest of the variants
+	for _, variant := range variants {
+		if !variant.IsLatest {
+			modelVariant := fmt.Sprintf("`%s:%s`", variant.RepoName, variant.Tag)
+			formattedParams := domain.FormatParameters(variant.Parameters)
+			contextWindow := "-"
+			if variant.ContextLength > 0 {
+				contextWindow = fmt.Sprintf("%d tokens", variant.ContextLength)
+			}
+			row := fmt.Sprintf("| %s | %s | %s | %s | - | %s |\n",
+				modelVariant,
+				formattedParams,
+				variant.Quantization,
+				contextWindow,
+				variant.Size)
+			tableBuilder.WriteString(row)
 		}
-
-		// Create the table row
-		row := fmt.Sprintf("| %s | %s | %s | %s | - | %s |\n",
-			modelVariant,
-			formattedParams,
-			variant.Quantization,
-			contextWindow,
-			variant.Size)
-		tableBuilder.WriteString(row)
 	}
 
 	// Add the footnote for VRAM estimation
-	tableBuilder.WriteString("\n¹: VRAM estimation.\n")
+	tableBuilder.WriteString("\n¹: VRAM estimates based on model characteristics.\n")
 
 	// Add the latest tag mapping note if we found a match
 	if latestTag != "" {
-		tableBuilder.WriteString(fmt.Sprintf("\n> `:latest` → `%s`\n", latestTag))
+		tableBuilder.WriteString(fmt.Sprintf("\n> `:latest` → `%s`\n\n", latestTag))
 	}
 
-	// Combine the parts
+	// Find the next section (any ## heading)
+	nextSectionRegex := regexp.MustCompile(`(?m)^##\s+[^#]`)
+	nextSectionMatch := nextSectionRegex.FindIndex(content[sectionMatch[1]:])
+
+	var afterTable []byte
+	if nextSectionMatch != nil {
+		// Make a copy of the content to avoid modifying the original
+		afterTable = make([]byte, len(content[sectionMatch[1]+nextSectionMatch[0]:]))
+		copy(afterTable, content[sectionMatch[1]+nextSectionMatch[0]:])
+	} else {
+		// Make a copy of the content to avoid modifying the original
+		afterTable = make([]byte, len(content[sectionMatch[1]:]))
+		copy(afterTable, content[sectionMatch[1]:])
+	}
+
+	// Combine the parts with proper spacing
 	newContent := append(beforeTable, []byte(tableBuilder.String())...)
 	newContent = append(newContent, afterTable...)
 
