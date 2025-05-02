@@ -11,6 +11,7 @@ type ModelVariant struct {
 	Size          string
 	IsLatest      bool
 	ContextLength uint32
+	VRAM          float64
 }
 
 // RegistryClient defines the interface for interacting with model registries
@@ -35,28 +36,4 @@ type MarkdownUpdater interface {
 type ModelProcessor interface {
 	// ProcessModelFile processes a single model markdown file
 	ProcessModelFile(filePath string) error
-}
-
-// GGUFParser defines the interface for parsing GGUF files
-type GGUFParser interface {
-	// ParseRemote parses a remote GGUF file
-	ParseRemote(ctx context.Context, url, token string) (GGUFFile, error)
-}
-
-// GGUFFile represents the metadata from a GGUF file
-type GGUFFile interface {
-	// GetParameters returns the model parameters
-	GetParameters() string
-
-	// GetArchitecture returns the model architecture
-	GetArchitecture() string
-
-	// GetQuantization returns the model quantization
-	GetQuantization() string
-
-	// GetSize returns the model size
-	GetSize() string
-
-	// GetContextLength returns the model context length
-	GetContextLength() uint32
 }

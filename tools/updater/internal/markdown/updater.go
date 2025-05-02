@@ -49,11 +49,13 @@ func (u *Updater) UpdateModelTable(filePath string, variants []domain.ModelVaria
 			latestTag = variant.Tag
 			formattedParams := FormatParameters(variant.Parameters)
 			contextWindow := FormatContextLength(variant.ContextLength)
-			row := fmt.Sprintf("| %s | %s | %s | %s | - | %s |\n",
+			vram := fmt.Sprintf("%.1f GB", variant.VRAM)
+			row := fmt.Sprintf("| %s | %s | %s | %s | %s | %s |\n",
 				modelVariant,
 				formattedParams,
 				variant.Quantization,
 				contextWindow,
+				vram,
 				variant.Size)
 			tableBuilder.WriteString(row)
 			break
@@ -62,26 +64,29 @@ func (u *Updater) UpdateModelTable(filePath string, variants []domain.ModelVaria
 
 	// Then add the rest of the variants
 	for _, variant := range variants {
-		if !variant.IsLatest {
-			modelVariant := fmt.Sprintf("`%s:%s`", variant.RepoName, variant.Tag)
-			formattedParams := FormatParameters(variant.Parameters)
-			contextWindow := FormatContextLength(variant.ContextLength)
-			row := fmt.Sprintf("| %s | %s | %s | %s | - | %s |\n",
-				modelVariant,
-				formattedParams,
-				variant.Quantization,
-				contextWindow,
-				variant.Size)
-			tableBuilder.WriteString(row)
+		if variant.Tag == latestTag {
+			continue
 		}
+		modelVariant := fmt.Sprintf("`%s:%s`", variant.RepoName, variant.Tag)
+		formattedParams := FormatParameters(variant.Parameters)
+		contextWindow := FormatContextLength(variant.ContextLength)
+		vram := fmt.Sprintf("%.1f GB", variant.VRAM)
+		row := fmt.Sprintf("| %s | %s | %s | %s | %s | %s |\n",
+			modelVariant,
+			formattedParams,
+			variant.Quantization,
+			contextWindow,
+			vram,
+			variant.Size)
+		tableBuilder.WriteString(row)
 	}
 
 	// Add the footnote for VRAM estimation
-	tableBuilder.WriteString("\n¹: VRAM estimates based on model characteristics.\n")
+	tableBuilder.WriteString("\n¹: VRAM estimated based on model characteristics.\n")
 
 	// Add the latest tag mapping note if we found a match
 	if latestTag != "" {
-		tableBuilder.WriteString(fmt.Sprintf("\n> `:latest` → `%s`\n\n", latestTag))
+		tableBuilder.WriteString(fmt.Sprintf("\n> `latest` → `%s`\n\n", latestTag))
 	}
 
 	// Find the next section (any ## heading)

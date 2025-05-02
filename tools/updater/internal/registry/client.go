@@ -17,31 +17,11 @@ import (
 )
 
 // Client implements the domain.RegistryClient interface
-type Client struct {
-	ggufParser domain.GGUFParser
-}
-
-// ClientOption is a function that configures a Client
-type ClientOption func(*Client)
-
-// WithGGUFParser sets the GGUF parser to use
-func WithGGUFParser(parser domain.GGUFParser) ClientOption {
-	return func(c *Client) {
-		c.ggufParser = parser
-	}
-}
+type Client struct{}
 
 // NewClient creates a new registry client
-func NewClient(options ...ClientOption) *Client {
-	client := &Client{
-		ggufParser: gguf.NewParser(),
-	}
-
-	for _, option := range options {
-		option(client)
-	}
-
-	return client
+func NewClient() *Client {
+	return &Client{}
 }
 
 // ListTags lists all tags for a repository
@@ -105,7 +85,7 @@ func (c *Client) ProcessTags(repoName string, tags []string) ([]domain.ModelVari
 
 	// Process each tag
 	for _, tag := range tags {
-		// Skip the latest tag - we'll handle it specially
+		// Skip the latest tag - its handled above
 		if tag == "latest" {
 			continue
 		}
@@ -208,16 +188,66 @@ func (c *Client) GetModelVariant(ctx context.Context, repoName, tag string) (dom
 	token = token[len("Bearer "):] // Strip "Bearer "
 
 	// Parse the GGUF file
-	ggufFile, err := c.ggufParser.ParseRemote(ctx, ggufURL, token)
+	parser := gguf.NewParser()
+	parsedGGUF, err := parser.ParseRemote(ctx, ggufURL, token)
 	if err != nil {
 		return variant, fmt.Errorf("failed to parse GGUF: %w", err)
 	}
 
 	// Fill in the variant information
-	variant.Parameters = ggufFile.GetParameters()
-	variant.Quantization = ggufFile.GetQuantization()
-	variant.Size = ggufFile.GetSize()
-	variant.ContextLength = ggufFile.GetContextLength()
+	_, formattedParams, err := parsedGGUF.GetParameters()
+	if err != nil {
+		logger.WithFields(logger.Fields{
+			"repository": repoName,
+			"tag":        tag,
+			"error":      err,
+		}).Warn("Failed to get parameters")
+	}
+	variant.Parameters = formattedParams
+
+	_, formattedQuant, err := parsedGGUF.GetQuantization()
+	if err != nil {
+		logger.WithFields(logger.Fields{
+			"repository": repoName,
+			"tag":        tag,
+			"error":      err,
+		}).Warn("Failed to get quantization")
+	}
+	variant.Quantization = formattedQuant
+
+	_, formattedSize, err := parsedGGUF.GetSize()
+	if err != nil {
+		logger.WithFields(logger.Fields{
+			"repository": repoName,
+			"tag":        tag,
+			"error":      err,
+		}).Warn("Failed to get size")
+	}
+	variant.Size = formattedSize
+
+	contextLength, _, err := parsedGGUF.GetContextLength()
+	if err != nil {
+		logger.WithFields(logger.Fields{
+			"repository": repoName,
+			"tag":        tag,
+			"error":      err,
+		}).Warn("Failed to get context length")
+		variant.ContextLength = 0
+	} else {
+		variant.ContextLength = contextLength
+	}
+
+	vram, _, err := parsedGGUF.GetVRAM()
+	if err != nil {
+		logger.WithFields(logger.Fields{
+			"repository": repoName,
+			"tag":        tag,
+			"error":      err,
+		}).Warn("Failed to get VRAM")
+		variant.VRAM = 0
+	} else {
+		variant.VRAM = vram
+	}
 
 	return variant, nil
 }

@@ -8,7 +8,6 @@ import (
 	"strings"
 
 	"github.com/docker/model-cards/tools/build-tables/internal/domain"
-	"github.com/docker/model-cards/tools/build-tables/internal/gguf"
 	"github.com/docker/model-cards/tools/build-tables/internal/logger"
 	"github.com/docker/model-cards/tools/build-tables/internal/markdown"
 	"github.com/docker/model-cards/tools/build-tables/internal/registry"
@@ -156,8 +155,7 @@ func main() {
 	logger.Debugf("Log level set to: %s", *logLevel)
 
 	// Create dependencies
-	ggufParser := gguf.NewParser()
-	registryClient := registry.NewClient(registry.WithGGUFParser(ggufParser))
+	registryClient := registry.NewClient()
 	markdownUpdater := markdown.NewUpdater()
 
 	// Create the application
