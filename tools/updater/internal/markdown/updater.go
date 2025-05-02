@@ -6,11 +6,19 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/docker/model-cards/tools/build-tables/registry"
+	"github.com/docker/model-cards/tools/build-tables/internal/domain"
 )
 
+// Updater implements the domain.MarkdownUpdater interface
+type Updater struct{}
+
+// NewUpdater creates a new markdown updater
+func NewUpdater() *Updater {
+	return &Updater{}
+}
+
 // UpdateModelTable updates the "Available model variants" table in a markdown file
-func UpdateModelTable(filePath string, variants []registry.ModelVariant) error {
+func (u *Updater) UpdateModelTable(filePath string, variants []domain.ModelVariant) error {
 	// Read the markdown file
 	content, err := os.ReadFile(filePath)
 	if err != nil {
@@ -58,13 +66,21 @@ func UpdateModelTable(filePath string, variants []registry.ModelVariant) error {
 		}
 
 		// Format the parameters
-		formattedParams := registry.FormatParameters(variant.Parameters)
+		formattedParams := domain.FormatParameters(variant.Parameters)
 
-		// Format the size
-		formattedSize := registry.FormatSize(variant.SizeMB)
+		// Format the context window
+		contextWindow := "-"
+		if variant.ContextLength > 0 {
+			contextWindow = fmt.Sprintf("%d tokens", variant.ContextLength)
+		}
 
 		// Create the table row
-		row := fmt.Sprintf("| %s | %s | %s | - | - | %s |\n", modelVariant, formattedParams, variant.Quantization, formattedSize)
+		row := fmt.Sprintf("| %s | %s | %s | %s | - | %s |\n",
+			modelVariant,
+			formattedParams,
+			variant.Quantization,
+			contextWindow,
+			variant.Size)
 		tableBuilder.WriteString(row)
 	}
 
@@ -86,6 +102,5 @@ func UpdateModelTable(filePath string, variants []registry.ModelVariant) error {
 		return fmt.Errorf("failed to write updated markdown file: %v", err)
 	}
 
-	fmt.Printf("✅ Successfully updated %s with all variants for %s\n", filePath, variants[0].RepoName)
 	return nil
 }
