@@ -33,12 +33,12 @@
 
 | Model variant | Parameters | Quantization | Context window | VRAM | Size |
 |---------------|------------|--------------|----------------|------|-------|
-| `ai/llama3.1:8B-F16` | 8.03B | F16 | - | - | 16.07 GB |
-| `ai/llama3.1:latest`<br><br>`ai/llama3.1:8B-Q4_K_M` | 8.03B | IQ2_XXS/Q4_K_M | - | - | 4.92 GB |
+| `ai/llama3.1:latest`<br><br>`ai/llama3.1:8B-Q4_K_M` | 8B | IQ2_XXS/Q4_K_M | 131.1K tokens | 4.5 GB | 4.58 GiB |
+| `ai/llama3.1:8B-F16` | 8B | F16 | 131.1K tokens | 17.9 GB | 14.96 GiB |
 
-¹: VRAM estimation.
+¹: VRAM estimated based on model characteristics.
 
-> `:latest` → `8B-Q4_K_M`
+> `latest` → `8B-Q4_K_M`
 
 ## Use this AI model with Docker Model Runner
 

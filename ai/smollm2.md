@@ -30,16 +30,17 @@ SmolLM2 is designed for:
 
 | Model variant | Parameters | Quantization | Context window | VRAM | Size |
 |---------------|------------|--------------|----------------|------|-------|
-| `ai/smollm2:135M-F16` | 135M | F16 | - | - | 270.90 MB |
-| `ai/smollm2:135M-Q4_0` | 135M | Q4_0 | - | - | 91.74 MB |
-| `ai/smollm2:135M-Q4_K_M` | 135M | IQ2_XXS/Q4_K_M | - | - | 105.47 MB |
-| `ai/smollm2:360M-F16` | 360M | F16 | - | - | 725.57 MB |
-| `ai/smollm2:360M-Q4_0` | 360M | Q4_0 | - | - | 229.13 MB |
-| `ai/smollm2:latest`<br><br>`ai/smollm2:360M-Q4_K_M` | 360M | IQ2_XXS/Q4_K_M | - | - | 270.60 MB |
+| `ai/smollm2:latest`<br><br>`ai/smollm2:360M-Q4_K_M` | 360M | IQ2_XXS/Q4_K_M | 8.2K tokens | 1.3 GB | 256.35 MiB |
+| `ai/smollm2:135M-F16` | 135M | F16 | 8.2K tokens | 0.9 GB | 256.63 MiB |
+| `ai/smollm2:135M-Q2_K` | 135M | Q2_K | 8.2K tokens | 0.7 GB | 82.41 MiB |
+| `ai/smollm2:135M-Q4_0` | 135M | Q4_0 | 8.2K tokens | 0.7 GB | 85.77 MiB |
+| `ai/smollm2:135M-Q4_K_M` | 135M | IQ2_XXS/Q4_K_M | 8.2K tokens | 0.7 GB | 98.87 MiB |
+| `ai/smollm2:360M-F16` | 360M | F16 | 8.2K tokens | 1.9 GB | 690.24 MiB |
+| `ai/smollm2:360M-Q4_0` | 360M | Q4_0 | 8.2K tokens | 1.3 GB | 216.80 MiB |
 
-¹: VRAM estimation.
+¹: VRAM estimated based on model characteristics.
 
-> `:latest` → `360M-Q4_K_M`
+> `latest` → `360M-Q4_K_M`
 
 ## Use this AI model with Docker Model Runner
 

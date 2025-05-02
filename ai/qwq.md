@@ -31,13 +31,13 @@ QwQ-32B is designed for tasks requiring advanced reasoning and problem-solving a
 
 | Model variant | Parameters | Quantization | Context window | VRAM | Size |
 |---------------|------------|--------------|----------------|------|-------|
-| `ai/qwq:32B-F16` | 32.76B | F16 | - | - | 65.54 GB |
-| `ai/qwq:32B-Q4_0` | 32.76B | Q4_0 | - | - | 18.64 GB |
-| `ai/qwq:latest`<br><br>`ai/qwq:32B-Q4_K_M` | 32.76B | IQ2_XXS/Q4_K_M | - | - | 19.85 GB |
+| `ai/qwq:latest`<br><br>`ai/qwq:32B-Q4_K_M` | 32B | IQ2_XXS/Q4_K_M | 41.0K tokens | 20.3 GB | 18.48 GiB |
+| `ai/qwq:32B-F16` | 32B | F16 | 41.0K tokens | 73.9 GB | 61.03 GiB |
+| `ai/qwq:32B-Q4_0` | 32B | Q4_0 | 41.0K tokens | 20.3 GB | 17.35 GiB |
 
-¹: VRAM estimation.
+¹: VRAM estimated based on model characteristics.
 
-> `:latest` → `32B-Q4_K_M`
+> `latest` → `32B-Q4_K_M`
 
 ## Use this AI model with Docker Model Runner
 

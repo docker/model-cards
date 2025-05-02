@@ -37,13 +37,13 @@ i: Estimated
 
 | Model variant | Parameters | Quantization | Context window | VRAM | Size |
 |---------------|------------|--------------|----------------|------|-------|
-| `ai/mistral:7B-F16` | 7.25B | F16 | - | - | 14.50 GB |
-| `ai/mistral:7B-Q4_0` | 7.25B | Q4_0 | - | - | 4.11 GB |
-| `ai/mistral:latest`<br><br>`ai/mistral:7B-Q4_K_M` | 7.25B | IQ2_XXS/Q4_K_M | - | - | 4.37 GB |
+| `ai/mistral:latest`<br><br>`ai/mistral:7B-Q4_K_M` | 7B | IQ2_XXS/Q4_K_M | 32.8K tokens | 3.9 GB | 4.07 GiB |
+| `ai/mistral:7B-F16` | 7B | F16 | 32.8K tokens | 15.6 GB | 13.50 GiB |
+| `ai/mistral:7B-Q4_0` | 7B | Q4_0 | 32.8K tokens | 3.9 GB | 3.83 GiB |
 
-¹: VRAM estimation.
+¹: VRAM estimated based on model characteristics.
 
-> `:latest` → `7B-Q4_K_M`
+> `latest` → `7B-Q4_K_M`
 
 ## Use this AI model with Docker Model Runner
 

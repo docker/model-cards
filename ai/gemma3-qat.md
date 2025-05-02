@@ -38,14 +38,14 @@ Gemma 3 4B model can be used for:
 
 | Model variant | Parameters | Quantization | Context window | VRAM | Size |
 |---------------|------------|--------------|----------------|------|-------|
-| `ai/gemma3-qat:12B-Q4_K_M` | 11.77B | Q4_0 | - | - | 8.07 GB |
-| `ai/gemma3-qat:1B-Q4_K_M` | 999.89M | Q4_0 | - | - | 1.00 GB |
-| `ai/gemma3-qat:27B-Q4_K_M` | 27.01B | Q4_0 | - | - | 17.23 GB |
-| `ai/gemma3-qat:latest`<br><br>`ai/gemma3-qat:4B-Q4_K_M` | 3.88B | Q4_0 | - | - | 3.16 GB |
+| `ai/gemma3-qat:latest`<br><br>`ai/gemma3-qat:4B-Q4_K_M` | 3.88 B | Q4_0 | 131.1K tokens | 5.2 GB | 2.93 GiB |
+| `ai/gemma3-qat:12B-Q4_K_M` | 11.77 B | Q4_0 | 131.1K tokens | 9.0 GB | 7.51 GiB |
+| `ai/gemma3-qat:1B-Q4_K_M` | 999.89 M | Q4_0 | 32.8K tokens | 4.9 GB | 950.82 MiB |
+| `ai/gemma3-qat:27B-Q4_K_M` | 27.01 B | Q4_0 | 131.1K tokens | 18.4 GB | 16.04 GiB |
 
-¹: VRAM estimation.
+¹: VRAM estimated based on model characteristics.
 
-> `:latest` → `4B-Q4_K_M`
+> `latest` → `4B-Q4_K_M`
 
 ## Use this AI model with Docker Model Runner
 

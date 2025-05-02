@@ -30,11 +30,11 @@ Mistral-Nemo-Instruct-2407 is designed for instruction-following tasks and multi
 
 | Model variant | Parameters | Quantization | Context window | VRAM | Size |
 |---------------|------------|--------------|----------------|------|-------|
-| `ai/mistral-nemo:latest`<br><br>`ai/mistral-nemo:12B-Q4_K_M` | 12.25B | IQ2_XXS/Q4_K_M | - | - | 7.48 GB |
+| `ai/mistral-nemo:latest`<br><br>`ai/mistral-nemo:12B-Q4_K_M` | 12B | IQ2_XXS/Q4_K_M | 131.1K tokens | 6.7 GB | 6.96 GiB |
 
-¹: VRAM estimation.
+¹: VRAM estimated based on model characteristics.
 
-> `:latest` → `12B-Q4_K_M`
+> `latest` → `12B-Q4_K_M`
 
 ## Use this AI model with Docker Model Runner
 

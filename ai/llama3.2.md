@@ -31,16 +31,16 @@ Llama 3.2 instruct models are designed for:
 
 | Model variant | Parameters | Quantization | Context window | VRAM | Size |
 |---------------|------------|--------------|----------------|------|-------|
-| `ai/llama3.2:1B-F16` | 1.24B | F16 | - | - | 2.48 GB |
-| `ai/llama3.2:1B-Q4_0` | 1.24B | Q4_0 | - | - | 770.94 MB |
-| `ai/llama3.2:1B-Q8_0` | 1.24B | Q8_0 | - | - | 1.32 GB |
-| `ai/llama3.2:3B-F16` | 3.21B | F16 | - | - | 6.43 GB |
-| `ai/llama3.2:3B-Q4_0` | 3.21B | Q4_0 | - | - | 1.92 GB |
-| `ai/llama3.2:latest`<br><br>`ai/llama3.2:3B-Q4_K_M` | 3.21B | IQ2_XXS/Q4_K_M | - | - | 2.02 GB |
+| `ai/llama3.2:latest`<br><br>`ai/llama3.2:3B-Q4_K_M` | 3B | IQ2_XXS/Q4_K_M | 131.1K tokens | 4.1 GB | 1.87 GiB |
+| `ai/llama3.2:1B-F16` | 1B | F16 | 131.1K tokens | 2.2 GB | 2.30 GiB |
+| `ai/llama3.2:1B-Q4_0` | 1B | Q4_0 | 131.1K tokens | 0.6 GB | 727.75 MiB |
+| `ai/llama3.2:1B-Q8_0` | 1B | Q8_0 | 131.1K tokens | 1.1 GB | 1.22 GiB |
+| `ai/llama3.2:3B-F16` | 3B | F16 | 131.1K tokens | 9.1 GB | 5.98 GiB |
+| `ai/llama3.2:3B-Q4_0` | 3B | Q4_0 | 131.1K tokens | 4.1 GB | 1.78 GiB |
 
-¹: VRAM estimation.
+¹: VRAM estimated based on model characteristics.
 
-> `:latest` → `3B-Q4_K_M`
+> `latest` → `3B-Q4_K_M`
 
 ## Use this AI model with Docker Model Runner
 
