@@ -4,7 +4,7 @@
 -include .env
 
 # Build variables
-BINARY_NAME=updater
+BINARY_NAME=model-cards-cli
 VERSION?=0.1.0
 
 # Go related variables

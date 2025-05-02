@@ -165,7 +165,8 @@ func (c *Client) GetModelVariant(ctx context.Context, repoName, tag string) (dom
 		return variant, fmt.Errorf("no GGUF layer found")
 	}
 
-	tr, err := transport.New(
+	tr, err := transport.NewWithContext(
+		ctx,
 		ref.Context().Registry,
 		authn.Anonymous, // You can use authn.DefaultKeychain if you want support for config-based login
 		http.DefaultTransport,

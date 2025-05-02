@@ -174,9 +174,11 @@ func (g *File) GetVRAM() (float64, string, error) {
 	case strings.Contains(quantFormatted, "Q8"):
 		bytesPerParam = 1
 	case strings.Contains(quantFormatted, "Q5"):
-		bytesPerParam = 0.68
+		bytesPerParam = 0.625
 	case strings.Contains(quantFormatted, "Q4"):
-		bytesPerParam = 0.6
+		bytesPerParam = 0.5
+	case strings.Contains(quantFormatted, "Q2_K"):
+		bytesPerParam = 0.25
 	default:
 		// Fail if we don't know the bytes per parameter
 		return 0, "", fmt.Errorf("unknown quantization: %s", quantFormatted)

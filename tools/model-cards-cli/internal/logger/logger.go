@@ -20,11 +20,6 @@ func init() {
 	})
 }
 
-// Debug logs a message at level Debug
-func Debug(args ...interface{}) {
-	Log.Debug(args...)
-}
-
 // Debugf logs a formatted message at level Debug
 func Debugf(format string, args ...interface{}) {
 	Log.Debugf(format, args...)
@@ -40,34 +35,9 @@ func Infof(format string, args ...interface{}) {
 	Log.Infof(format, args...)
 }
 
-// Warn logs a message at level Warn
-func Warn(args ...interface{}) {
-	Log.Warn(args...)
-}
-
 // Warnf logs a formatted message at level Warn
 func Warnf(format string, args ...interface{}) {
 	Log.Warnf(format, args...)
-}
-
-// Error logs a message at level Error
-func Error(args ...interface{}) {
-	Log.Error(args...)
-}
-
-// Errorf logs a formatted message at level Error
-func Errorf(format string, args ...interface{}) {
-	Log.Errorf(format, args...)
-}
-
-// Fatal logs a message at level Fatal then the process will exit with status set to 1
-func Fatal(args ...interface{}) {
-	Log.Fatal(args...)
-}
-
-// Fatalf logs a formatted message at level Fatal then the process will exit with status set to 1
-func Fatalf(format string, args ...interface{}) {
-	Log.Fatalf(format, args...)
 }
 
 // WithField creates an entry from the standard logger and adds a field to it

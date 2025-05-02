@@ -1,6 +1,6 @@
-# Model Cart Updater
+# Model Cards CLI
 
-Automatically updates the "Available model variants" tables in model card markdown files based on the characteristics of OCI Model Artifacts.
+A command-line tool for working with model cards. It can update the "Available model variants" tables in model card markdown files and inspect model repositories to extract metadata.
 
 ## Features
 
@@ -19,7 +19,7 @@ make build
 
 ## Usage
 
-The updater tool provides two main commands:
+The Model Cards CLI provides two main commands:
 
 1. `update` - Updates the "Available model variants" tables in model card markdown files
 2. `inspect-model` - Inspects a model repository and displays metadata about the model variants
@@ -46,10 +46,10 @@ Or you can run the binary directly if it's already built:
 
 ```bash
 # Update all model files
-./bin/updater update
+./bin/model-cards-cli update
 
 # Update a specific model file
-./bin/updater update --model-file=<model-file.md>
+./bin/model-cards-cli update --model-file=<model-file.md>
 ```
 
 By default, the tool will scan all markdown files in the `ai/` directory and update their "Available model variants" tables. If you specify a model file with the `--model-file` flag or the `MODEL` parameter, it will only update that specific file.
@@ -81,13 +81,13 @@ Or you can run the binary directly if it's already built:
 
 ```bash
 # Inspect all tags in a repository
-./bin/updater inspect-model ai/smollm2
+./bin/model-cards-cli inspect-model ai/smollm2
 
 # Inspect a specific tag
-./bin/updater inspect-model --tag=360M-Q4_K_M ai/smollm2
+./bin/model-cards-cli inspect-model --tag=360M-Q4_K_M ai/smollm2
 
 # Inspect with specific options
-./bin/updater inspect-model --parameters --vram --json ai/smollm2
+./bin/model-cards-cli inspect-model --parameters --vram --json ai/smollm2
 ```
 
 #### Inspect Command Options

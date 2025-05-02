@@ -396,8 +396,8 @@ func main() {
 	if len(os.Args) < 2 {
 		fmt.Println("Expected 'update' or 'inspect-model' subcommand")
 		fmt.Println("Usage:")
-		fmt.Println("  updater update [options]")
-		fmt.Println("  updater inspect-model [options] REPOSITORY")
+		fmt.Println("  model-cards-cli update [options]")
+		fmt.Println("  model-cards-cli inspect-model [options] REPOSITORY")
 		os.Exit(1)
 	}
 
