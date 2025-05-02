@@ -52,6 +52,13 @@ func (g *File) GetParameters() string {
 	if g.file == nil {
 		return ""
 	}
+	// size_label is the human-readable size of the model
+	sizeLabel, found := g.file.Header.MetadataKV.Get("general.size_label")
+	if found {
+		return sizeLabel.ValueString()
+	}
+
+	// If no size label is found, use the parameters which is the exact number of parameters in the model
 	return strings.TrimSpace(g.file.Metadata().Parameters.String())
 }
 
