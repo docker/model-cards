@@ -40,7 +40,9 @@ func (g *File) GetParameters() (float64, string, error) {
 		formattedValue := sizeLabel.ValueString()
 		// Parse the formatted value to get the raw value
 		rawValue := parseParameters(formattedValue)
-		return rawValue, formattedValue, nil
+		if rawValue != 0 { // Skip non-numeric size labels (e.g. "large" in mxbai-embed-large-v1)
+			return rawValue, formattedValue, nil
+		}
 	}
 
 	// If no size label is found, use the parameters which is the exact number of parameters in the model
@@ -157,9 +159,6 @@ func (g *File) GetVRAM() (float64, string, error) {
 	params, _, err := g.GetParameters()
 	if err != nil {
 		return 0, "", fmt.Errorf("failed to get parameters: %w", err)
-	}
-	if params == 0 {
-		return 0, "", fmt.Errorf("parameters value is zero")
 	}
 
 	// Determine quantization
