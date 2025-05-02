@@ -174,7 +174,7 @@ func (c *Client) GetModelVariant(ctx context.Context, repoName, tag string) (dom
 	// Find GGUF layer and parse it
 	var ggufURL string
 	for _, layer := range manifest.Layers {
-		if layer.MediaType == domain.MediaTypeGGUF {
+		if layer.MediaType == "application/vnd.docker.ai.gguf.v3" {
 			// Construct the URL for the GGUF file using the proper registry blob URL format
 			ggufURL = fmt.Sprintf("https://%s/v2/%s/blobs/%s", ref.Context().RegistryStr(), ref.Context().RepositoryStr(), layer.Digest.String())
 			break

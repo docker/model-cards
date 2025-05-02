@@ -1,15 +1,9 @@
-package domain
+package markdown
 
 import (
 	"fmt"
 	"strconv"
 	"strings"
-)
-
-// Constants for formatting and display
-const (
-	// MediaTypeGGUF is the media type for GGUF files in OCI manifests
-	MediaTypeGGUF = "application/vnd.docker.ai.gguf.v3"
 )
 
 // FormatParameters formats the parameters to match the table format
@@ -33,4 +27,21 @@ func FormatParameters(params string) string {
 	}
 
 	return params
+}
+
+// FormatContextLength formats a token count to a human-readable format
+// Examples: 1000 -> "1K tokens", 1500000 -> "1.5M tokens"
+func FormatContextLength(length uint32) string {
+	if length == 0 {
+		return "-"
+	}
+
+	switch {
+	case length >= 1000000:
+		return fmt.Sprintf("%.1fM tokens", float64(length)/1000000)
+	case length >= 1000:
+		return fmt.Sprintf("%.1fK tokens", float64(length)/1000)
+	default:
+		return fmt.Sprintf("%d tokens", length)
+	}
 }

@@ -47,11 +47,8 @@ func (u *Updater) UpdateModelTable(filePath string, variants []domain.ModelVaria
 		if variant.IsLatest {
 			modelVariant := fmt.Sprintf("`%s:latest`<br><br>`%s:%s`", variant.RepoName, variant.RepoName, variant.Tag)
 			latestTag = variant.Tag
-			formattedParams := domain.FormatParameters(variant.Parameters)
-			contextWindow := "-"
-			if variant.ContextLength > 0 {
-				contextWindow = fmt.Sprintf("%d tokens", variant.ContextLength)
-			}
+			formattedParams := FormatParameters(variant.Parameters)
+			contextWindow := FormatContextLength(variant.ContextLength)
 			row := fmt.Sprintf("| %s | %s | %s | %s | - | %s |\n",
 				modelVariant,
 				formattedParams,
@@ -67,11 +64,8 @@ func (u *Updater) UpdateModelTable(filePath string, variants []domain.ModelVaria
 	for _, variant := range variants {
 		if !variant.IsLatest {
 			modelVariant := fmt.Sprintf("`%s:%s`", variant.RepoName, variant.Tag)
-			formattedParams := domain.FormatParameters(variant.Parameters)
-			contextWindow := "-"
-			if variant.ContextLength > 0 {
-				contextWindow = fmt.Sprintf("%d tokens", variant.ContextLength)
-			}
+			formattedParams := FormatParameters(variant.Parameters)
+			contextWindow := FormatContextLength(variant.ContextLength)
 			row := fmt.Sprintf("| %s | %s | %s | %s | - | %s |\n",
 				modelVariant,
 				formattedParams,

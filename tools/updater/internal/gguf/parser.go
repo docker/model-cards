@@ -89,13 +89,13 @@ func (g *File) GetContextLength() uint32 {
 		return 0
 	}
 
-	architecture, ok := g.file.Header.MetadataKV.Get("general.architecture")
-	if !ok {
+	architecture, found := g.file.Header.MetadataKV.Get("general.architecture")
+	if !found {
 		return 0
 	}
 
-	contextLength, ok := g.file.Header.MetadataKV.Get(architecture.ValueString() + ".context_length")
-	if !ok {
+	contextLength, found := g.file.Header.MetadataKV.Get(architecture.ValueString() + ".context_length")
+	if !found {
 		return 0
 	}
 
