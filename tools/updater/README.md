@@ -19,6 +19,13 @@ make build
 
 ## Usage
 
+The updater tool provides two main commands:
+
+1. `update` - Updates the "Available model variants" tables in model card markdown files
+2. `inspect-model` - Inspects a model repository and displays metadata about the model variants
+
+### Update Command
+
 You can use the provided Makefile to build and run the application:
 
 ```bash
@@ -39,18 +46,61 @@ Or you can run the binary directly if it's already built:
 
 ```bash
 # Update all model files
-./bin/updater
+./bin/updater update
 
 # Update a specific model file
-./bin/updater --model-file=<model-file.md>
+./bin/updater update --model-file=<model-file.md>
 ```
 
 By default, the tool will scan all markdown files in the `ai/` directory and update their "Available model variants" tables. If you specify a model file with the `--model-file` flag or the `MODEL` parameter, it will only update that specific file.
 
-### Command-line Options
+#### Update Command Options
 
 - `--model-dir`: Directory containing model markdown files (default: "../../ai")
 - `--model-file`: Specific model markdown file to update (without path)
+- `--log-level`: Log level (debug, info, warn, error) (default: "info")
+
+### Inspect Model Command
+
+The `inspect-model` command allows you to inspect a model repository and display metadata about the model variants. This is useful for getting information about a model without having to update the markdown files.
+
+You can use the provided Makefile to run the inspect command:
+
+```bash
+# Inspect all tags in a repository
+make inspect REPO=ai/smollm2
+
+# Inspect a specific tag
+make inspect REPO=ai/smollm2 TAG=360M-Q4_K_M
+
+# Inspect with specific options
+make inspect REPO=ai/smollm2 OPTIONS="--parameters --vram --json"
+```
+
+Or you can run the binary directly if it's already built:
+
+```bash
+# Inspect all tags in a repository
+./bin/updater inspect-model ai/smollm2
+
+# Inspect a specific tag
+./bin/updater inspect-model --tag=360M-Q4_K_M ai/smollm2
+
+# Inspect with specific options
+./bin/updater inspect-model --parameters --vram --json ai/smollm2
+```
+
+#### Inspect Command Options
+
+- `--tag`: Specific tag to inspect (if not provided, all tags will be inspected)
+- `--all`: Show all metadata (default if no specific options are provided)
+- `--parameters`: Show model parameters
+- `--architecture`: Show model architecture
+- `--quantization`: Show model quantization
+- `--size`: Show model size
+- `--context`: Show model context length
+- `--vram`: Show model VRAM requirements
+- `--json`: Output in JSON format
 - `--log-level`: Log level (debug, info, warn, error) (default: "info")
 
 ## Implementation Details

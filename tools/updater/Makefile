@@ -33,7 +33,7 @@ lint:
 
 run:
 	@echo "Running ${BINARY_NAME} for all models..."
-	@${GOBIN}/${BINARY_NAME}
+	@${GOBIN}/${BINARY_NAME} update
 
 run-single:
 	@if [ -z "$(MODEL)" ]; then \
@@ -41,7 +41,15 @@ run-single:
 		exit 1; \
 	fi
 	@echo "Running ${BINARY_NAME} for single model: $(MODEL)..."
-	@${GOBIN}/${BINARY_NAME} --model-file=$(MODEL)
+	@${GOBIN}/${BINARY_NAME} update --model-file=$(MODEL)
+
+inspect:
+	@if [ -z "$(REPO)" ]; then \
+		echo "Error: REPO parameter is required. Usage: make inspect REPO=<repository> [TAG=<tag>] [OPTIONS=<options>]"; \
+		exit 1; \
+	fi
+	@echo "Inspecting model: $(REPO)$(if $(TAG),:$(TAG),)"
+	@${GOBIN}/${BINARY_NAME} inspect-model $(if $(TAG),--tag=$(TAG),) $(if $(OPTIONS),$(OPTIONS),) $(REPO)
 
 help:
 	@echo "Available targets:"
@@ -51,4 +59,8 @@ help:
 	@echo "  lint             - Run linters"
 	@echo "  run              - Run the binary to update all model files"
 	@echo "  run-single       - Run the binary to update a single model file (Usage: make run-single MODEL=<model-file.md>)"
+	@echo "  inspect          - Inspect a model repository (Usage: make inspect REPO=<repository> [TAG=<tag>] [OPTIONS=<options>])"
+	@echo "                     Example: make inspect REPO=ai/smollm2"
+	@echo "                     Example: make inspect REPO=ai/smollm2 TAG=360M-Q4_K_M"
+	@echo "                     Example: make inspect REPO=ai/smollm2 OPTIONS=\"--parameters --vram --json\""
 	@echo "  help             - Show this help message"
