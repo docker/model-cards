@@ -3,11 +3,12 @@ package registry
 import (
 	"context"
 	"fmt"
+	"net/http"
+
 	"github.com/google/go-containerregistry/pkg/authn"
 	"github.com/google/go-containerregistry/pkg/name"
 	"github.com/google/go-containerregistry/pkg/v1/remote"
 	"github.com/google/go-containerregistry/pkg/v1/remote/transport"
-	"net/http"
 
 	"github.com/docker/model-cards/tools/build-tables/internal/domain"
 	"github.com/docker/model-cards/tools/build-tables/internal/gguf"
@@ -44,40 +45,11 @@ func (c *Client) ListTags(repoName string) ([]string, error) {
 
 // ProcessTags processes all tags for a repository and returns model variants
 func (c *Client) ProcessTags(repoName string, tags []string) ([]domain.ModelVariant, error) {
-	var variants []domain.ModelVariant
-
-	// Variables to track the latest tag
-	var latestTag string
-	var latestQuant string
-	var latestParams string
-
-	// First, find the latest tag if it exists
-	for _, tag := range tags {
-		if tag == "latest" {
-			// Get info for the latest tag
-			variant, err := c.GetModelVariant(context.Background(), repoName, tag)
-			if err != nil {
-				logger.WithFields(logger.Fields{
-					"repository": repoName,
-					"tag":        tag,
-					"error":      err,
-				}).Warn("Failed to get info for tag")
-				continue
-			}
-
-			latestQuant = variant.Quantization
-			latestParams = variant.Parameters
-			break
-		}
-	}
+	// Map to store variants by their descriptor hash
+	variantMap := make(map[string]*domain.ModelVariant)
 
 	// Process each tag
 	for _, tag := range tags {
-		// Skip the latest tag - its handled above
-		if tag == "latest" {
-			continue
-		}
-
 		// Get model info for this tag
 		variant, err := c.GetModelVariant(context.Background(), repoName, tag)
 		if err != nil {
@@ -89,18 +61,24 @@ func (c *Client) ProcessTags(repoName string, tags []string) ([]domain.ModelVari
 			continue
 		}
 
-		// Check if this tag matches the latest tag
-		if latestQuant != "" && variant.Quantization == latestQuant && variant.Parameters == latestParams {
-			variant.IsLatest = true
-			latestTag = tag
-		}
+		// Create a unique key based on the model's properties
+		key := fmt.Sprintf("%s-%s-%s", variant.Parameters, variant.Quantization, variant.Size)
 
-		variants = append(variants, variant)
+		// Check if we already have a variant with these properties
+		if existingVariant, exists := variantMap[key]; exists {
+			// Add the tag to the existing variant
+			existingVariant.Tags = append(existingVariant.Tags, tag)
+		} else {
+			// Create a new variant with the tag
+			variant.Tags = []string{tag}
+			variantMap[key] = &variant
+		}
 	}
 
-	// Log the latest tag mapping if found
-	if latestTag != "" {
-		logger.Infof("Latest tag mapping: %s:latest → %s:%s", repoName, repoName, latestTag)
+	// Convert map to slice
+	var variants []domain.ModelVariant
+	for _, variant := range variantMap {
+		variants = append(variants, *variant)
 	}
 
 	return variants, nil
@@ -112,7 +90,7 @@ func (c *Client) GetModelVariant(ctx context.Context, repoName, tag string) (dom
 
 	variant := domain.ModelVariant{
 		RepoName: repoName,
-		Tag:      tag,
+		Tags:     []string{tag},
 	}
 
 	// Create a reference to the image

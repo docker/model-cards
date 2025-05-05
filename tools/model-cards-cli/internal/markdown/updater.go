@@ -44,9 +44,9 @@ func (u *Updater) UpdateModelTable(filePath string, variants []domain.ModelVaria
 
 	// First, find and add the latest variant if it exists
 	for _, variant := range variants {
-		if variant.IsLatest {
-			modelVariant := fmt.Sprintf("`%s:latest`<br><br>`%s:%s`", variant.RepoName, variant.RepoName, variant.Tag)
-			latestTag = variant.Tag
+		if variant.IsLatest() {
+			latestTag = variant.GetLatestTag()
+			modelVariant := fmt.Sprintf("`%s:latest`<br><br>`%s:%s`", variant.RepoName, variant.RepoName, latestTag)
 			formattedParams := FormatParameters(variant.Parameters)
 			contextWindow := FormatContextLength(variant.ContextLength)
 			vram := fmt.Sprintf("%.1f GB", variant.VRAM)
@@ -64,10 +64,16 @@ func (u *Updater) UpdateModelTable(filePath string, variants []domain.ModelVaria
 
 	// Then add the rest of the variants
 	for _, variant := range variants {
-		if variant.Tag == latestTag {
+		if variant.IsLatest() {
 			continue
 		}
-		modelVariant := fmt.Sprintf("`%s:%s`", variant.RepoName, variant.Tag)
+		// For non-latest variants, show all their tags
+		modelVariant := fmt.Sprintf("`%s:%s`", variant.RepoName, variant.Tags[0])
+		if len(variant.Tags) > 1 {
+			for _, tag := range variant.Tags[1:] {
+				modelVariant += fmt.Sprintf("<br>`%s:%s`", variant.RepoName, tag)
+			}
+		}
 		formattedParams := FormatParameters(variant.Parameters)
 		contextWindow := FormatContextLength(variant.ContextLength)
 		vram := fmt.Sprintf("%.1f GB", variant.VRAM)

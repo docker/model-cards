@@ -8,7 +8,6 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/docker/model-cards/tools/build-tables/internal/domain"
 	"github.com/docker/model-cards/tools/build-tables/internal/logger"
 	"github.com/docker/model-cards/tools/build-tables/internal/markdown"
 	"github.com/docker/model-cards/tools/build-tables/internal/registry"
@@ -18,19 +17,19 @@ import (
 
 // Application encapsulates the main application logic
 type Application struct {
-	client          registry.Client
-	markdownUpdater domain.MarkdownUpdater
-	modelDir        string
-	modelFile       string
+	client    registry.Client
+	updater   markdown.Updater
+	modelDir  string
+	modelFile string
 }
 
 // NewApplication creates a new application instance
-func NewApplication(client registry.Client, markdownUpdater domain.MarkdownUpdater, modelDir string, modelFile string) *Application {
+func NewApplication(client registry.Client, updater markdown.Updater, modelDir string, modelFile string) *Application {
 	return &Application{
-		client:          client,
-		markdownUpdater: markdownUpdater,
-		modelDir:        modelDir,
-		modelFile:       modelFile,
+		client:    client,
+		updater:   updater,
+		modelDir:  modelDir,
+		modelFile: modelFile,
 	}
 }
 
@@ -140,7 +139,7 @@ func (a *Application) processModelFile(filePath string) error {
 	}
 
 	// Update the markdown file with the new table
-	err = a.markdownUpdater.UpdateModelTable(filePath, variants)
+	err = a.updater.UpdateModelTable(filePath, variants)
 	if err != nil {
 		logger.WithFields(logger.Fields{
 			"file":  filePath,
@@ -284,10 +283,7 @@ func main() {
 	// Execute the appropriate command
 	if updateCmd.Parsed() {
 		logger.Info("Starting model-cards updater")
-
-		markdownUpdater := markdown.NewUpdater()
-		app := NewApplication(client, markdownUpdater, *updateModelDir, *updateModelFile)
-
+		app := NewApplication(client, markdown.Updater{}, *updateModelDir, *updateModelFile)
 		if err := app.Run(); err != nil {
 			logger.WithError(err).Errorf("Application failed: %v", err)
 			os.Exit(1)

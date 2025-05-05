@@ -7,25 +7,36 @@ import (
 // ModelVariant represents a single model variant with its properties
 type ModelVariant struct {
 	RepoName      string
-	Tag           string
+	Tags          []string
 	Architecture  string
 	Parameters    string
 	Quantization  string
 	Size          string
-	IsLatest      bool
 	ContextLength uint32
 	VRAM          float64
 	Descriptor    types.ModelDescriptor
 }
 
-// MarkdownUpdater defines the interface for updating markdown files
-type MarkdownUpdater interface {
-	// UpdateModelTable updates the "Available model variants" table in a markdown file
-	UpdateModelTable(filePath string, variants []ModelVariant) error
+// IsLatest returns true if this variant has the "latest" tag
+func (v ModelVariant) IsLatest() bool {
+	for _, tag := range v.Tags {
+		if tag == "latest" {
+			return true
+		}
+	}
+	return false
 }
 
-// ModelProcessor defines the interface for processing model files
-type ModelProcessor interface {
-	// ProcessModelFile processes a single model markdown file
-	ProcessModelFile(filePath string) error
+// GetLatestTag returns the non-latest tag that corresponds to the latest tag
+func (v ModelVariant) GetLatestTag() string {
+	if !v.IsLatest() {
+		return ""
+	}
+	// Return the first non-latest tag
+	for _, tag := range v.Tags {
+		if tag != "latest" {
+			return tag
+		}
+	}
+	return ""
 }
