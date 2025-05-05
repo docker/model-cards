@@ -11,7 +11,7 @@ type ModelVariant struct {
 	Architecture  string
 	Parameters    string
 	Quantization  string
-	Size          string
+	Size          uint64
 	ContextLength uint32
 	VRAM          float64
 	Descriptor    types.ModelDescriptor

@@ -68,44 +68,14 @@ func (g *File) GetQuantization() parser.GGUFFileType {
 	return g.file.Metadata().FileType
 }
 
-// GetSize returns the model size (raw bytes, formatted string, error)
-func (g *File) GetSize() (int64, string, error) {
-	if g.file == nil {
-		return 0, "", fmt.Errorf("file is nil")
+// GetSize returns the model size (bytes, error)
+func (g *File) GetSize() (uint64, error) {
+	size := g.file.Metadata().Size
+	if size == 0 {
+		return 0, NewFieldNotFoundError("size")
 	}
 
-	sizeStr := g.file.Metadata().Size.String()
-	if sizeStr == "" {
-		return 0, "", NewFieldNotFoundError("size")
-	}
-
-	// Parse the size string to get the raw value in bytes
-	// The size string is typically in the format "123.45 MB" or similar
-	rawValue := int64(0)
-	formattedValue := sizeStr
-
-	// Extract the numeric part and convert to bytes
-	parts := strings.Fields(sizeStr)
-	if len(parts) >= 2 {
-		value, err := strconv.ParseFloat(parts[0], 64)
-		if err == nil {
-			unit := strings.ToUpper(parts[1])
-			switch {
-			case strings.HasPrefix(unit, "B"):
-				rawValue = int64(value)
-			case strings.HasPrefix(unit, "KB") || strings.HasPrefix(unit, "K"):
-				rawValue = int64(value * 1024)
-			case strings.HasPrefix(unit, "MB") || strings.HasPrefix(unit, "M"):
-				rawValue = int64(value * 1024 * 1024)
-			case strings.HasPrefix(unit, "GB") || strings.HasPrefix(unit, "G"):
-				rawValue = int64(value * 1024 * 1024 * 1024)
-			case strings.HasPrefix(unit, "TB") || strings.HasPrefix(unit, "T"):
-				rawValue = int64(value * 1024 * 1024 * 1024 * 1024)
-			}
-		}
-	}
-
-	return rawValue, formattedValue, nil
+	return uint64(size), nil
 }
 
 // GetContextLength returns the model context length (raw length, formatted string, error)

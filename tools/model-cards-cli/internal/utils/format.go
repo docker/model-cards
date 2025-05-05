@@ -62,3 +62,24 @@ func FormatContextLength(tokens uint32) string {
 		return fmt.Sprintf("%d tokens", tokens)
 	}
 }
+
+// FormatSize converts bytes to GB or MB and returns a formatted string
+// The value is rounded to 2 decimal places
+func FormatSize(bytes uint64) string {
+	const (
+		MB = 1024 * 1024
+		GB = MB * 1024
+	)
+
+	// Convert to GB if size is large enough
+	if bytes >= GB {
+		gb := float64(bytes) / float64(GB)
+		rounded := math.Round(gb*100) / 100
+		return fmt.Sprintf("%.2f GB", rounded)
+	}
+
+	// Otherwise convert to MB
+	mb := float64(bytes) / float64(MB)
+	rounded := math.Round(mb*100) / 100
+	return fmt.Sprintf("%.2f MB", rounded)
+}

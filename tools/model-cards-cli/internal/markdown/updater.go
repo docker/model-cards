@@ -97,15 +97,16 @@ func (u *Updater) UpdateModelTable(filePath string, variants []domain.ModelVaria
 }
 
 func (u *Updater) getRow(variant domain.ModelVariant, modelVariant string) string {
-	formattedParams := utils.FormatParameters(variant.Parameters)
+	parameters := utils.FormatParameters(variant.Parameters)
 	contextWindow := utils.FormatContextLength(variant.ContextLength)
+	size := utils.FormatSize(variant.Size)
 	vram := utils.FormatVRAM(variant.VRAM)
 	row := fmt.Sprintf("| %s | %s | %s | %s | %s | %s |\n",
 		modelVariant,
-		formattedParams,
+		parameters,
 		variant.Quantization,
 		contextWindow,
 		vram,
-		variant.Size)
+		size)
 	return row
 }

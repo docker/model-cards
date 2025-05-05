@@ -13,8 +13,8 @@ type ModelDescriptor interface {
 	// GetQuantization returns the model quantization
 	GetQuantization() parser.GGUFFileType
 
-	// GetSize returns the model size (raw bytes, formatted string, error)
-	GetSize() (int64, string, error)
+	// GetSize returns the model size (bytes, error)
+	GetSize() (uint64, error)
 
 	// GetContextLength returns the model context length (context length, error)
 	GetContextLength() (uint32, error)

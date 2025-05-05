@@ -57,7 +57,7 @@ func (c *Client) ProcessTags(repoName string, tags []string) ([]domain.ModelVari
 		}
 
 		// Create a unique key based on the model's properties
-		key := fmt.Sprintf("%s-%s-%s", variant.Parameters, variant.Quantization, variant.Size)
+		key := fmt.Sprintf("%s-%s", variant.Parameters, variant.Quantization)
 
 		// Check if we already have a variant with these properties
 		if existingVariant, exists := variantMap[key]; exists {
@@ -179,7 +179,7 @@ func (c *Client) GetModelVariant(ctx context.Context, repoName, tag string) (dom
 	}
 	variant.Quantization = quantization.String()
 
-	_, formattedSize, err := parsedGGUF.GetSize()
+	size, err := parsedGGUF.GetSize()
 	if err != nil {
 		logger.WithFields(logger.Fields{
 			"repository": repoName,
@@ -187,7 +187,7 @@ func (c *Client) GetModelVariant(ctx context.Context, repoName, tag string) (dom
 			"error":      err,
 		}).Warn("Failed to get size")
 	}
-	variant.Size = formattedSize
+	variant.Size = size
 
 	contextLength, err := parsedGGUF.GetContextLength()
 	if err != nil {
