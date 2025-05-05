@@ -195,7 +195,7 @@ func (c *Client) GetModelVariant(ctx context.Context, repoName, tag string) (dom
 		return variant, fmt.Errorf("failed to parse GGUF: %w", err)
 	}
 
-	variant.GGUF = parsedGGUF
+	variant.Descriptor = parsedGGUF
 
 	// Fill in the variant information
 	_, formattedParams, err := parsedGGUF.GetParameters()

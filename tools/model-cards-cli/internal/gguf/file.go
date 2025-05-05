@@ -58,20 +58,9 @@ func (g *File) GetParameters() (float64, string, error) {
 	return rawValue, formattedValue, nil
 }
 
-// GetArchitecture returns the model architecture (raw string, formatted string, error)
-func (g *File) GetArchitecture() (string, string, error) {
-	if g.file == nil {
-		return "", "", fmt.Errorf("file is nil")
-	}
-
-	architecture := g.file.Metadata().Architecture
-	if architecture == "" {
-		return "", "", NewFieldNotFoundError("architecture")
-	}
-
-	rawValue := architecture
-	formattedValue := strings.TrimSpace(rawValue)
-	return rawValue, formattedValue, nil
+// GetArchitecture returns the model architecture
+func (g *File) GetArchitecture() string {
+	return g.file.Metadata().Architecture
 }
 
 // GetQuantization returns the model quantization (raw string, formatted string, error)
@@ -186,20 +175,15 @@ func (g *File) GetVRAM() (float64, string, error) {
 		return 0, "", fmt.Errorf("unknown quantization: %s", quantFormatted)
 	}
 
-	// Get architecture prefix for metadata lookups
-	_, archFormatted, err := g.GetArchitecture()
-	if err != nil {
-		return 0, "", fmt.Errorf("failed to get architecture: %w", err)
-	}
-
 	// Extract KV cache dimensions
-	nLayer, found := g.file.Header.MetadataKV.Get(archFormatted + ".block_count")
+	arch := g.GetArchitecture()
+	nLayer, found := g.file.Header.MetadataKV.Get(arch + ".block_count")
 	if !found {
-		return 0, "", NewFieldNotFoundError(archFormatted + ".block_count")
+		return 0, "", NewFieldNotFoundError(arch + ".block_count")
 	}
-	nEmb, found := g.file.Header.MetadataKV.Get(archFormatted + ".embedding_length")
+	nEmb, found := g.file.Header.MetadataKV.Get(arch + ".embedding_length")
 	if !found {
-		return 0, "", NewFieldNotFoundError(archFormatted + ".embedding_length")
+		return 0, "", NewFieldNotFoundError(arch + ".embedding_length")
 	}
 
 	// Get context length

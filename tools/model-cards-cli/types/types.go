@@ -1,12 +1,12 @@
 package types
 
-// GGUFFile represents the metadata from a GGUF file
-type GGUFFile interface {
+// ModelDescriptor represents the data of a Model
+type ModelDescriptor interface {
 	// GetParameters returns the model parameters (raw count, formatted string, error)
 	GetParameters() (float64, string, error)
 
-	// GetArchitecture returns the model architecture (raw string, formatted string, error)
-	GetArchitecture() (string, string, error)
+	// GetArchitecture returns the model architecture
+	GetArchitecture() string
 
 	// GetQuantization returns the model quantization (raw string, formatted string, error)
 	GetQuantization() (string, string, error)

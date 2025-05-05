@@ -17,7 +17,7 @@ func NewParser() *Parser {
 }
 
 // ParseRemote parses a remote GGUF file
-func (p *Parser) ParseRemote(ctx context.Context, url, token string) (types.GGUFFile, error) {
+func (p *Parser) ParseRemote(ctx context.Context, url, token string) (types.ModelDescriptor, error) {
 	gf, err := parser.ParseGGUFFileRemote(ctx, url, parser.UseBearerAuth(token))
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse GGUF: %w", err)

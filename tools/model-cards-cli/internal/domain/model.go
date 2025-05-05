@@ -9,13 +9,14 @@ import (
 type ModelVariant struct {
 	RepoName      string
 	Tag           string
+	Architecture  string
 	Parameters    string
 	Quantization  string
 	Size          string
 	IsLatest      bool
 	ContextLength uint32
 	VRAM          float64
-	GGUF          types.GGUFFile
+	Descriptor    types.ModelDescriptor
 }
 
 // RegistryClient defines the interface for interacting with model registries
