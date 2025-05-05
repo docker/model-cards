@@ -73,8 +73,8 @@ make inspect REPO=ai/smollm2
 # Inspect a specific tag
 make inspect REPO=ai/smollm2 TAG=360M-Q4_K_M
 
-# Inspect with specific options
-make inspect REPO=ai/smollm2 OPTIONS="--parameters --vram --json"
+# Inspect with metadata
+make inspect REPO=ai/smollm2 OPTIONS="--all"
 ```
 
 Or you can run the binary directly if it's already built:
@@ -87,55 +87,5 @@ Or you can run the binary directly if it's already built:
 ./bin/model-cards-cli inspect-model --tag=360M-Q4_K_M ai/smollm2
 
 # Inspect with specific options
-./bin/model-cards-cli inspect-model --parameters --vram --json ai/smollm2
+./bin/model-cards-cli inspect-model --all ai/smollm2
 ```
-
-#### Inspect Command Options
-
-- `--tag`: Specific tag to inspect (if not provided, all tags will be inspected)
-- `--all`: Show all metadata (default if no specific options are provided)
-- `--parameters`: Show model parameters
-- `--architecture`: Show model architecture
-- `--quantization`: Show model quantization
-- `--size`: Show model size
-- `--context`: Show model context length
-- `--vram`: Show model VRAM requirements
-- `--json`: Output in JSON format
-- `--log-level`: Log level (debug, info, warn, error) (default: "info")
-
-## Implementation Details
-
-### Domain Models and Interfaces
-
-The application uses a clean architecture approach with well-defined interfaces:
-
-- `RegistryClient`: Interacts with OCI registries to fetch model information
-- `MarkdownUpdater`: Updates markdown files with model information
-- `GGUFParser`: Parses GGUF files to extract metadata
-- `ModelProcessor`: Processes model files
-
-### OCI Registry Interaction
-
-The application uses `github.com/google/go-containerregistry` to:
-- List tags for a repository
-- Fetch manifests
-- Identify layers by mediaType
-- Access layer content without downloading the entire file
-
-### GGUF Metadata Extraction
-
-The application uses `github.com/gpustack/gguf-parser-go` to:
-- Parse GGUF headers and metadata without downloading the entire file
-- Extract parameters, quantization, and other relevant information
-
-### Markdown File Processing
-
-The application:
-- Finds the "Available model variants" section
-- Generates a new table with the extracted information
-- Updates the file with the new table
-- Preserves the rest of the file content
-
-## License
-
-Same as the parent project.
