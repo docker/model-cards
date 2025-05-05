@@ -43,13 +43,22 @@ run-single:
 	@echo "Running ${BINARY_NAME} for single model: $(MODEL)..."
 	@${GOBIN}/${BINARY_NAME} update --model-file=$(MODEL)
 
+# Define variables for inspect command
+REPOSITORY ?=
+TAG ?=
+OPTIONS ?=
+
 inspect:
-	@if [ -z "$(REPO)" ]; then \
-		echo "Error: REPO parameter is required. Usage: make inspect REPO=<repository> [TAG=<tag>] [OPTIONS=<options>]"; \
+	@if [ -z "$(REPOSITORY)" ]; then \
+		echo "Error: REPOSITORY parameter is required. Usage: make inspect REPOSITORY=<repository> [TAG=<tag>] [OPTIONS=<options>]"; \
 		exit 1; \
 	fi
-	@echo "Inspecting model: $(REPO)$(if $(TAG),:$(TAG),)"
-	@${GOBIN}/${BINARY_NAME} inspect-model $(if $(TAG),--tag=$(TAG),) $(if $(OPTIONS),$(OPTIONS),) $(REPO)
+	@echo "Inspecting model: $(REPOSITORY)$(if $(TAG),:$(TAG),)"
+	@${GOBIN}/${BINARY_NAME} inspect-model $(if $(TAG),--tag=$(TAG),) $(if $(OPTIONS),$(OPTIONS),) $(REPOSITORY)
+
+# This is needed to handle the arguments properly
+%:
+	@:
 
 help:
 	@echo "Available targets:"
@@ -59,8 +68,8 @@ help:
 	@echo "  lint             - Run linters"
 	@echo "  run              - Run the binary to update all model files"
 	@echo "  run-single       - Run the binary to update a single model file (Usage: make run-single MODEL=<model-file.md>)"
-	@echo "  inspect          - Inspect a model repository (Usage: make inspect REPO=<repository> [TAG=<tag>] [OPTIONS=<options>])"
-	@echo "                     Example: make inspect REPO=ai/smollm2"
-	@echo "                     Example: make inspect REPO=ai/smollm2 TAG=360M-Q4_K_M"
-	@echo "                     Example: make inspect REPO=ai/smollm2 OPTIONS=\"--parameters --vram --json\""
+	@echo "  inspect          - Inspect a model repository (Usage: make inspect REPOSITORY=<repository> [TAG=<tag>] [OPTIONS=<options>])"
+	@echo "                     Example: make inspect REPOSITORY=ai/smollm2"
+	@echo "                     Example: make inspect REPOSITORY=ai/smollm2 TAG=360M-Q4_K_M"
+	@echo "                     Example: make inspect REPOSITORY=ai/smollm2 OPTIONS=\"--all\""
 	@echo "  help             - Show this help message"

@@ -160,11 +160,12 @@ type ModelInspector struct {
 }
 
 // NewModelInspector creates a new model inspector
-func NewModelInspector(client registry.Client, repository, tag string) *ModelInspector {
+func NewModelInspector(client registry.Client, repository, tag string, showAll bool) *ModelInspector {
 	return &ModelInspector{
 		client:     client,
 		repository: repository,
 		tag:        tag,
+		showAll:    showAll,
 	}
 }
 
@@ -212,10 +213,12 @@ func (m *ModelInspector) inspectTag(repository, tag string) error {
 	fmt.Printf("   • Context      : %s\n", utils.FormatContextLength(variant.ContextLength))
 	fmt.Printf("   • VRAM         : %s\n", utils.FormatVRAM(variant.VRAM))
 
-	// Print the metadata
-	fmt.Println("   • Metadata     :")
-	for key, value := range variant.Descriptor.GetMetadata() {
-		fmt.Printf("     • %s: %s\n", key, value)
+	// Only print metadata if showAll is true
+	if m.showAll {
+		fmt.Println("   • Metadata     :")
+		for key, value := range variant.Descriptor.GetMetadata() {
+			fmt.Printf("     • %s: %s\n", key, value)
+		}
 	}
 
 	return nil
@@ -234,6 +237,7 @@ func main() {
 	// Inspect command flags
 	inspectLogLevel := inspectCmd.String("log-level", "info", "Log level (debug, info, warn, error)")
 	inspectTag := inspectCmd.String("tag", "", "Specific tag to inspect")
+	inspectAll := inspectCmd.Bool("all", false, "Show all metadata")
 
 	// Check if a command is provided
 	if len(os.Args) < 2 {
@@ -303,7 +307,7 @@ func main() {
 
 		repository := args[0]
 
-		inspector := NewModelInspector(client, repository, *inspectTag)
+		inspector := NewModelInspector(client, repository, *inspectTag, *inspectAll)
 
 		if err := inspector.Run(); err != nil {
 			logger.WithError(err).Errorf("Inspection failed: %v", err)
