@@ -25,20 +25,15 @@ func NewClient() Client {
 
 // ListTags lists all tags for a repository
 func (c *Client) ListTags(repoName string) ([]string, error) {
-	// Create a repository reference
 	repo, err := name.NewRepository(repoName)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create repository reference: %v", err)
 	}
-
 	logger.Infof("Listing tags for repository: %s", repo.String())
-
-	// List tags with authentication
 	tags, err := remote.List(repo, remote.WithAuthFromKeychain(authn.DefaultKeychain))
 	if err != nil {
 		return nil, fmt.Errorf("failed to list tags: %v", err)
 	}
-
 	logger.Infof("Found %d tags: %v", len(tags), tags)
 	return tags, nil
 }
@@ -174,7 +169,7 @@ func (c *Client) GetModelVariant(ctx context.Context, repoName, tag string) (dom
 	}
 	variant.Parameters = formattedParams
 
-	_, formattedQuant, err := parsedGGUF.GetQuantization()
+	quantization := parsedGGUF.GetQuantization()
 	if err != nil {
 		logger.WithFields(logger.Fields{
 			"repository": repoName,
@@ -182,7 +177,7 @@ func (c *Client) GetModelVariant(ctx context.Context, repoName, tag string) (dom
 			"error":      err,
 		}).Warn("Failed to get quantization")
 	}
-	variant.Quantization = formattedQuant
+	variant.Quantization = quantization.String()
 
 	_, formattedSize, err := parsedGGUF.GetSize()
 	if err != nil {
@@ -206,7 +201,7 @@ func (c *Client) GetModelVariant(ctx context.Context, repoName, tag string) (dom
 		variant.ContextLength = contextLength
 	}
 
-	vram, _, err := parsedGGUF.GetVRAM()
+	vram, err := parsedGGUF.GetVRAM()
 	if err != nil {
 		logger.WithFields(logger.Fields{
 			"repository": repoName,

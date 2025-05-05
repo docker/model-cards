@@ -64,19 +64,8 @@ func (g *File) GetArchitecture() string {
 }
 
 // GetQuantization returns the model quantization (raw string, formatted string, error)
-func (g *File) GetQuantization() (string, string, error) {
-	if g.file == nil {
-		return "", "", fmt.Errorf("file is nil")
-	}
-
-	fileTypeStr := g.file.Metadata().FileType.String()
-	if fileTypeStr == "" {
-		return "", "", NewFieldNotFoundError("file_type")
-	}
-
-	rawValue := fileTypeStr
-	formattedValue := strings.TrimSpace(rawValue)
-	return rawValue, formattedValue, nil
+func (g *File) GetQuantization() parser.GGUFFileType {
+	return g.file.Metadata().FileType
 }
 
 // GetSize returns the model size (raw bytes, formatted string, error)
@@ -140,68 +129,58 @@ func (g *File) GetContextLength() (uint32, string, error) {
 	return rawValue, formattedValue, nil
 }
 
-// GetVRAM returns the estimated VRAM requirements (raw GB, formatted string, error)
-func (g *File) GetVRAM() (float64, string, error) {
-	if g.file == nil {
-		return 0, "", fmt.Errorf("file is nil")
-	}
-
+// GetVRAM returns the estimated VRAM requirements (bytes, error)
+func (g *File) GetVRAM() (float64, error) {
 	// Get parameter count
 	params, _, err := g.GetParameters()
 	if err != nil {
-		return 0, "", fmt.Errorf("failed to get parameters: %w", err)
+		return 0, fmt.Errorf("failed to get parameters: %w", err)
 	}
 
 	// Determine quantization
-	_, quantFormatted, err := g.GetQuantization()
-	if err != nil {
-		return 0, "", fmt.Errorf("failed to get quantization: %w", err)
+	quantization := g.GetQuantization()
+	ggmlType := quantization.GGMLType()
+	trait, ok := ggmlType.Trait()
+	if !ok {
+		return 0, fmt.Errorf("unknown quantization type: %v", quantization)
 	}
 
+	// Calculate bytes per parameter based on quantization type
 	var bytesPerParam float64
-	switch {
-	case strings.Contains(quantFormatted, "F16"):
-		bytesPerParam = 2
-	case strings.Contains(quantFormatted, "Q8"):
-		bytesPerParam = 1
-	case strings.Contains(quantFormatted, "Q5"):
-		bytesPerParam = 0.625
-	case strings.Contains(quantFormatted, "Q4"):
-		bytesPerParam = 0.5
-	case strings.Contains(quantFormatted, "Q2_K"):
-		bytesPerParam = 0.25
-	default:
-		// Fail if we don't know the bytes per parameter
-		return 0, "", fmt.Errorf("unknown quantization: %s", quantFormatted)
+	if trait.Quantized {
+		// For quantized types, calculate bytes per parameter based on type size and block size
+		bytesPerParam = float64(trait.TypeSize) / float64(trait.BlockSize)
+	} else {
+		// For non-quantized types, use the type size directly
+		bytesPerParam = float64(trait.TypeSize)
 	}
 
 	// Extract KV cache dimensions
 	arch := g.GetArchitecture()
 	nLayer, found := g.file.Header.MetadataKV.Get(arch + ".block_count")
 	if !found {
-		return 0, "", NewFieldNotFoundError(arch + ".block_count")
+		return 0, NewFieldNotFoundError(arch + ".block_count")
 	}
 	nEmb, found := g.file.Header.MetadataKV.Get(arch + ".embedding_length")
 	if !found {
-		return 0, "", NewFieldNotFoundError(arch + ".embedding_length")
+		return 0, NewFieldNotFoundError(arch + ".embedding_length")
 	}
 
 	// Get context length
 	contextLength, _, err := g.GetContextLength()
 	if err != nil {
-		return 0, "", fmt.Errorf("failed to get context length: %w", err)
+		return 0, fmt.Errorf("failed to get context length: %w", err)
 	}
 
 	// Calculate model weights size
-	modelSizeGB := (params * bytesPerParam) / (1024 * 1024 * 1024)
+	modelSize := params * bytesPerParam
 	// Calculate KV cache size
 	kvCacheBytes := contextLength * nLayer.ValueUint32() * nEmb.ValueUint32() * 2 * 2
-	kvCacheGB := float64(kvCacheBytes) / (1024 * 1024 * 1024)
+	kvCache := float64(kvCacheBytes)
 
 	// Total VRAM estimate with 20% overhead
-	totalVRAM := (modelSizeGB + kvCacheGB) * 1.2
-	formattedValue := fmt.Sprintf("%.2f GB", totalVRAM)
-	return totalVRAM, formattedValue, nil
+	totalVRAM := (modelSize + kvCache) * 1.2
+	return totalVRAM, nil
 }
 
 // parseParameters converts parameter string to float64
