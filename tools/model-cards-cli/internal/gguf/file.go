@@ -109,24 +109,18 @@ func (g *File) GetSize() (int64, string, error) {
 }
 
 // GetContextLength returns the model context length (raw length, formatted string, error)
-func (g *File) GetContextLength() (uint32, string, error) {
-	if g.file == nil {
-		return 0, "", fmt.Errorf("file is nil")
-	}
-
+func (g *File) GetContextLength() (uint32, error) {
 	architecture, found := g.file.Header.MetadataKV.Get("general.architecture")
 	if !found {
-		return 0, "", NewFieldNotFoundError("general.architecture")
+		return 0, NewFieldNotFoundError("general.architecture")
 	}
 
 	contextLength, found := g.file.Header.MetadataKV.Get(architecture.ValueString() + ".context_length")
 	if !found {
-		return 0, "", NewFieldNotFoundError(architecture.ValueString() + ".context_length")
+		return 0, NewFieldNotFoundError(architecture.ValueString() + ".context_length")
 	}
 
-	rawValue := contextLength.ValueUint32()
-	formattedValue := fmt.Sprintf("%d", rawValue)
-	return rawValue, formattedValue, nil
+	return contextLength.ValueUint32(), nil
 }
 
 // GetVRAM returns the estimated VRAM requirements (bytes, error)
@@ -167,7 +161,7 @@ func (g *File) GetVRAM() (float64, error) {
 	}
 
 	// Get context length
-	contextLength, _, err := g.GetContextLength()
+	contextLength, err := g.GetContextLength()
 	if err != nil {
 		return 0, fmt.Errorf("failed to get context length: %w", err)
 	}

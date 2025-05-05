@@ -189,7 +189,7 @@ func (c *Client) GetModelVariant(ctx context.Context, repoName, tag string) (dom
 	}
 	variant.Size = formattedSize
 
-	contextLength, _, err := parsedGGUF.GetContextLength()
+	contextLength, err := parsedGGUF.GetContextLength()
 	if err != nil {
 		logger.WithFields(logger.Fields{
 			"repository": repoName,

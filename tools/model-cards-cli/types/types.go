@@ -16,8 +16,8 @@ type ModelDescriptor interface {
 	// GetSize returns the model size (raw bytes, formatted string, error)
 	GetSize() (int64, string, error)
 
-	// GetContextLength returns the model context length (raw length, formatted string, error)
-	GetContextLength() (uint32, string, error)
+	// GetContextLength returns the model context length (context length, error)
+	GetContextLength() (uint32, error)
 
 	// GetVRAM returns the estimated VRAM requirements (bytes, error)
 	GetVRAM() (float64, error)

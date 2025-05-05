@@ -209,7 +209,7 @@ func (m *ModelInspector) inspectTag(repository, tag string) error {
 	fmt.Printf("   • Architecture : %s\n", variant.Descriptor.GetArchitecture())
 	fmt.Printf("   • Quantization : %s\n", variant.Quantization)
 	fmt.Printf("   • Size         : %s\n", variant.Size)
-	fmt.Printf("   • Context      : %d tokens\n", variant.ContextLength)
+	fmt.Printf("   • Context      : %s\n", utils.FormatContextLength(variant.ContextLength))
 	fmt.Printf("   • VRAM         : %s\n", utils.FormatVRAM(variant.VRAM))
 
 	// Print the metadata
