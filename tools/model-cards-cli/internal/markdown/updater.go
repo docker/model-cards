@@ -2,6 +2,7 @@ package markdown
 
 import (
 	"fmt"
+	"github.com/docker/model-cards/tools/build-tables/internal/utils"
 	"os"
 	"regexp"
 	"strings"
@@ -11,11 +12,6 @@ import (
 
 // Updater implements the domain.MarkdownUpdater interface
 type Updater struct{}
-
-// NewUpdater creates a new markdown updater
-func NewUpdater() *Updater {
-	return &Updater{}
-}
 
 // UpdateModelTable updates the "Available model variants" table in a markdown file
 func (u *Updater) UpdateModelTable(filePath string, variants []domain.ModelVariant) error {
@@ -47,16 +43,7 @@ func (u *Updater) UpdateModelTable(filePath string, variants []domain.ModelVaria
 		if variant.IsLatest() {
 			latestTag = variant.GetLatestTag()
 			modelVariant := fmt.Sprintf("`%s:latest`<br><br>`%s:%s`", variant.RepoName, variant.RepoName, latestTag)
-			formattedParams := FormatParameters(variant.Parameters)
-			contextWindow := FormatContextLength(variant.ContextLength)
-			vram := fmt.Sprintf("%.1f GB", variant.VRAM)
-			row := fmt.Sprintf("| %s | %s | %s | %s | %s | %s |\n",
-				modelVariant,
-				formattedParams,
-				variant.Quantization,
-				contextWindow,
-				vram,
-				variant.Size)
+			row := u.getRow(variant, modelVariant)
 			tableBuilder.WriteString(row)
 			break
 		}
@@ -69,21 +56,7 @@ func (u *Updater) UpdateModelTable(filePath string, variants []domain.ModelVaria
 		}
 		// For non-latest variants, show all their tags
 		modelVariant := fmt.Sprintf("`%s:%s`", variant.RepoName, variant.Tags[0])
-		if len(variant.Tags) > 1 {
-			for _, tag := range variant.Tags[1:] {
-				modelVariant += fmt.Sprintf("<br>`%s:%s`", variant.RepoName, tag)
-			}
-		}
-		formattedParams := FormatParameters(variant.Parameters)
-		contextWindow := FormatContextLength(variant.ContextLength)
-		vram := fmt.Sprintf("%.1f GB", variant.VRAM)
-		row := fmt.Sprintf("| %s | %s | %s | %s | %s | %s |\n",
-			modelVariant,
-			formattedParams,
-			variant.Quantization,
-			contextWindow,
-			vram,
-			variant.Size)
+		row := u.getRow(variant, modelVariant)
 		tableBuilder.WriteString(row)
 	}
 
@@ -121,4 +94,18 @@ func (u *Updater) UpdateModelTable(filePath string, variants []domain.ModelVaria
 	}
 
 	return nil
+}
+
+func (u *Updater) getRow(variant domain.ModelVariant, modelVariant string) string {
+	formattedParams := utils.FormatParameters(variant.Parameters)
+	contextWindow := utils.FormatContextLength(variant.ContextLength)
+	vram := utils.FormatVRAM(variant.VRAM)
+	row := fmt.Sprintf("| %s | %s | %s | %s | %s | %s |\n",
+		modelVariant,
+		formattedParams,
+		variant.Quantization,
+		contextWindow,
+		vram,
+		variant.Size)
+	return row
 }

@@ -3,7 +3,32 @@ package utils
 import (
 	"fmt"
 	"math"
+	"strconv"
+	"strings"
 )
+
+// FormatParameters formats the parameters to match the table format
+func FormatParameters(params string) string {
+	// If already formatted with M or B suffix, return as is
+	if strings.HasSuffix(params, "M") || strings.HasSuffix(params, "B") {
+		return params
+	}
+
+	// Try to parse as a number
+	num, err := strconv.ParseFloat(params, 64)
+	if err != nil {
+		return params
+	}
+
+	// Format based on size
+	if num >= 1000000000 {
+		return fmt.Sprintf("%.1fB", num/1000000000)
+	} else if num >= 1000000 {
+		return fmt.Sprintf("%.0fM", num/1000000)
+	}
+
+	return params
+}
 
 // FormatVRAM converts bytes to GB and returns a formatted string
 // The value is rounded to 2 decimal places
