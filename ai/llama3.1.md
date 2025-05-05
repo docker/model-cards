@@ -33,8 +33,8 @@
 
 | Model variant | Parameters | Quantization | Context window | VRAM¹ | Size |
 |---------------|------------|--------------|----------------|------|-------|
-| `ai/llama3.1:latest`<br><br>`ai/llama3.1:8B-Q4_K_M` | 8B | IQ2_XXS/Q4_K_M | 131.1K tokens | 4.5 GB | 4.58 GiB |
-| `ai/llama3.1:8B-F16` | 8B | F16 | 131.1K tokens | 17.9 GB | 14.96 GiB |
+| `ai/llama3.1:latest`<br><br>`ai/llama3.1:8B-Q4_K_M` | 8B | IQ2_XXS/Q4_K_M | 131K tokens | 2.31 GB | 4.58 GB |
+| `ai/llama3.1:8B-F16` | 8B | F16 | 131K tokens | 17.88 GB | 14.96 GB |
 
 ¹: VRAM estimated based on model characteristics.
 

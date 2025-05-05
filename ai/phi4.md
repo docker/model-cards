@@ -29,9 +29,9 @@ Phi-4 is designed for:
 
 | Model variant | Parameters | Quantization | Context window | VRAM¹ | Size |
 |---------------|------------|--------------|----------------|------|-------|
-| `ai/phi4:latest`<br><br>`ai/phi4:14B-Q4_K_M` | 15B | IQ2_XXS/Q4_K_M | 16.4K tokens | 9.0 GB | 8.43 GiB |
-| `ai/phi4:14B-F16` | 15B | F16 | 16.4K tokens | 34.1 GB | 27.31 GiB |
-| `ai/phi4:14B-Q4_0` | 15B | Q4_0 | 16.4K tokens | 9.0 GB | 7.80 GiB |
+| `ai/phi4:latest`<br><br>`ai/phi4:14B-Q4_K_M` | 15B | IQ2_XXS/Q4_K_M | 16K tokens | 4.92 GB | 8.43 GB |
+| `ai/phi4:14B-F16` | 15B | F16 | 16K tokens | 34.13 GB | 27.31 GB |
+| `ai/phi4:14B-Q4_0` | 15B | Q4_0 | 16K tokens | 10.03 GB | 7.80 GB |
 
 ¹: VRAM estimated based on model characteristics.
 
