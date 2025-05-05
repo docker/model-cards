@@ -18,16 +18,16 @@ import (
 
 // Application encapsulates the main application logic
 type Application struct {
-	registryClient  domain.RegistryClient
+	client          registry.Client
 	markdownUpdater domain.MarkdownUpdater
 	modelDir        string
 	modelFile       string
 }
 
 // NewApplication creates a new application instance
-func NewApplication(registryClient domain.RegistryClient, markdownUpdater domain.MarkdownUpdater, modelDir string, modelFile string) *Application {
+func NewApplication(client registry.Client, markdownUpdater domain.MarkdownUpdater, modelDir string, modelFile string) *Application {
 	return &Application{
-		registryClient:  registryClient,
+		client:          client,
 		markdownUpdater: markdownUpdater,
 		modelDir:        modelDir,
 		modelFile:       modelFile,
@@ -120,7 +120,7 @@ func (a *Application) processModelFile(filePath string) error {
 
 	// List all tags for the repository
 	logger.WithField("repository", repoName).Info("📦 Listing tags for repository")
-	tags, err := a.registryClient.ListTags(repoName)
+	tags, err := a.client.ListTags(repoName)
 	if err != nil {
 		logger.WithFields(logger.Fields{
 			"repository": repoName,
@@ -130,7 +130,7 @@ func (a *Application) processModelFile(filePath string) error {
 	}
 
 	// Process each tag and collect model variants
-	variants, err := a.registryClient.ProcessTags(repoName, tags)
+	variants, err := a.client.ProcessTags(repoName, tags)
 	if err != nil {
 		logger.WithFields(logger.Fields{
 			"repository": repoName,
@@ -154,18 +154,18 @@ func (a *Application) processModelFile(filePath string) error {
 
 // ModelInspector encapsulates the model inspection logic
 type ModelInspector struct {
-	registryClient domain.RegistryClient
-	repository     string
-	tag            string
-	showAll        bool
+	client     registry.Client
+	repository string
+	tag        string
+	showAll    bool
 }
 
 // NewModelInspector creates a new model inspector
-func NewModelInspector(registryClient domain.RegistryClient, repository, tag string) *ModelInspector {
+func NewModelInspector(client registry.Client, repository, tag string) *ModelInspector {
 	return &ModelInspector{
-		registryClient: registryClient,
-		repository:     repository,
-		tag:            tag,
+		client:     client,
+		repository: repository,
+		tag:        tag,
 	}
 }
 
@@ -177,7 +177,7 @@ func (m *ModelInspector) Run() error {
 	}
 
 	// Otherwise, list all tags and inspect each one
-	tags, err := m.registryClient.ListTags(m.repository)
+	tags, err := m.client.ListTags(m.repository)
 	if err != nil {
 		return fmt.Errorf("failed to list tags: %v", err)
 	}
@@ -200,7 +200,7 @@ func (m *ModelInspector) inspectTag(repository, tag string) error {
 	logger.Infof("Inspecting %s:%s", repository, tag)
 
 	// Get model variant information
-	variant, err := m.registryClient.GetModelVariant(context.Background(), repository, tag)
+	variant, err := m.client.GetModelVariant(context.Background(), repository, tag)
 	if err != nil {
 		return fmt.Errorf("failed to get model variant: %v", err)
 	}
@@ -279,14 +279,14 @@ func main() {
 	logger.Debugf("Log level set to: %s", logLevel)
 
 	// Create dependencies
-	registryClient := registry.NewClient()
+	client := registry.NewClient()
 
 	// Execute the appropriate command
 	if updateCmd.Parsed() {
 		logger.Info("Starting model-cards updater")
 
 		markdownUpdater := markdown.NewUpdater()
-		app := NewApplication(registryClient, markdownUpdater, *updateModelDir, *updateModelFile)
+		app := NewApplication(client, markdownUpdater, *updateModelDir, *updateModelFile)
 
 		if err := app.Run(); err != nil {
 			logger.WithError(err).Errorf("Application failed: %v", err)
@@ -307,7 +307,7 @@ func main() {
 
 		repository := args[0]
 
-		inspector := NewModelInspector(registryClient, repository, *inspectTag)
+		inspector := NewModelInspector(client, repository, *inspectTag)
 
 		if err := inspector.Run(); err != nil {
 			logger.WithError(err).Errorf("Inspection failed: %v", err)

@@ -1,7 +1,6 @@
 package domain
 
 import (
-	"context"
 	"github.com/docker/model-cards/tools/build-tables/types"
 )
 
@@ -17,18 +16,6 @@ type ModelVariant struct {
 	ContextLength uint32
 	VRAM          float64
 	Descriptor    types.ModelDescriptor
-}
-
-// RegistryClient defines the interface for interacting with model registries
-type RegistryClient interface {
-	// ListTags lists all tags for a repository
-	ListTags(repoName string) ([]string, error)
-
-	// ProcessTags processes all tags for a repository and returns model variants
-	ProcessTags(repoName string, tags []string) ([]ModelVariant, error)
-
-	// GetModelVariant gets information about a specific model tag
-	GetModelVariant(ctx context.Context, repoName, tag string) (ModelVariant, error)
 }
 
 // MarkdownUpdater defines the interface for updating markdown files

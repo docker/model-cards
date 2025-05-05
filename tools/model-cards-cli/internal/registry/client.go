@@ -3,13 +3,11 @@ package registry
 import (
 	"context"
 	"fmt"
-	"net/http"
-	"strings"
-
 	"github.com/google/go-containerregistry/pkg/authn"
 	"github.com/google/go-containerregistry/pkg/name"
 	"github.com/google/go-containerregistry/pkg/v1/remote"
 	"github.com/google/go-containerregistry/pkg/v1/remote/transport"
+	"net/http"
 
 	"github.com/docker/model-cards/tools/build-tables/internal/domain"
 	"github.com/docker/model-cards/tools/build-tables/internal/gguf"
@@ -20,8 +18,8 @@ import (
 type Client struct{}
 
 // NewClient creates a new registry client
-func NewClient() *Client {
-	return &Client{}
+func NewClient() Client {
+	return Client{}
 }
 
 // ListTags lists all tags for a repository
@@ -41,16 +39,6 @@ func (c *Client) ListTags(repoName string) ([]string, error) {
 	}
 
 	logger.Infof("Found %d tags: %v", len(tags), tags)
-
-	// If no tags were found, return a mock list for testing
-	if len(tags) == 0 {
-		logger.Info("No tags found, using mock tags for testing")
-		if strings.Contains(repoName, "smollm2") {
-			return []string{"latest", "135M-F16", "135M-Q4_0", "135M-Q4_K_M", "360M-F16", "360M-Q4_0", "360M-Q4_K_M"}, nil
-		}
-		return []string{"latest", "7B-F16", "7B-Q4_0", "7B-Q4_K_M"}, nil
-	}
-
 	return tags, nil
 }
 
