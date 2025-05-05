@@ -1,6 +1,9 @@
 package domain
 
-import "context"
+import (
+	"context"
+	"github.com/docker/model-cards/tools/build-tables/types"
+)
 
 // ModelVariant represents a single model variant with its properties
 type ModelVariant struct {
@@ -12,6 +15,7 @@ type ModelVariant struct {
 	IsLatest      bool
 	ContextLength uint32
 	VRAM          float64
+	GGUF          types.GGUFFile
 }
 
 // RegistryClient defines the interface for interacting with model registries

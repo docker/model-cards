@@ -19,4 +19,7 @@ type GGUFFile interface {
 
 	// GetVRAM returns the estimated VRAM requirements (raw GB, formatted string, error)
 	GetVRAM() (float64, string, error)
+
+	// GetMetadata returns the model metadata (map[string]string)
+	GetMetadata() map[string]string
 }
