@@ -1,9 +1,13 @@
 package main
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
 	"flag"
 	"fmt"
+	"io"
+	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
@@ -151,6 +155,107 @@ func (a *Application) processModelFile(filePath string) error {
 	return nil
 }
 
+// OverviewUploader encapsulates the overview upload logic
+type OverviewUploader struct {
+	filePath   string
+	repository string
+	token      string
+}
+
+// NewOverviewUploader creates a new overview uploader
+func NewOverviewUploader(filePath, repository, token string) *OverviewUploader {
+	return &OverviewUploader{
+		filePath:   filePath,
+		repository: repository,
+		token:      token,
+	}
+}
+
+// Run executes the overview upload
+func (o *OverviewUploader) Run() error {
+	// Check if the file exists
+	if !utils.FileExists(o.filePath) {
+		err := fmt.Errorf("overview file '%s' does not exist", o.filePath)
+		logger.WithField("file", o.filePath).Error("overview file does not exist")
+		return err
+	}
+
+	// Read the overview file
+	content, err := os.ReadFile(o.filePath)
+	if err != nil {
+		logger.WithError(err).Error("failed to read overview file")
+		return fmt.Errorf("failed to read overview file: %v", err)
+	}
+
+	// Parse the repository name to extract namespace and repository
+	parts := strings.Split(o.repository, "/")
+	if len(parts) != 2 {
+		err := fmt.Errorf("invalid repository format: %s (expected 'namespace/repository')", o.repository)
+		logger.WithField("repository", o.repository).Error("invalid repository format")
+		return err
+	}
+
+	namespace := parts[0]
+	repository := parts[1]
+
+	// Create the payload
+	payload := map[string]interface{}{
+		"description":      "", // Short description (optional)
+		"full_description": string(content),
+		"status":           6, // Required status code
+	}
+
+	// Convert payload to JSON
+	payloadBytes, err := json.Marshal(payload)
+	if err != nil {
+		logger.WithError(err).Error("failed to marshal payload")
+		return fmt.Errorf("failed to marshal payload: %v", err)
+	}
+
+	// Construct the API URL
+	url := fmt.Sprintf("https://api.docker.team/v2/namespaces/%s/repositories/%s", namespace, repository)
+
+	// Create the HTTP request
+	req, err := http.NewRequest("PATCH", url, bytes.NewBuffer(payloadBytes))
+	if err != nil {
+		logger.WithError(err).Error("failed to create HTTP request")
+		return fmt.Errorf("failed to create HTTP request: %v", err)
+	}
+
+	// Set headers
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer "+o.token)
+
+	// Send the request
+	client := &http.Client{}
+	logger.Infof("Uploading overview to %s/%s...", namespace, repository)
+	resp, err := client.Do(req)
+	if err != nil {
+		logger.WithError(err).Error("failed to send HTTP request")
+		return fmt.Errorf("failed to send HTTP request: %v", err)
+	}
+	defer resp.Body.Close()
+
+	// Read the response body
+	respBody, err := io.ReadAll(resp.Body)
+	if err != nil {
+		logger.WithError(err).Error("failed to read response body")
+		return fmt.Errorf("failed to read response body: %v", err)
+	}
+
+	// Check the response status
+	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusAccepted {
+		logger.WithFields(logger.Fields{
+			"status": resp.Status,
+			"body":   string(respBody),
+		}).Error("failed to upload overview")
+		return fmt.Errorf("failed to upload overview: %s - %s", resp.Status, string(respBody))
+	}
+
+	logger.Info("✅ Overview uploaded successfully!")
+	return nil
+}
+
 // ModelInspector encapsulates the model inspection logic
 type ModelInspector struct {
 	client     registry.Client
@@ -228,6 +333,7 @@ func main() {
 	// Define command flags
 	updateCmd := flag.NewFlagSet("update", flag.ExitOnError)
 	inspectCmd := flag.NewFlagSet("inspect-model", flag.ExitOnError)
+	uploadCmd := flag.NewFlagSet("upload-overview", flag.ExitOnError)
 
 	// Update command flags
 	updateLogLevel := updateCmd.String("log-level", "info", "Log level (debug, info, warn, error)")
@@ -239,12 +345,19 @@ func main() {
 	inspectTag := inspectCmd.String("tag", "", "Specific tag to inspect")
 	inspectAll := inspectCmd.Bool("all", false, "Show all metadata")
 
+	// Upload overview command flags
+	uploadLogLevel := uploadCmd.String("log-level", "info", "Log level (debug, info, warn, error)")
+	uploadFile := uploadCmd.String("file", "", "Path to the overview file to upload")
+	uploadRepo := uploadCmd.String("repository", "", "Repository to upload the overview to (format: namespace/repository)")
+	uploadToken := uploadCmd.String("token", "", "Authentication token with repo:admin scope")
+
 	// Check if a command is provided
 	if len(os.Args) < 2 {
-		fmt.Println("Expected 'update' or 'inspect-model' subcommand")
+		fmt.Println("Expected 'update', 'inspect-model', or 'upload-overview' subcommand")
 		fmt.Println("Usage:")
 		fmt.Println("  model-cards-cli update [options]")
 		fmt.Println("  model-cards-cli inspect-model [options] REPOSITORY")
+		fmt.Println("  model-cards-cli upload-overview [options]")
 		os.Exit(1)
 	}
 
@@ -259,9 +372,12 @@ func main() {
 	case "inspect-model":
 		inspectCmd.Parse(os.Args[2:])
 		logLevel = *inspectLogLevel
+	case "upload-overview":
+		uploadCmd.Parse(os.Args[2:])
+		logLevel = *uploadLogLevel
 	default:
 		fmt.Printf("Unknown command: %s\n", os.Args[1])
-		fmt.Println("Expected 'update' or 'inspect-model' subcommand")
+		fmt.Println("Expected 'update', 'inspect-model', or 'upload-overview' subcommand")
 		os.Exit(1)
 	}
 
@@ -301,7 +417,7 @@ func main() {
 		args := inspectCmd.Args()
 		if len(args) < 1 {
 			fmt.Println("Error: Repository argument is required")
-			fmt.Println("Usage: updater inspect-model [options] REPOSITORY")
+			fmt.Println("Usage: model-cards-cli inspect-model [options] REPOSITORY")
 			os.Exit(1)
 		}
 
@@ -315,5 +431,35 @@ func main() {
 		}
 
 		logger.Info("Inspection completed successfully")
+	} else if uploadCmd.Parsed() {
+		logger.Info("Starting overview uploader")
+
+		// Check if required parameters are provided
+		if *uploadFile == "" {
+			fmt.Println("Error: --file parameter is required")
+			fmt.Println("Usage: model-cards-cli upload-overview --file=<file> --repository=<namespace/repository> --token=<token>")
+			os.Exit(1)
+		}
+
+		if *uploadRepo == "" {
+			fmt.Println("Error: --repository parameter is required")
+			fmt.Println("Usage: model-cards-cli upload-overview --file=<file> --repository=<namespace/repository> --token=<token>")
+			os.Exit(1)
+		}
+
+		if *uploadToken == "" {
+			fmt.Println("Error: --token parameter is required")
+			fmt.Println("Usage: model-cards-cli upload-overview --file=<file> --repository=<namespace/repository> --token=<token>")
+			os.Exit(1)
+		}
+
+		uploader := NewOverviewUploader(*uploadFile, *uploadRepo, *uploadToken)
+
+		if err := uploader.Run(); err != nil {
+			logger.WithError(err).Errorf("Upload failed: %v", err)
+			os.Exit(1)
+		}
+
+		logger.Info("Upload completed successfully")
 	}
 }

@@ -19,10 +19,11 @@ make build
 
 ## Usage
 
-The Model Cards CLI provides two main commands:
+The Model Cards CLI provides three main commands:
 
 1. `update` - Updates the "Available model variants" tables in model card markdown files
 2. `inspect-model` - Inspects a model repository and displays metadata about the model variants
+3. `upload-overview` - Uploads an overview to Docker Hub for a specified repository
 
 ### Update Command
 
@@ -89,3 +90,35 @@ Or you can run the binary directly if it's already built:
 # Inspect with specific options
 ./bin/model-cards-cli inspect-model --all ai/smollm2
 ```
+
+### Upload Overview Command
+
+The `upload-overview` command allows you to upload a model overview (markdown content) to Docker Hub. This is useful for updating the repository description that appears on Docker Hub.
+
+You can use the provided Makefile to run the upload-overview command:
+
+```bash
+# Upload an overview to Docker Hub
+make upload-overview FILE=../../ai/llama3.1.md REPO=ai/llama3 TOKEN=your_token_here
+```
+
+Or you can run the binary directly if it's already built:
+
+```bash
+# Upload an overview to Docker Hub
+./bin/model-cards-cli upload-overview --file=../../ai/llama3.1.md --repository=ai/llama3 --token=your_token_here
+```
+
+The command requires three parameters:
+- `FILE` or `--file`: Path to the markdown file containing the overview content
+- `REPO` or `--repository`: Repository to upload the overview to (format: namespace/repository)
+- `TOKEN` or `--token`: Authentication token with repo:admin scope
+
+#### Upload Overview Command Options
+
+- `--file`: Path to the overview file to upload (required)
+- `--repository`: Repository to upload the overview to in the format namespace/repository (required)
+- `--token`: Authentication token with repo:admin scope (required)
+- `--log-level`: Log level (debug, info, warn, error) (default: "info")
+
+The command will read the specified markdown file and upload its content as the full description for the specified repository on Docker Hub. The API endpoint used is `https://api.docker.team/v2/namespaces/{namespace}/repositories/{repository}`.
