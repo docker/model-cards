@@ -16,6 +16,35 @@ import (
 // Updater implements the domain.MarkdownUpdater interface
 type Updater struct{}
 
+// Define the sort order for each quantization type
+var quantizationOrder = map[string]int{
+	"Q2_K": 0,
+	"Q3_K": 1,
+	"Q4_0": 2,
+	"Q4_1": 3,
+	"Q4_K": 4,
+	"Q5_0": 5,
+	"Q5_1": 6,
+	"Q5_K": 7,
+	"Q6_K": 8,
+	"Q8_0": 9,
+	"I16":  10,
+	"I32":  11,
+	"I64":  12,
+	"F16":  13,
+	"BF16": 14,
+	"F32":  15,
+	"F64":  16,
+}
+
+// Sort suffixes (if needed, you can customize this)
+var suffixOrder = map[string]int{
+	"":   0, // no suffix
+	"_S": 1,
+	"_M": 2,
+	"_G": 3,
+}
+
 // parseWeight converts a weight string (e.g., "12B", "7M") to a float64
 func (u *Updater) parseWeight(weight string) (float64, error) {
 	// Remove any non-numeric characters except decimal point
@@ -42,34 +71,26 @@ func (u *Updater) parseWeight(weight string) (float64, error) {
 	return value, nil
 }
 
-// Define the sort order for each quantization type
-var quantizationOrder = map[string]int{
-	"Q2_K": 0,
-	"Q3_K": 1,
-	"Q4_0": 2,
-	"Q4_1": 3,
-	"Q4_K": 4,
-	"Q5_0": 5,
-	"Q5_1": 6,
-	"Q5_K": 7,
-	"Q6_K": 8,
-	"Q8_0": 9,
-	"I16":  10,
-	"I32":  11,
-	"I64":  12,
-	"F16":  13,
-	"BF16": 14,
-	"F32":  15,
-	"F64":  16,
-}
-
-// getSortKey returns the sort key for a given quantization tag
 func getSortKey(tag string) int {
-	if order, exists := quantizationOrder[tag]; exists {
-		return order
+	re := regexp.MustCompile(`^([A-Z0-9_]+?)(_[A-Z])?$`)
+	matches := re.FindStringSubmatch(tag)
+
+	if len(matches) == 3 {
+		base := matches[1]
+		suffix := matches[2] // may be empty
+
+		baseRank, baseExists := quantizationOrder[base]
+		suffixRank, suffixExists := suffixOrder[suffix]
+
+		if baseExists {
+			if !suffixExists {
+				suffixRank = 99 // unknown suffix gets low priority
+			}
+			return baseRank*10 + suffixRank
+		}
 	}
-	// Assign a high value to unknown types to place them at the end
-	return 100
+
+	return 1000 // completely unknown tag
 }
 
 // sortVariants sorts variants by weights and quantization
