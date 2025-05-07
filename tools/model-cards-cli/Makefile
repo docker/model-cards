@@ -59,26 +59,32 @@ inspect:
 # Define variables for upload-overview command
 FILE ?=
 REPO ?=
+USERNAME ?=
 TOKEN ?=
 
 upload-overview:
 	@if [ -z "$(FILE)" ]; then \
 		echo "Error: FILE parameter is required."; \
-		echo "Usage: make upload-overview FILE=<overview-file> REPO=<namespace/repository> TOKEN=<token>"; \
+		echo "Usage: make upload-overview FILE=<overview-file> REPO=<namespace/repository> USERNAME=<username> TOKEN=<token>"; \
 		exit 1; \
 	fi
 	@if [ -z "$(REPO)" ]; then \
 		echo "Error: REPO parameter is required."; \
-		echo "Usage: make upload-overview FILE=<overview-file> REPO=<namespace/repository> TOKEN=<token>"; \
+		echo "Usage: make upload-overview FILE=<overview-file> REPO=<namespace/repository> USERNAME=<username> TOKEN=<token>"; \
+		exit 1; \
+	fi
+	@if [ -z "$(USERNAME)" ]; then \
+		echo "Error: USERNAME parameter is required."; \
+		echo "Usage: make upload-overview FILE=<overview-file> REPO=<namespace/repository> USERNAME=<username> TOKEN=<token>"; \
 		exit 1; \
 	fi
 	@if [ -z "$(TOKEN)" ]; then \
 		echo "Error: TOKEN parameter is required."; \
-		echo "Usage: make upload-overview FILE=<overview-file> REPO=<namespace/repository> TOKEN=<token>"; \
+		echo "Usage: make upload-overview FILE=<overview-file> REPO=<namespace/repository> USERNAME=<username> TOKEN=<token>"; \
 		exit 1; \
 	fi
 	@echo "Uploading overview from $(FILE) to $(REPO)..."
-	@${GOBIN}/${BINARY_NAME} upload-overview --file="$(FILE)" --repository="$(REPO)" --token="$(TOKEN)"
+	@${GOBIN}/${BINARY_NAME} upload-overview --file="$(FILE)" --repository="$(REPO)" --username="$(USERNAME)" --token="$(TOKEN)"
 
 # This is needed to handle the arguments properly
 %:
@@ -96,6 +102,6 @@ help:
 	@echo "                     Example: make inspect REPOSITORY=ai/smollm2"
 	@echo "                     Example: make inspect REPOSITORY=ai/smollm2 TAG=360M-Q4_K_M"
 	@echo "                     Example: make inspect REPOSITORY=ai/smollm2 OPTIONS=\"--all\""
-	@echo "  upload-overview  - Upload an overview to Docker Hub (Usage: make upload-overview FILE=<overview-file> REPO=<namespace/repository> TOKEN=<token>)"
-	@echo "                     Example: make upload-overview FILE=../../ai/llama3.1.md REPO=ai/llama3 TOKEN=your_token_here"
+	@echo "  upload-overview  - Upload an overview to Docker Hub (Usage: make upload-overview FILE=<overview-file> REPO=<namespace/repository> USERNAME=<username> TOKEN=<token>)"
+	@echo "                     Example: make upload-overview FILE=../../ai/llama3.1.md REPO=ai/llama3 USERNAME=your_username TOKEN=your_pat_here"
 	@echo "  help             - Show this help message"

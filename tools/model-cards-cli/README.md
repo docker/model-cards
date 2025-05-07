@@ -99,26 +99,70 @@ You can use the provided Makefile to run the upload-overview command:
 
 ```bash
 # Upload an overview to Docker Hub
-make upload-overview FILE=../../ai/llama3.1.md REPO=ai/llama3 TOKEN=your_token_here
+make upload-overview FILE=../../ai/llama3.1.md REPO=ai/llama3 USERNAME=your_username TOKEN=your_pat_here
 ```
 
 Or you can run the binary directly if it's already built:
 
 ```bash
 # Upload an overview to Docker Hub
-./bin/model-cards-cli upload-overview --file=../../ai/llama3.1.md --repository=ai/llama3 --token=your_token_here
+./bin/model-cards-cli upload-overview --file=../../ai/llama3.1.md --repository=ai/llama3 --username=your_username --token=your_pat_here
 ```
 
-The command requires three parameters:
+The command requires four parameters:
 - `FILE` or `--file`: Path to the markdown file containing the overview content
 - `REPO` or `--repository`: Repository to upload the overview to (format: namespace/repository)
-- `TOKEN` or `--token`: Authentication token with repo:admin scope
+- `USERNAME` or `--username`: Docker Hub username
+- `TOKEN` or `--token`: Personal Access Token (PAT)
 
 #### Upload Overview Command Options
 
 - `--file`: Path to the overview file to upload (required)
 - `--repository`: Repository to upload the overview to in the format namespace/repository (required)
-- `--token`: Authentication token with repo:admin scope (required)
+- `--username`: Docker Hub username (required)
+- `--token`: Personal Access Token (PAT) (required)
 - `--log-level`: Log level (debug, info, warn, error) (default: "info")
 
-The command will read the specified markdown file and upload its content as the full description for the specified repository on Docker Hub. The API endpoint used is `https://api.docker.team/v2/namespaces/{namespace}/repositories/{repository}`.
+The command will first authenticate with Docker Hub using the provided username and PAT to obtain an access token. It will then read the specified markdown file and upload its content as the full description for the specified repository on Docker Hub. The API endpoint used is `https://hub.docker.com/v2/namespaces/{namespace}/repositories/{repository}`.
+
+#### Authentication Flow
+
+The upload process follows these steps:
+1. Authenticate with Docker Hub using the provided username and PAT via the `/v2/users/login` endpoint
+2. Obtain an access token from the authentication response
+3. Use the access token to update the repository description via the `/v2/namespaces/{namespace}/repositories/{repository}` endpoint
+
+### Batch Upload Script
+
+For convenience, a shell script is provided to upload all overviews in the ai/ folder to their corresponding Docker Hub repositories. The script will:
+
+1. Scan the ai/ directory for all markdown files
+2. For each file, extract the name without the .md extension
+3. Construct the repository name as ai/<name>
+4. Ask for confirmation before proceeding with the uploads
+5. Upload each overview to its corresponding repository
+
+You can run the script with:
+
+```bash
+./tools/upload-all-overviews.sh <username> <token>
+```
+
+The script requires two parameters:
+- `<username>`: Docker Hub username
+- `<token>`: Personal Access Token (PAT)
+
+The script will display a list of all files that will be uploaded and their corresponding repositories, and ask for confirmation before proceeding. This helps prevent accidental uploads or mistakes.
+
+Example output:
+```
+Found 15 markdown files in the ai directory.
+The following files will be uploaded to their corresponding repositories:
+  - ./ai/deepcoder-preview.md -> ai/deepcoder-preview
+  - ./ai/deepseek-r1-distill-llama.md -> ai/deepseek-r1-distill-llama
+  - ./ai/gemma3-qat.md -> ai/gemma3-qat
+  - ./ai/gemma3.md -> ai/gemma3
+  ...
+
+Do you want to proceed with uploading these overviews? (y/n):
+```
