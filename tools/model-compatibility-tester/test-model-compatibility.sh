@@ -251,7 +251,7 @@ test_model_variant() {
         fi
         
         record_result "$model" "$variant" "FAILED" "$duration" "$error_type" "$error_output"
-        log_error "❌ FAILED: $full_model_name ($error_type, ${duration}s)"
+        log_error "❌ FAILED: $full_model_name ($error_type, $error_output, ${duration}s)"
         
         # Cleanup temp files
         rm -f "$test_output_file" "$test_error_file"
