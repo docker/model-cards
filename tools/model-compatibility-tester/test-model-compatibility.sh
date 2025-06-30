@@ -16,6 +16,7 @@ RESULTS_DIR="$SCRIPT_DIR/results"
 LOG_FILE="$RESULTS_DIR/test-$(date +%Y%m%d-%H%M%S).log"
 
 # Command line options
+NAMESPACE=""
 MODELS=""
 VARIANTS=""
 TEST_PROMPT="$DEFAULT_TEST_PROMPT"
@@ -34,13 +35,17 @@ USAGE:
     $0 [OPTIONS]
 
 OPTIONS:
+    -n, --namespace NAMESPACE   Docker Hub namespace to test all repositories from
     -m, --models MODELS         Comma-separated list of models to test (default: all)
     -v, --variants VARIANTS     Comma-separated list of variants to test (default: all)
     --prompt TEXT               Test prompt (default: "$DEFAULT_TEST_PROMPT")
     -h, --help                  Show this help message
 
 EXAMPLES:
-    # Test all models
+    # Test all repositories and tags from "ai" namespace
+    $0 --namespace ai
+
+    # Test all models from local directory
     $0
 
     # Test specific models
@@ -49,8 +54,8 @@ EXAMPLES:
     # Test specific model with variant
     $0 --models ai/llama3.2:latest
 
-    # Test with custom prompt
-    $0 --models ai/smollm2 --prompt "Hello world"
+    # Test namespace with custom prompt
+    $0 --namespace ai --prompt "Hello world"
 
 EOF
 }
@@ -59,6 +64,10 @@ EOF
 parse_args() {
     while [[ $# -gt 0 ]]; do
         case $1 in
+            -n|--namespace)
+                NAMESPACE="$2"
+                shift 2
+                ;;
             -m|--models)
                 MODELS="$2"
                 shift 2
@@ -160,7 +169,86 @@ discover_models() {
     find "$ai_dir" -name "*.md" -type f | sed 's|.*/||; s|\.md$||' | sed 's|^|ai/|' | sort
 }
 
-# Get model variants
+# Discover repositories from Docker Hub namespace
+discover_namespace_repositories() {
+    local namespace="$1"
+    local page=1
+    local repositories=()
+    local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    
+    echo "[$timestamp] [INFO] Discovering repositories from namespace: $namespace" >&2
+    
+    while true; do
+        local url="https://hub.docker.com/v2/namespaces/$namespace/repositories/?page=$page&page_size=100"
+        local response=$(curl -s "$url")
+        
+        # Extract repository names from JSON response
+        local repo_names=$(echo "$response" | grep -o '"name":"[^"]*"' | sed 's/"name":"//g' | sed 's/"//g')
+        
+        if [[ -z "$repo_names" ]]; then
+            break
+        fi
+        
+        repositories+=($repo_names)
+        
+        # Check if there's a next page
+        local next_page=$(echo "$response" | grep -o '"next":"[^"]*"')
+        if [[ -z "$next_page" ]]; then
+            break
+        fi
+        
+        ((page++))
+    done
+    
+    if [[ ${#repositories[@]} -gt 0 ]]; then
+        echo "[$timestamp] [INFO] Found ${#repositories[@]} repositories in namespace $namespace" >&2
+        printf '%s\n' "${repositories[@]}"
+    else
+        echo "[$timestamp] [INFO] Found 0 repositories in namespace $namespace" >&2
+    fi
+}
+
+# Get all tags for a repository (except latest)
+get_repository_tags() {
+    local namespace="$1"
+    local repository="$2"
+    local page=1
+    local tags=()
+    local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    
+    echo "[$timestamp] [INFO] Getting tags for $namespace/$repository" >&2
+    
+    while true; do
+        local url="https://hub.docker.com/v2/repositories/$namespace/$repository/tags/?page=$page&page_size=100"
+        local response=$(curl -s "$url")
+        
+        # Extract tag names from JSON response, excluding "latest"
+        local tag_names=$(echo "$response" | grep -o '"name":"[^"]*"' | sed 's/"name":"//g' | sed 's/"//g' | grep -v "^latest$")
+        
+        if [[ -z "$tag_names" ]]; then
+            break
+        fi
+        
+        tags+=($tag_names)
+        
+        # Check if there's a next page
+        local next_page=$(echo "$response" | grep -o '"next":"[^"]*"')
+        if [[ -z "$next_page" ]]; then
+            break
+        fi
+        
+        ((page++))
+    done
+    
+    if [[ ${#tags[@]} -gt 0 ]]; then
+        echo "[$timestamp] [INFO] Found ${#tags[@]} tags for $namespace/$repository (excluding latest)" >&2
+        printf '%s\n' "${tags[@]}"
+    else
+        echo "[$timestamp] [INFO] Found 0 tags for $namespace/$repository (excluding latest)" >&2
+    fi
+}
+
+# Get model variants (fallback for non-namespace mode)
 get_model_variants() {
     local model="$1"
     
@@ -302,7 +390,22 @@ main() {
     
     # Discover models to test
     local models_to_test=()
-    if [[ -n "$MODELS" ]]; then
+    
+    if [[ -n "$NAMESPACE" ]]; then
+        # Use Docker Hub API to discover repositories and tags
+        log_info "Using namespace discovery for: $NAMESPACE"
+        
+        while IFS= read -r repository; do
+            if [[ -n "$repository" ]]; then
+                while IFS= read -r tag; do
+                    if [[ -n "$tag" ]]; then
+                        models_to_test+=("$NAMESPACE/$repository:$tag")
+                    fi
+                done < <(get_repository_tags "$NAMESPACE" "$repository")
+            fi
+        done < <(discover_namespace_repositories "$NAMESPACE")
+        
+    elif [[ -n "$MODELS" ]]; then
         IFS=',' read -ra models_to_test <<< "$MODELS"
     else
         while IFS= read -r model; do

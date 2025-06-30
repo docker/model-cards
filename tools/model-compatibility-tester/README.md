@@ -12,7 +12,10 @@ A simple tool to test Docker AI model compatibility on your hardware.
 ## Usage
 
 ```bash
-# Test all models
+# Test all repositories and tags from "ai" namespace
+./test-model-compatibility.sh --namespace ai
+
+# Test all models from local directory
 ./test-model-compatibility.sh
 
 # Test specific models
@@ -21,14 +24,15 @@ A simple tool to test Docker AI model compatibility on your hardware.
 # Test specific model with variant
 ./test-model-compatibility.sh --models ai/llama3.2:latest
 
-# Test with custom prompt
-./test-model-compatibility.sh --models ai/smollm2 --prompt "Hello world"
+# Test namespace with custom prompt
+./test-model-compatibility.sh --namespace ai --prompt "Hello world"
 ```
 
 ## Options
 
 | Option | Description |
 |--------|-------------|
+| `-n, --namespace` | Docker Hub namespace to test all repositories from |
 | `-m, --models` | Comma-separated list of models to test |
 | `-v, --variants` | Comma-separated list of variants to test |
 | `--prompt` | Custom test prompt |
