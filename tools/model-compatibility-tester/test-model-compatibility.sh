@@ -253,7 +253,7 @@ get_model_variants() {
     local model="$1"
     
     # For now, return common quantization patterns
-    echo -e "latest\n8B-Q4_K_M\n8B-Q8_0\n8B-F16\n7B-Q4_K_M\n7B-Q8_0"
+    crane ls "$model"
 }
 
 # Initialize CSV results file
