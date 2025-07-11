@@ -57,5 +57,7 @@ For more information on Docker Model Runner, [explore the documentation](https:/
 
 ## Links
 
-- [SmolLM3 on Hugging Face](https://huggingface.co/ggml-org/SmolLM3-3B-GGUF)
+- [SmolLM3 GGUF on Hugging Face](https://huggingface.co/ggml-org/SmolLM3-3B-GGUF)
+- [SmolLM3 Original Model on Hugging Face](https://huggingface.co/HuggingFaceTB/SmolLM3-3B)
+- [SmolLM3 Blog Post](https://huggingface.co/blog/smollm3)
 - [SmolLM Series Research](https://huggingface.co/collections/HuggingFaceTB/smollm-6695016cad7167254ce15966)
