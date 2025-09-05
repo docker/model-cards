@@ -2,7 +2,7 @@
 
 ![logo](https://github.com/docker/model-cards/raw/refs/heads/main/logos/gemma-280x184-overview@2x.svg)
 
-**Embedding Gemma** is a state-of-the-art text embedding model from Google DeepMind, designed to create high-quality vector representations of text. Built on the Gemma architecture, this model converts text into dense vector embeddings that capture semantic meaning, making it ideal for retrieval-augmented generation (RAG), semantic search, and similarity tasks. With open weights and efficient design, Embedding Gemma provides a powerful foundation for embedding-based applications.
+**Embedding Gemma** is a state-of-the-art text embedding model from Google DeepMind, designed to create high-quality vector representations of text. Built on the Gemma architecture, this model converts text into dense vector embeddings that capture semantic meaning, making it ideal for retrieval-augmented generation (RAG), semantic search, and similarity tasks. With open weights and efficient design, Embedding Gemma provides a powerful foundation for embedding-based applications. The GGUF format version is provided by Unsloth.
 
 ## Intended uses
 
@@ -29,12 +29,12 @@ Embedding Gemma is designed for applications requiring high-quality text embeddi
 
 | Model variant                                                        | Parameters | Quantization | Context window | VRAM¹    | Size      |
 |----------------------------------------------------------------------|------------|--------------|----------------|----------|-----------|
-| `ai/embedding-gemma:latest`<br><br>`ai/embedding-gemma:300M-F16`     | 300M       | F16          | 2K tokens      | 0.68 GiB | 571.25 MB |
-| `ai/embedding-gemma:300M-F16`                                        | 300M       | F16          | 2K tokens      | 0.68 GiB | 571.25 MB |
+| `ai/embedding-gemma:latest`<br><br>`ai/embedding-gemma:300M-Q8_0`    | 300M       | Q8_0         | 2K tokens      | 0.95 GiB | 761.25 MB |
+| `ai/embedding-gemma:300M-Q8_0`                                       | 300M       | Q8_0         | 2K tokens      | 0.95 GiB | 761.25 MB |
 
 ¹: VRAM estimated based on model characteristics.
 
-> `latest` → `300M-F16`
+> `latest` → `300M-Q8_0`
 
 ## Use this AI model with Docker Model Runner
 
@@ -84,5 +84,6 @@ For more information on Docker Model Runner, [explore the documentation](https:/
 ## Links
 
 - [Embedding Gemma Model Card](https://huggingface.co/google/embeddinggemma-300m)
+- [Unsloth GGUF Version](https://huggingface.co/unsloth/embeddinggemma-300m-GGUF)
 - [Gemma Model Family](https://ai.google.dev/gemma/docs)
 - [Gemma Terms of Use](https://ai.google.dev/gemma/terms)
