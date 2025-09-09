@@ -23,11 +23,16 @@ Powered by Unsloth's GGUF conversion.
 
 ## Available model variants
 
-| Model Variant               | Parameters | Quantization   | Context Window | VRAM      | Size   |
-|---------------------------- |----------- |--------------- |--------------- |---------- |------- |
-| {name}:{params]_{quant]     | {param}    | {quant}        | {token}        | {size}GB¹ | {size} | 
+| Model variant                                            | Parameters | Quantization  | Context window | VRAM¹     | Size     |
+|----------------------------------------------------------|------------|---------------|----------------|-----------|----------|
+| `ai/seed-oss:latest`<br><br>`ai/seed-oss:36B-UD-Q4_K_XL` | 36B        | MOSTLY_Q4_K_M | 524K tokens    | 22.38 GiB | 20.51 GB |
+| `ai/seed-oss:36B-UD-IQ1_M`                               | 36B        | MOSTLY_IQ1_M  | 524K tokens    | 10.42 GiB | 8.45 GB  |
+| `ai/seed-oss:36B-UD-Q4_K_XL`                             | 36B        | MOSTLY_Q4_K_M | 524K tokens    | 22.38 GiB | 20.51 GB |
+| `ai/seed-oss:36B-UD-Q6_K_XL`                             | 36B        | MOSTLY_Q6_K   | 524K tokens    | 31.15 GiB | 29.66 GB |
 
-¹: VRAM estimates based on model characteristics.
+¹: VRAM estimated based on model characteristics.
+
+> `latest` → `36B-UD-Q4_K_XL`
 
 ## Use this AI model with Docker Model Runner
 
