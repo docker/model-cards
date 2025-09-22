@@ -11,6 +11,9 @@ VERSION?=0.1.0
 GOBASE=$(shell pwd)
 GOBIN=$(GOBASE)/bin
 
+# Namespace for update command (optional)
+NAMESPACE ?=
+
 # Use linker flags to provide version/build information
 LDFLAGS=-ldflags "-X main.Version=${VERSION}"
 
@@ -33,7 +36,7 @@ lint:
 
 run:
 	@echo "Running ${BINARY_NAME} for all models..."
-	@${GOBIN}/${BINARY_NAME} update
+	@${GOBIN}/${BINARY_NAME} update $(if $(NAMESPACE),--namespace=$(NAMESPACE),)
 
 run-single:
 	@if [ -z "$(MODEL)" ]; then \
@@ -41,7 +44,7 @@ run-single:
 		exit 1; \
 	fi
 	@echo "Running ${BINARY_NAME} for single model: $(MODEL)..."
-	@${GOBIN}/${BINARY_NAME} update --model-file=$(MODEL)
+	@${GOBIN}/${BINARY_NAME} update --model-file=$(MODEL) $(if $(NAMESPACE),--namespace=$(NAMESPACE),)
 
 # Define variables for inspect command
 REPOSITORY ?=
@@ -96,8 +99,8 @@ help:
 	@echo "  build            - Build the binary"
 	@echo "  clean            - Clean build artifacts"
 	@echo "  lint             - Run linters"
-	@echo "  run              - Run the binary to update all model files"
-	@echo "  run-single       - Run the binary to update a single model file (Usage: make run-single MODEL=<model-file.md>)"
+	@echo "  run              - Run the binary to update all model files (use NAMESPACE=&lt;ns&gt; to override repository namespace)"
+	@echo "  run-single       - Run the binary to update a single model file (Usage: make run-single MODEL=<model-file.md>) (use NAMESPACE=&lt;ns&gt; to override repository namespace)"
 	@echo "  inspect          - Inspect a model repository (Usage: make inspect REPOSITORY=<repository> [TAG=<tag>] [OPTIONS=<options>])"
 	@echo "                     Example: make inspect REPOSITORY=ai/smollm2"
 	@echo "                     Example: make inspect REPOSITORY=ai/smollm2 TAG=360M-Q4_K_M"
