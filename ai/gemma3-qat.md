@@ -38,13 +38,12 @@ Gemma 3 4B model can be used for:
 
 | Model variant | Parameters | Quantization | Context window | VRAM¹ | Size |
 |---------------|------------|--------------|----------------|------|-------|
-| `ai/gemma3-qat:latest`<br><br>`ai/gemma3-qat:4B` | 4B | MOSTLY_Q4_K_M | 131K tokens | 3.88 GiB | 2.36 GB |
+| `ai/gemma3-qat:4B`<br><br>`ai/gemma3-qat:4B-UD-Q4_K_XL`<br><br>`ai/gemma3-qat:latest` | 4B | MOSTLY_Q4_K_M | 131K tokens | 3.88 GiB | 2.36 GB |
 | `ai/gemma3-qat:270M-F16` | 270M | MOSTLY_F16 | 33K tokens | 1.59 GiB | 511.46 MB |
-| `ai/gemma3-qat:4B` | 4B | MOSTLY_Q4_K_M | 131K tokens | 3.88 GiB | 2.36 GB |
+| `ai/gemma3-qat:27B-UD-Q4_K_XL` | 27B | MOSTLY_Q4_K_M | 131K tokens | 18.52 GiB | 15.66 GB |
 | `ai/gemma3-qat:4B-BF16` | 4B | MOSTLY_BF16 | 131K tokens | 8.75 GiB | 7.23 GB |
 | `ai/gemma3-qat:12B-Q4_K_M` | 12B | MOSTLY_Q4_K_M | 131K tokens | 9.28 GiB | 6.92 GB |
 | `ai/gemma3-qat:270M-UD-Q4_K_XL` | 270M | MOSTLY_Q4_K_M | 33K tokens | 1.33 GiB | 236.27 MB |
-| `ai/gemma3-qat:27B-UD-Q4_K_XL` | 27B | MOSTLY_Q4_K_M | 131K tokens | 18.52 GiB | 15.66 GB |
 
 ¹: VRAM estimated based on model characteristics.
 
