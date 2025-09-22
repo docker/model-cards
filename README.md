@@ -133,14 +133,14 @@ Newest LLaMA 3 release with improved reasoning and generation quality.
 
 ---
 
-### Magistral Small 2506
+### Magistral Small 3.2
 ![Mistral Logo](https://github.com/docker/model-cards/raw/refs/heads/main/logos/mistral-120x-hub@2x.svg)
 
 📌 **Description:**  
 24B multimodal instruction model by Mistral AI, tuned for accuracy, tool use & fewer repeats.
 
-📂 **Model File:** [`ai/magistral-small-2506.md`](ai/magistral-small-2506.md)  
-🐳 **Docker Hub:** [`docker.io/ai/magistral-small-2506`](https://hub.docker.com/r/ai/magistral-small-2506)
+📂 **Model File:** [`ai/magistral-small-3.2.md`](ai/magistral-small-2506.md)  
+🐳 **Docker Hub:** [`docker.io/ai/magistral-small-3.2`](https://hub.docker.com/r/ai/magistral-small-2506)
 
 ---
 
