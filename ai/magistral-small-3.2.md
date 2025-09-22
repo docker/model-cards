@@ -22,8 +22,8 @@ A 24B-parameter instruction-tuned multimodal model by Mistral AI, optimized for 
 
 | Model variant | Parameters | Quantization | Context window | VRAM¹ | Size |
 |---------------|------------|--------------|----------------|------|-------|
-| `ai/magistral-small-2506:latest`<br><br>`ai/magistral-small-2506:24B` | 23.57 B | MOSTLY_Q4_K_M | 41K tokens | 14.59 GiB | 13.50 GB |
-| `ai/magistral-small-2506:24B` | 23.57 B | MOSTLY_Q4_K_M | 41K tokens | 14.59 GiB | 13.50 GB |
+| `ai/magistral-small-3.2:24B`<br><br>`ai/magistral-small-3.2:24B-UD-Q4_K_XL`<br><br>`ai/magistral-small-3.2:latest` | 23.57 B | MOSTLY_Q4_K_M | 41K tokens | 14.59 GiB | 13.50 GB |
+| `ai/magistral-small-3.2:24B-UD-IQ2_XXS` | 23.57 B | MOSTLY_IQ2_XXS | 41K tokens | 7.45 GiB | 6.28 GB |
 
 ¹: VRAM estimated based on model characteristics.
 
