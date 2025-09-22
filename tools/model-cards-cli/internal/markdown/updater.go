@@ -3,6 +3,7 @@ package markdown
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 	"regexp"
 	"sort"
 	"strconv"
@@ -155,6 +156,11 @@ func (u *Updater) UpdateModelTable(filePath string, variants []domain.ModelVaria
 	sortedVariants := u.sortVariants(variants)
 
 	// Generate the new table
+
+	// Compute display repository using default namespace "ai" and file basename
+	base := strings.TrimSuffix(filepath.Base(filePath), filepath.Ext(filePath))
+	displayRepo := fmt.Sprintf("ai/%s", base)
+
 	var latestTag string
 	var tableBuilder strings.Builder
 	tableBuilder.WriteString("\n")
@@ -165,7 +171,7 @@ func (u *Updater) UpdateModelTable(filePath string, variants []domain.ModelVaria
 	for _, variant := range variants {
 		if variant.IsLatest() {
 			latestTag = variant.GetLatestTag()
-			modelVariant := fmt.Sprintf("`%s:latest`<br><br>`%s:%s`", variant.RepoName, variant.RepoName, latestTag)
+			modelVariant := fmt.Sprintf("`%s:latest`<br><br>`%s:%s`", displayRepo, displayRepo, latestTag)
 			row := u.getRow(variant, modelVariant)
 			tableBuilder.WriteString(row)
 			break
@@ -174,7 +180,7 @@ func (u *Updater) UpdateModelTable(filePath string, variants []domain.ModelVaria
 
 	// Then add the rest of the variants in sorted order
 	for _, variant := range sortedVariants {
-		modelVariant := fmt.Sprintf("`%s:%s`", variant.RepoName, variant.Tags[0])
+		modelVariant := fmt.Sprintf("`%s:%s`", displayRepo, variant.Tags[0])
 		row := u.getRow(variant, modelVariant)
 		tableBuilder.WriteString(row)
 	}
