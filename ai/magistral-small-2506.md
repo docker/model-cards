@@ -38,7 +38,7 @@ docker model run ai/magistral-small-2506
 ## Considerations
 
 - We recommend using a relatively low temperature, such as temperature=0.15.
-- Make sure to add a system prompt to the model to best tailer it for your needs. If you want to use the model as a general assistant, we recommend to use the one provided in the SYSTEM_PROMPT.txt file.
+- Make sure to add a system prompt to the model to best tailor it for your needs. If you want to use the model as a general assistant, we recommend to use the one provided in the SYSTEM_PROMPT.txt file.
 
 ## Benchmark performance
 
