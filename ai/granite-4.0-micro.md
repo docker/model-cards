@@ -1,4 +1,4 @@
-# Granite-4.0-Micro
+# Granite 4.0 Micro
 
 ![logo](https://github.com/docker/model-cards/raw/refs/heads/main/logos/ibm-280x184-overview.svg)
 
