@@ -10,7 +10,7 @@ Granite-4.0-H-Small is a 32B parameter long-context instruct model finetuned fro
 | Attribute             | Details                                                                                                                            |
 |-----------------------|------------------------------------------------------------------------------------------------------------------------------------|
 | **Provider**          | Granite Team, IBM                                                                                                                  |
-| **Architecture**      | 	granitehybrid                                                                                                                     |
+| **Architecture**      | granitehybrid                                                                                                                     |
 | **Cutoff date**       | Not disclosed                                                                                                                      |
 | **Languages**         | English, German, Spanish, French, Japanese, Portuguese, Arabic, Czech, Italian, Korean, Dutch, Chinese (extensible via finetuning) |
 | **Tool calling**      | ✅                                                                                                                                  |
