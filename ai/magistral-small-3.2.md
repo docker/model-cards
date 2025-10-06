@@ -1,4 +1,5 @@
 # Mistral-Small-3.2-24B-Instruct-2506
+*GGUF version by Unsloth*
 
 ![logo](https://github.com/docker/model-cards/raw/refs/heads/main/logos/mistral-280x184-overview@2x.svg)
 
@@ -63,3 +64,4 @@ docker model run ai/magistral-small-2506
 ## Links
 - https://huggingface.co/mistralai/Mistral-Small-3.2-24B-Instruct-2506
 - https://huggingface.co/unsloth/Mistral-Small-3.2-24B-Instruct-2506-GGUF
+- [Unsloth Dynamic 2.0 GGUF](https://docs.unsloth.ai/basics/unsloth-dynamic-2.0-ggufs)

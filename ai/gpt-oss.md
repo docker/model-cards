@@ -1,4 +1,5 @@
 # GPT‑OSS
+*GGUF version by Unsloth*
 
 Welcome to the gpt-oss series, OpenAI’s open-weight models designed for powerful reasoning, agentic tasks, and versatile developer use cases.
 
@@ -32,3 +33,4 @@ docker model run ai/gpt-oss
 ## Links
 - https://huggingface.co/openai/gpt-oss-20b
 - https://openai.com/index/introducing-gpt-oss/
+- [Unsloth Dynamic 2.0 GGUF](https://docs.unsloth.ai/basics/unsloth-dynamic-2.0-ggufs)
