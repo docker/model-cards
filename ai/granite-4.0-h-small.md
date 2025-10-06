@@ -1,4 +1,4 @@
-# Granite-4.0-h-Small
+# Granite 4.0 H Small
 
 ![logo](https://github.com/docker/model-cards/raw/refs/heads/main/logos/ibm-280x184-overview.svg)
 
