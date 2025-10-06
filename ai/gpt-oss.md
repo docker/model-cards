@@ -31,6 +31,6 @@ docker model run ai/gpt-oss
 - CoT and tool calling are not supported
 
 ## Links
-- https://huggingface.co/openai/gpt-oss-20b
-- https://openai.com/index/introducing-gpt-oss/
+- [Hugging Face Model](https://huggingface.co/openai/gpt-oss-20b)
+- [OpenAI Announcement](https://openai.com/index/introducing-gpt-oss/)
 - [Unsloth Dynamic 2.0 GGUF](https://docs.unsloth.ai/basics/unsloth-dynamic-2.0-ggufs)
