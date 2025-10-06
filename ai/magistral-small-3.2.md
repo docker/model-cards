@@ -62,6 +62,6 @@ docker model run ai/magistral-small-2506
 
 
 ## Links
-- https://huggingface.co/mistralai/Mistral-Small-3.2-24B-Instruct-2506
-- https://huggingface.co/unsloth/Mistral-Small-3.2-24B-Instruct-2506-GGUF
+- [Hugging Face (Mistral AI)](https://huggingface.co/mistralai/Mistral-Small-3.2-24B-Instruct-2506)
+- [Hugging Face (Unsloth GGUF)](https://huggingface.co/unsloth/Mistral-Small-3.2-24B-Instruct-2506-GGUF)
 - [Unsloth Dynamic 2.0 GGUF](https://docs.unsloth.ai/basics/unsloth-dynamic-2.0-ggufs)
