@@ -37,7 +37,7 @@ docker model run ai/granite-4.0-micro
 ## Considerations
 
 - Optimized for instruction following, tool/function calling, and long-context (up to 128K tokens) scenarios.
-- Strong generalist capabilities: summarization, classification, extraction, QA/RAG, coding, function-calling, and multilingual dialogue. 
+- Strong generalist capabilities: summarization, classification, extraction, QA/RAG, coding, function-calling, and multilingual dialogue.
 - Multilingual: best performance in English; a few-shot approach or light finetuning can help close gaps for other languages.
 - Safety & reliability: despite alignment, the model can still produce inaccurate or biased outputs—apply domain-specific evaluation and guardrails.
 - Infrastructure note: trained on NVIDIA GB200 NVL72 at CoreWeave; use acceleration libraries (e.g., accelerate, optimized attention/KV cache settings) for efficient inference.
