@@ -8,7 +8,7 @@ Granite Docling is a multimodal Image-Text-to-Text model engineered for efficien
 | Attribute             | Details                                                                          |
 |-----------------------|----------------------------------------------------------------------------------|
 | **Provider**          | IBM Research                                                                     |
-| **Architecture**      | Based on Idefics3; vision encoder = siglip2-base-patch16-512; LLM = Granite 165M |
+| **Architecture**      | Based on Idefics2-8B; vision encoder = siglip-base-patch16-512; LLM = Granite 165M |
 | **Cutoff date**       | -                                                                                |
 | **Languages**         | English (with experimental support for Japanese, Arabic, Chinese)                |
 | **Tool calling**      | ❌                                                                                |
