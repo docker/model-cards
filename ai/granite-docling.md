@@ -38,9 +38,8 @@ docker model run ai/granite-docling
 - Best suited for document conversion and extraction workflows (PDF → Markdown/HTML/structured outputs).
 - Recommended to use through the Docling library or SDK for optimal integration and inference stability.
 - Supports English natively; Japanese, Arabic, and Chinese support is experimental.
-  
-Granite-Docling-258M emphasizes layout fidelity and content integrity over creative or open-ended generation. It is released under Apache 2.0 and integrates seamlessly with the Docling ecosystem for structured document AI workflows.
 
+Granite-Docling-258M emphasizes layout fidelity and content integrity over creative or open-ended generation. It is released under Apache 2.0 and integrates seamlessly with the Docling ecosystem for structured document AI workflows.
 
 ## Links
 - https://huggingface.co/ibm-granite/granite-docling-258M
