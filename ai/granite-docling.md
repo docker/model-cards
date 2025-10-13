@@ -1,7 +1,7 @@
 # Granite Docling
 
 ## Description
-Granite Docling is a multimodal Image-Text-to-Text model engineered for efficient document conversion. It preserves the core features of Docling while maintaining seamless integration with [DoclingDocuments](https://docling-project.github.io/docling) to ensure full compatibility.
+Granite Docling is a multimodal Image-Text-to-Text model engineered for efficient document conversion. It preserves the core features of Docling while maintaining seamless integration with [Docling Documents](https://docling-project.github.io/docling) to ensure full compatibility.
 
 ## Characteristics
 
