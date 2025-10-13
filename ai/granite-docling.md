@@ -20,8 +20,8 @@ Granite Docling is a multimodal Image-Text-to-Text model engineered for efficien
 
 | Model variant                                                                                     | Parameters | Quantization | Context window | VRAM¹    | Size      |
 |---------------------------------------------------------------------------------------------------|------------|--------------|----------------|----------|-----------|
-| `ai/granite-docling:258M`<br><br>`ai/granite-docling:258M-F16`<br><br>`ai/granite-docling:latest` | 164M       | MOSTLY_F16   | 8K tokens      | 0.86 GiB | 312.88 MB |
-| `ai/granite-docling:258M-Q8_0`                                                                    | 164M       | MOSTLY_Q8_0  | 8K tokens      | 0.72 GiB | 166.28 MB |
+| `ai/granite-docling:258M`<br><br>`ai/granite-docling:258M-F16`<br><br>`ai/granite-docling:latest` | 258M       | MOSTLY_F16   | 8K tokens      | 0.86 GiB | 312.88 MB |
+| `ai/granite-docling:258M-Q8_0`                                                                    | 258M       | MOSTLY_Q8_0  | 8K tokens      | 0.72 GiB | 166.28 MB |
 
 ¹: VRAM estimated based on model characteristics.
 
