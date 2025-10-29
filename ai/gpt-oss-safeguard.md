@@ -37,7 +37,7 @@ You can use gpt-oss-safeguard-120b and gpt-oss-safeguard-20b similar to gpt-oss-
 
 ## Use this AI model with Docker Model Runner
 
-Run the model:c
+Run the model:
 
 ```bash
 docker model run ai/gpt-oss-safeguard
