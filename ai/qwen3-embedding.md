@@ -78,7 +78,6 @@ For more information, check out the [Docker Model Runner docs](https://docs.dock
 | **Qwen3-Embedding-8B**         | 8B   | 70.58       | 61.69       | 80.89       | 74.00  | 57.65  | 10.06 | 28.66  | 86.40          | 65.63        | 70.88        | 81.08 |
 > Note: For compared models, the scores are retrieved from MTEB online leaderboard on May 24th, 2025.
 
-
 ---
 
 ## 🔗 Links
