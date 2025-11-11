@@ -31,7 +31,7 @@ docker model pull ai/qwen3-embedding-vllm
 Then run the model:
 
 ```bash
-curl --location 'http://localhost:12434/engines/llama.cpp/v1/embeddings' \
+curl --location 'http://localhost:12434/engines/vllm/v1/embeddings' \
 --header 'Content-Type: application/json' \
 --data '{
     "model": "ai/qwen3-embedding-vllm",
