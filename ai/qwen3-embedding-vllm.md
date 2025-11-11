@@ -45,7 +45,7 @@ For more information, check out the [Docker Model Runner docs](https://docs.dock
 
 ### MTEB (Multilingual)
 
-| Model                          | Size | Mean (Task) | Mean (Type) | Bitxt Mining | Class. | Clust. | Inst. | Retri. | Multi. Class. | Pair. Class. | Rerank Retri. | STS  |
+| Model                          | Size | Mean (Task) | Mean (Type) | Bitext Mining | Class. | Clust. | Inst. | Retri. | Multi. Class. | Pair. Class. | Rerank Retri. | STS  |
 |--------------------------------|------|-------------|-------------|-------------|--------|--------|-------|--------|----------------|--------------|--------------|------|
 | NV-Embed-v2                    | 7B   | 56.29       | 49.58       | 57.84       | 57.29  | 40.80  | 1.04  | 18.63  | 78.94          | 63.82        | 56.72        | 71.10 |
 | GritLM-7B                      | 7B   | 60.92       | 53.74       | 70.53       | 61.83  | 49.75  | 3.45  | 22.77  | 79.94          | 63.78        | 58.31        | 73.33 |
