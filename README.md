@@ -1,5 +1,7 @@
 # 📦 Docker AI Models Repository
 
+> **This repository has been archived.** All content has been merged into [docker/model-runner](https://github.com/docker/model-runner) under the `model-cards/` directory. Please open issues and pull requests there.
+
 Official model cards and documentation for AI models available on [Docker Hub](https://hub.docker.com/u/ai).
 
 ---
