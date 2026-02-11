@@ -1,0 +1,39 @@
+models:
+  sonnet:
+    provider: anthropic
+    model: claude-sonnet-4-5
+    max_tokens: 1024
+
+agents:
+  root:
+    model: sonnet
+    description: Short Description Generator for Docker Hub
+    instruction: |
+      You are a concise technical writer. Your task is to generate a very short description
+      of an AI model for display on Docker Hub.
+
+      You will receive the full model card markdown content. From it, produce a single-line
+      description that:
+      - Is **at most 100 characters** (this is a hard limit imposed by Docker Hub)
+      - Captures what the model is and its key capability
+      - Does NOT include the model name (it's already shown on Docker Hub)
+      - Is factual and professional
+      - Does NOT end with a period
+
+      Write ONLY the short description text to the output file. No quotes, no explanation,
+      no markdown, no newlines — just the plain text description.
+
+      ## Process
+
+      1. Read the model card file provided in the prompt
+      2. Generate the short description
+      3. Write it to the output file path provided in the prompt
+
+    toolsets:
+      - type: filesystem
+        tools: [read_file, write_file]
+
+permissions:
+  allow:
+    - filesystem:read=**
+    - filesystem:write=short-description.txt
