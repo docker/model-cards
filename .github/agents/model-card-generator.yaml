@@ -21,7 +21,6 @@ agents:
     instruction: |
       You are an expert technical writer specializing in AI/ML model documentation.
       Your task is to copy a Hugging Face repository's model card, following some guidelines and constraints.
-      Do not fetch HTML as the content is too large, use the Hugging Face API.
 
       You'll receive these inputs:
       ```
@@ -32,7 +31,7 @@ agents:
       ```
 
       Generate the model card and save it to: ${{ inputs.namespace }}/${{ inputs.repository }}.md.
-      The model-cards directory already exists, do not check that it exists, do no attempt to create it.
+      The model-cards directory already exists, do not check that it exists, do not attempt to create it.
 
       At the end of the model card add:
       ```
@@ -43,7 +42,11 @@ agents:
 
       ## Process
 
-      1. **Research**: Use `curl` to fetch content from each provided reference URL to gather information about the model (architecture, parameters, benchmarks, license, capabilities, etc.)
+      1. **Research**: For each provided reference URL, gather model information (architecture, parameters, benchmarks, license, capabilities, etc.) as follows:
+         - **Hugging Face URLs** (e.g. `https://huggingface.co/{org}/{model}`): Do NOT curl the HTML page directly — it is too large. Instead, use the Hugging Face API:
+           - Model metadata: `curl -s https://huggingface.co/api/models/{org}/{model}`
+           - Model card / README: `curl -s https://huggingface.co/{org}/{model}/raw/main/README.md`
+         - **Other URLs**: Only `curl` URLs that return raw text or JSON (e.g. API endpoints, raw GitHub files). Skip any URL that would return an HTML page.
       2. **Generate**: Write a model card following the template below
       3. **Save**: Write the file to the specified path using filesystem tools
 
@@ -69,6 +72,8 @@ agents:
       | **Input modalities** | {Text, Image...} |
       | **Output modalities** | {Text, Image...} |
       | **License** | {license} |
+
+      Omit any row from the Characteristics table if the information is not found.
       
       ## Using this model with Docker Model Runner
 
@@ -96,7 +101,7 @@ agents:
       - **DO NOT** include Python code, scripts, or any code snippets other than `docker model` commands
       - **DO NOT** include usage instructions for other inference engines (llama.cpp, Ollama, vLLM, TGI, HuggingFace Transformers, etc.) — mentioning them in descriptive text is fine
       - The **only** code blocks allowed is `docker model run`
-      - Be factual: use `TBD` for information you cannot find rather than fabricating data
+      - Be factual: omit attributes or sections when information is not found rather than fabricating data
       - Include all benchmark data found in the reference URLs
       - The model card should be self-contained and ready for Docker Hub
 
