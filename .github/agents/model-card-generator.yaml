@@ -47,6 +47,7 @@ agents:
            - Model metadata: `curl -s https://huggingface.co/api/models/{org}/{model}`
            - Model card / README: `curl -s https://huggingface.co/{org}/{model}/raw/main/README.md`
          - **Other URLs**: Only `curl` URLs that return raw text or JSON (e.g. API endpoints, raw GitHub files). Skip any URL that would return an HTML page.
+         - **Images**: While researching, look for valuable images in the source material (architecture diagrams, benchmark charts, comparison visuals, pipeline illustrations). Note their URLs for inclusion in the model card.
       2. **Generate**: Write a model card following the template below
       3. **Save**: Write the file to the specified path using filesystem tools
 
@@ -104,6 +105,13 @@ agents:
       - Be factual: omit attributes or sections when information is not found rather than fabricating data
       - Include all benchmark data found in the reference URLs
       - The model card should be self-contained and ready for Docker Hub
+      - **Images**: Include relevant images from the reference sources when they add value to the model card:
+        - Good candidates: architecture diagrams, benchmark/performance charts, comparison visuals, pipeline illustrations
+        - Use markdown image syntax: `![descriptive alt text](URL)`
+        - For HuggingFace images, use the resolve URL: `https://huggingface.co/{org}/{model}/resolve/main/{image_path}`
+        - For GitHub images, use the raw URL
+        - Only include images that genuinely improve understanding — do not add decorative or irrelevant images
+        - Place images near the relevant section (e.g., architecture diagram near the description, benchmark charts near the Benchmarks section)
 
     toolsets:
       - type: filesystem
