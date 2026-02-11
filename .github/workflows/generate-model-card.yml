@@ -16,11 +16,6 @@ on:
         description: 'Comma-separated reference URLs (HuggingFace pages, blog posts, papers, etc.)'
         required: true
         type: string
-      logo_prefix:
-        description: 'Logo prefix override for auto-detection (e.g., "meta" for llama models). Leave empty for auto-detect.'
-        required: false
-        default: ''
-        type: string
 
 permissions:
   contents: write
@@ -81,7 +76,29 @@ jobs:
           echo "📏 Length: ${#SHORT_DESC} chars"
 
       # ============================================================================
-      # STEP 3: Push description and logo to Docker Hub
+      # STEP 3: Resolve logo using agent
+      # ============================================================================
+
+      - name: Resolve logo
+        uses: docker/cagent-action@bd5439a1cabc3c448abf7a0d29b6f9a0d5fd4ec7
+        with:
+          agent: .github/agents/logo-resolver.yaml
+          anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            Find the best matching logo for repository: ${{ inputs.repository }}
+            Write the result to: logo-match.txt
+
+      - name: Show resolved logo
+        run: |
+          if [ -f "logo-match.txt" ]; then
+            LOGO=$(cat logo-match.txt)
+            echo "🎨 Logo resolved: ${LOGO}"
+          else
+            echo "⚠️  No logo-match.txt generated — logo upload will be skipped"
+          fi
+
+      # ============================================================================
+      # STEP 4: Push description and logo to Docker Hub
       # ============================================================================
 
       - name: Set up Python
@@ -124,10 +141,10 @@ jobs:
           python3 scripts/upload_logo.py \
             "${{ inputs.namespace }}" \
             "${{ inputs.repository }}" \
-            ${{ inputs.logo_prefix && format('"{0}"', inputs.logo_prefix) || '' }}
+            "logo-match.txt"
 
       # ============================================================================
-      # STEP 4: Create Pull Request
+      # STEP 5: Create Pull Request
       # ============================================================================
 
       - name: Create Pull Request
