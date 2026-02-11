@@ -67,7 +67,7 @@ jobs:
 
             ---
             Please review the generated content for accuracy before merging.
-          branch: adds-model-card-${{ inputs.namespace }}/${{ inputs.repository }}
+          branch: adds-model-card-${{ inputs.namespace }}-${{ inputs.repository }}
           base: main
           labels: model-card,automated
           delete-branch: true
