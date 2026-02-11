@@ -1,9 +1,6 @@
-# Docker AI Model Cards
+⚠️ Repository Archived
 
-Official model cards and assets for AI models on Docker Hub (`ai` namespace).
+This repository has been archived and is no longer actively maintained or used.
 
-## Repository layout
-
-- `ai/` — Model card markdown files (one file per model).
-- `images/` — Supplemental images referenced by model cards.
-- `logos/` — Provider/model logos used in cards.
+If you have any questions or need further information, please open an issue in the main project repository:
+👉 https://github.com/docker/model-runner
